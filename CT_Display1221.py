@@ -1,4 +1,3 @@
-from PyQt5.QtWidgets import QDialog,QApplication,QFileDialog
 from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pandas as pd
@@ -8,7 +7,7 @@ from PyQt5.QtGui import QIntValidator
 import datetime
 from datetime import datetime, timedelta
 from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsPixmapItem
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsPixmapItem,QFileDialog,QDialog,QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 import os
@@ -22,14 +21,13 @@ colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
 class Ui_MainWindow(QtWidgets.QWidget):
     def browsefile(self):
         if self.Start_time.text() == "" or self.End_time.text() == "":
-            QtWidgets.QMessageBox.critical(self, u"存取失敗", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.critical(self, u"警告", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         elif (int(self.Start_time.text()) > int(self.End_time.text())):
-            print("BAD")
+            QtWidgets.QMessageBox.critical(self, u"警告", u"開始時間跟結束時間錯誤", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         else:
             if os.path.isdir("CT_image"):
-                print("資料夾存在。")
+                print("")
             else:
-                print("資料夾不存在。")
                 os.mkdir("CT_image")
             self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.Input_file.setText(self.fname[0])
@@ -41,7 +39,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.normalize()
             threshold_value = self.get_ct_threshold()
             self.Ct_value = self.get_ct_value(threshold_value)
-            print(self.Ct_value)
+            # print(self.Ct_value)
             self.lineEdit_well_1.setText(str(self.Ct_value[0]))
             self.lineEdit_well_2.setText(str(self.Ct_value[1]))
             self.lineEdit_well_3.setText(str(self.Ct_value[2]))
@@ -191,7 +189,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.baseline = df_current_well[int(self.Start_time.text()) *2 :int(self.End_time.text())*2].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline  # normalized = (IF(t)-IF(b))/IFc
             self.well_baseline.append(self.baseline)
-        print(self.well_baseline)
+        # print(self.well_baseline)
 
 
 
@@ -214,7 +212,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
-                        print(f"row: {row}")
+                        # print(f"row: {row}")
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -229,17 +227,17 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
 
                         Ct_value.append(round(x, 2))
-                        print(f"Ct of well_{i + 1} is {round(x, 2)}")
+                        # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
 
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
                         Ct_value.append(99.99)
-                        print("Ct value is not available")
+                        # print("Ct value is not available")
             except Exception as e:
                 print(e)
                 Ct_value.append(99.99)
-                print("Ct value is not available")
+                # print("Ct value is not available")
 
         return Ct_value
 
@@ -701,7 +699,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CT_Display"))
         self.label_Timeofbackground.setText(_translate("MainWindow", "Time of background (min)"))
         self.label_7.setText(_translate("MainWindow", "~"))
         self.label_N.setText(_translate("MainWindow", "N :"))
