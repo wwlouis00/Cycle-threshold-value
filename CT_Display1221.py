@@ -21,12 +21,6 @@ colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
 
 class Ui_MainWindow(QtWidgets.QWidget):
     def browsefile(self):
-        # self.Start_time.setValidator(QIntValidator())
-        # self.End_time.setValidator(QIntValidator())
-        # self.Std.setValidator(QIntValidator())
-        # self.first_time = self.Start_time.text()
-        # self.twice_time = self.End_time.text()
-        # self.Std = self.Input_N.text()
         if self.Start_time.text() == "" or self.End_time.text() == "":
             QtWidgets.QMessageBox.critical(self, u"存取失敗", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         elif (int(self.Start_time.text()) > int(self.End_time.text())):
@@ -83,52 +77,52 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.time_array = []
             #well1
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_1_data.append(self.df_raw.loc[i, 'well_1'] - self.well_baseline[0])
+                self.well_1_data.append((self.df_raw.loc[i, 'well_1'] - self.well_baseline[0]) / self.well_baseline[0])
             #well2
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_2_data.append(self.df_raw.loc[i, 'well_2'] - self.well_baseline[1])
+                self.well_2_data.append((self.df_raw.loc[i, 'well_2'] - self.well_baseline[1]) / self.well_baseline[1])
             #well3
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_3_data.append(self.df_raw.loc[i, 'well_3'] - self.well_baseline[2])
+                self.well_3_data.append((self.df_raw.loc[i, 'well_3'] - self.well_baseline[2]) / self.well_baseline[2])
             #well4
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_4_data.append(self.df_raw.loc[i, 'well_4'] - self.well_baseline[3])
+                self.well_4_data.append((self.df_raw.loc[i, 'well_4'] - self.well_baseline[3]) / self.well_baseline[3])
             #well5
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_5_data.append(self.df_raw.loc[i, 'well_5'] - self.well_baseline[4])
+                self.well_5_data.append((self.df_raw.loc[i, 'well_5'] - self.well_baseline[4]) / self.well_baseline[4])
             # well6
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_6_data.append(self.df_raw.loc[i, 'well_6'] - self.well_baseline[5])
+                self.well_6_data.append((self.df_raw.loc[i, 'well_6'] - self.well_baseline[5]) / self.well_baseline[5])
             # well7
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_7_data.append(self.df_raw.loc[i, 'well_7'] - self.well_baseline[6])
+                self.well_7_data.append((self.df_raw.loc[i, 'well_7'] - self.well_baseline[6]) / self.well_baseline[6])
             # well8
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_8_data.append(self.df_raw.loc[i, 'well_8'] - self.well_baseline[7])
+                self.well_8_data.append((self.df_raw.loc[i, 'well_8'] - self.well_baseline[7]) / self.well_baseline[7])
             # well9
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_9_data.append(self.df_raw.loc[i, 'well_9'] - self.well_baseline[8])
+                self.well_9_data.append((self.df_raw.loc[i, 'well_9'] - self.well_baseline[8]) / self.well_baseline[8])
             # well10
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_10_data.append(self.df_raw.loc[i, 'well_10'] - self.well_baseline[9])
+                self.well_10_data.append((self.df_raw.loc[i, 'well_10'] - self.well_baseline[9]) / self.well_baseline[9])
             # # well11
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_11_data.append(self.df_raw.loc[i, 'well_11'] - self.well_baseline[10])
+                self.well_11_data.append((self.df_raw.loc[i, 'well_11'] - self.well_baseline[10]) / self.well_baseline[10])
             # # well12
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_12_data.append(self.df_raw.loc[i, 'well_12'] - self.well_baseline[11])
+                self.well_12_data.append((self.df_raw.loc[i, 'well_12'] - self.well_baseline[11]) / self.well_baseline[11])
             # # well13
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_13_data.append(self.df_raw.loc[i, 'well_13'] - self.well_baseline[12])
+                self.well_13_data.append((self.df_raw.loc[i, 'well_13'] - self.well_baseline[12]) / self.well_baseline[12])
             # well14
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_14_data.append(self.df_raw.loc[i, 'well_14'] - self.well_baseline[13])
+                self.well_14_data.append((self.df_raw.loc[i, 'well_14'] - self.well_baseline[13]) / self.well_baseline[13])
             # well15
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_15_data.append(self.df_raw.loc[i, 'well_15'] - self.well_baseline[14])
+                self.well_15_data.append((self.df_raw.loc[i, 'well_15'] - self.well_baseline[14]) / self.well_baseline[14])
             # wel16
             for i in range(0, len(self.df_raw.index), 1):
-                self.well_16_data.append(self.df_raw.loc[i, 'well_16'] - self.well_baseline[15])
+                self.well_16_data.append((self.df_raw.loc[i, 'well_16'] - self.well_baseline[15]) / self.well_baseline[15])
 
             for j in range(0, len(self.df_raw.index),1):
                 self.time_array.append(j/2)
@@ -150,7 +144,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             plt.plot(self.time_array,self.well_14_data, '-', color= colorTab_More4[13], label="well_14")  # 靛
             plt.plot(self.time_array,self.well_15_data, '-', color= colorTab_More4[14], label="well_15")  # 紫
             plt.plot(self.time_array,self.well_16_data, '-', color= colorTab_More4[15], label="well_16")  # 黑
-            plt.ylim(0, 200)
+            plt.ylim(0, 3)
             plt.title("Amplification curve")
             plt.xlabel('Time (min)')  # x軸說明文字
             plt.ylabel('Fluorescence signal intensity(a.u.)')  # y軸說明文字
@@ -185,8 +179,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         Avg = []
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
-            StdDev.append(df_current_well[int(self.Start_time.text()):int(self.End_time.text())].std())
-            Avg.append(df_current_well[int(self.Start_time.text()):int(self.End_time.text())].mean())
+            StdDev.append(df_current_well[int(self.Start_time.text()) *2 :int(self.End_time.text())*2].std())
+            Avg.append(df_current_well[int(self.Start_time.text()) *2 :int(self.End_time.text())*2].mean())
         return StdDev, Avg
 
     def normalize(self):
@@ -194,10 +188,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
             df_current_ifc = self.df_ifc[f'well{i + 1}']
-            self.baseline = df_current_well[int(self.Start_time.text()):int(self.End_time.text())].mean()
+            self.baseline = df_current_well[int(self.Start_time.text()) *2 :int(self.End_time.text())*2].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline  # normalized = (IF(t)-IF(b))/IFc
-            print(self.baseline)
             self.well_baseline.append(self.baseline)
+        print(self.well_baseline)
+
 
 
     def get_ct_threshold(self):
