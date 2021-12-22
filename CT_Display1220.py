@@ -701,7 +701,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CT_Display"))
         self.label_Timeofbackground.setText(_translate("MainWindow", "Time of background (min)"))
         self.label_7.setText(_translate("MainWindow", "~"))
         self.label_N.setText(_translate("MainWindow", "N :"))
