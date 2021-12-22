@@ -20,16 +20,13 @@ colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
                        '#1515f8', '#959697', '#744a20', '#7b45a5']
 
 class Ui_MainWindow(QtWidgets.QWidget):
-    def checkout(self):
-        if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text()  == "" :
-            QtWidgets.QMessageBox.critical(self, u"存取失敗", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok,defaultButton=QtWidgets.QMessageBox.Ok)
     def browsefile(self):
         # self.Start_time.setValidator(QIntValidator())
         # self.End_time.setValidator(QIntValidator())
         # self.Std.setValidator(QIntValidator())
-        self.first_time = self.Start_time.text()
-        self.twice_time = self.End_time.text()
-        self.Std = self.Input_N.text()
+        # self.first_time = self.Start_time.text()
+        # self.twice_time = self.End_time.text()
+        # self.Std = self.Input_N.text()
         if self.Start_time.text() == "" or self.End_time.text() == "":
             QtWidgets.QMessageBox.critical(self, u"存取失敗", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         elif (int(self.Start_time.text()) > int(self.End_time.text())):
@@ -40,11 +37,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
             else:
                 print("資料夾不存在。")
                 os.mkdir("CT_image")
-            self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\python\PyQT\EGGI_Temperature\CT_Value', 'csv files (*.csv)')
+            self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.Input_file.setText(self.fname[0])
 
             self.df_raw = pd.read_csv(self.fname[0])
-            self.df_ifc = pd.read_csv("../cali_factor.csv")
+            self.df_ifc = pd.read_csv("cali_factor.csv")
             self.df_normalization = self.df_raw.copy()
             self.get_accumulation_time()
             self.normalize()
@@ -252,12 +249,18 @@ class Ui_MainWindow(QtWidgets.QWidget):
         return Ct_value
 
     def save_file(self):
-        self.save_excel =pd.DataFrame({"well_1":[self.Ct_value[0]],"well_2":[self.Ct_value[1]],"well_3":[self.Ct_value[2]],"well_4":[self.Ct_value[3]],
-                               "well_5":[self.Ct_value[4]],"well_6":[self.Ct_value[5]],"well_7":[self.Ct_value[6]],"well_8":[self.Ct_value[7]],
-                               "well_9":[self.Ct_value[8]],"well_10":[self.Ct_value[9]],"well_11":[self.Ct_value[10]],"well_12":[self.Ct_value[11]],
-                               "well_13":[self.Ct_value[12]],"well_14":[self.Ct_value[13]],"well_15":[self.Ct_value[14]],"well_16":[self.Ct_value[15]]}
-    ,index=["CT_Value"])
-        self.save_excel.to_excel('./result/CT_Chart' + now_output_time+"output.xlsx", encoding="utf_8_sig")
+        if self.Input_file.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"存取失敗", u"未開啟csv檔案", buttons=QtWidgets.QMessageBox.Ok,
+                defaultButton=QtWidgets.QMessageBox.Ok)
+        else:
+            QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Excel檔案", buttons=QtWidgets.QMessageBox.Ok,
+                defaultButton=QtWidgets.QMessageBox.Ok)
+            self.save_excel =pd.DataFrame({"well_1":[self.Ct_value[0]],"well_2":[self.Ct_value[1]],"well_3":[self.Ct_value[2]],"well_4":[self.Ct_value[3]],
+                                   "well_5":[self.Ct_value[4]],"well_6":[self.Ct_value[5]],"well_7":[self.Ct_value[6]],"well_8":[self.Ct_value[7]],
+                                   "well_9":[self.Ct_value[8]],"well_10":[self.Ct_value[9]],"well_11":[self.Ct_value[10]],"well_12":[self.Ct_value[11]],
+                                   "well_13":[self.Ct_value[12]],"well_14":[self.Ct_value[13]],"well_15":[self.Ct_value[14]],"well_16":[self.Ct_value[15]]}
+        ,index=["CT_Value"])
+            self.save_excel.to_excel('./result/CT_Chart' + now_output_time+"output.xlsx", encoding="utf_8_sig")
 
     def clean_log(self):
         self.Input_file.setText("")
@@ -277,7 +280,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.lineEdit_well_14.setText("")
         self.lineEdit_well_15.setText("")
         self.lineEdit_well_16.setText("")
-
+        self.Start_time.setText("")
+        self.End_time.setText("")
+        self.Input_N.setText("")
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -709,21 +714,21 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.btn_openfile.setText(_translate("MainWindow", "開啟檔案"))
         self.btn_savefile.setText(_translate("MainWindow", "儲存檔案"))
         self.btn_clean.setText(_translate("MainWindow", "清除"))
-        self.label_well2.setText(_translate("MainWindow", "well2"))
-        self.label_well12.setText(_translate("MainWindow", "well12"))
-        self.label_well3.setText(_translate("MainWindow", "well3"))
-        self.label_well11.setText(_translate("MainWindow", "well11"))
-        self.label_well4.setText(_translate("MainWindow", "well4"))
-        self.label_well9.setText(_translate("MainWindow", "well9"))
-        self.label_well5.setText(_translate("MainWindow", "well5"))
-        self.label_well1.setText(_translate("MainWindow", "well1"))
-        self.label_well10.setText(_translate("MainWindow", "well10"))
-        self.label_well6.setText(_translate("MainWindow", "well6"))
-        self.label_well7.setText(_translate("MainWindow", "well7"))
-        self.label_well8.setText(_translate("MainWindow", "well8"))
-        self.label_well13.setText(_translate("MainWindow", "well13"))
-        self.label_well14.setText(_translate("MainWindow", "well14"))
-        self.label_well15.setText(_translate("MainWindow", "well15"))
-        self.label_well16.setText(_translate("MainWindow", "well16"))
+        self.label_well2.setText(_translate("MainWindow", "well2(A2)"))
+        self.label_well12.setText(_translate("MainWindow", "well12(A12)"))
+        self.label_well3.setText(_translate("MainWindow", "well3(A3)"))
+        self.label_well11.setText(_translate("MainWindow", "well11(A11)"))
+        self.label_well4.setText(_translate("MainWindow", "well4(A4)"))
+        self.label_well9.setText(_translate("MainWindow", "well9(A9)"))
+        self.label_well5.setText(_translate("MainWindow", "well5(A5)"))
+        self.label_well1.setText(_translate("MainWindow", "well1(A1)"))
+        self.label_well10.setText(_translate("MainWindow", "well10(A10)"))
+        self.label_well6.setText(_translate("MainWindow", "well6(A6)"))
+        self.label_well7.setText(_translate("MainWindow", "well7(A7)"))
+        self.label_well8.setText(_translate("MainWindow", "well8(A8)"))
+        self.label_well13.setText(_translate("MainWindow", "well13(A13)"))
+        self.label_well14.setText(_translate("MainWindow", "well14(A14)"))
+        self.label_well15.setText(_translate("MainWindow", "well15(A15)"))
+        self.label_well16.setText(_translate("MainWindow", "well16(A16)"))
         self.label_Threshold_2.setText(_translate("MainWindow", "CT_Value"))
         self.label_Threshold_3.setText(_translate("MainWindow", "CT_Value"))
