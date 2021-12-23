@@ -30,7 +30,7 @@ def normalize():
         df_current_well = df_raw[f'well_{i+1}']
         df_current_ifc = df_ifc[f'well{i+1}']
         baseline = df_current_well[first_time:twice_time].mean()
-        df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline)/df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
+        df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline) / df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
 
 def get_ct_threshold():
     threshold_value = []
