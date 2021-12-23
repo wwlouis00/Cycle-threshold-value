@@ -1,5 +1,5 @@
 import sys
-from CT_Display_ver1 import *
+from CT_Display_1223 import *
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
