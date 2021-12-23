@@ -1,7 +1,5 @@
 import sys
-#from Sulink_Temperature_ver1 import *   #執行
-from CT_Display1221 import *
-# from Sulink_Temperature_20211217 import *   #執行
+from CT_Display_ver1 import *
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
