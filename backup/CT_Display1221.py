@@ -25,15 +25,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
         elif (int(self.Start_time.text()) > int(self.End_time.text())):
             QtWidgets.QMessageBox.critical(self, u"警告", u"開始時間跟結束時間錯誤", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         else:
-            if os.path.isdir("CT_image"):
+            if os.path.isdir("../CT_image"):
                 print("")
             else:
-                os.mkdir("CT_image")
+                os.mkdir("../CT_image")
             self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.Input_file.setText(self.fname[0])
 
             self.df_raw = pd.read_csv(self.fname[0])
-            self.df_ifc = pd.read_csv("cali_factor.csv")
+            self.df_ifc = pd.read_csv("../cali_factor.csv")
             self.df_normalization = self.df_raw.copy()
             self.get_accumulation_time()
             self.normalize()
@@ -152,7 +152,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.displayphoto()
 
     def displayphoto(self):
-        self.img = cv.imread('CT_image/CT.jpg')
+        self.img = cv.imread('../CT_image/CT.jpg')
         self.img = cv.cvtColor(self.img, cv.COLOR_BGR2RGB)
         x = self.img.shape[1]
         y = self.img.shape[0]

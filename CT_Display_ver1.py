@@ -76,6 +76,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             #well1
             for i in range(0, len(self.df_raw.index), 1):
                 self.well_1_data.append((self.df_raw.loc[i, 'well_1'] - self.well_baseline[0]) / self.well_baseline[0])
+
             #well2
             for i in range(0, len(self.df_raw.index), 1):
                 self.well_2_data.append((self.df_raw.loc[i, 'well_2'] - self.well_baseline[1]) / self.well_baseline[1])
