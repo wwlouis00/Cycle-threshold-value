@@ -32,6 +32,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 os.mkdir("CT_image")
     def calculate(self):
         self.big_well = []
+        self.big_data_plot = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
         self.df_normalization = self.df_raw.copy()
@@ -133,6 +134,52 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for j in range(0, len(self.df_raw.index), 1):
             self.time_array.append(j / 2)
 
+        for ch in range(0, 16, 1):
+            if ch == 0:
+                self.big_data = [[self.df_raw.loc[row, 'well_' + str(ch+1)] for row in range(len(self.df_raw.index))]]
+                self.big_data.append(([self.df_raw.loc[row, 'well_' + str(ch + 1)] - self.well_baseline[ch] for row in range(len(self.df_raw.index))]))
+            else:
+                self.big_data.append([self.df_raw.loc[row, 'well_' + str(ch+1)] - self.well_baseline[ch] for row in range(len(self.df_raw.index))])
+        # self.move_average = pd.DataFrame(self.big_well,index=['well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1','well1'])
+
+
+
+        # for ch in range(0,16,1):
+        #     if ch == 0:
+        #         self.well_1_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 1:
+        #         self.well_2_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 2:
+        #         self.well_3_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 3:
+        #         self.well_4_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 4:
+        #         self.well_5_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 5:
+        #         self.well_6_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 6:
+        #         self.well_7_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 7:
+        #         self.well_8_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 8:
+        #         self.well_9_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 9:
+        #         self.well_10_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 10:
+        #         self.well_11_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 11:
+        #         self.well_12_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 12:
+        #         self.well_13_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 13:
+        #         self.well_14_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 14:
+        #         self.well_15_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+        #     if ch == 15:
+        #         self.well_16_data.append(self.df_normalization['well' + str(ch +1)].rolling(window=5).mean)
+
+        # for i in range(0,16,1):
+        #     self.big_data_plot.append(self.temp_move[i].rolling(window=5).mean())
         plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
         plt.plot(self.time_array, self.well_1_data, '-', color=colorTab_More4[0], label="well_1")  # 紅
         plt.plot(self.time_array, self.well_2_data, '-', color=colorTab_More4[1], label="well_2")  # 澄
@@ -150,6 +197,23 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.plot(self.time_array, self.well_14_data, '-', color=colorTab_More4[13], label="well_14")  # 靛
         plt.plot(self.time_array, self.well_15_data, '-', color=colorTab_More4[14], label="well_15")  # 紫
         plt.plot(self.time_array, self.well_16_data, '-', color=colorTab_More4[15], label="well_16")  # 黑
+        # plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
+        # plt.plot(self.time_array, self.big_data[0], '-', color=colorTab_More4[0], label="well_1")  # 紅
+        # plt.plot(self.time_array, self.big_data[1], '-', color=colorTab_More4[1], label="well_2")  # 澄
+        # plt.plot(self.time_array, self.big_data[2], '-', color=colorTab_More4[2], label="well_3")  # 黃
+        # plt.plot(self.time_array, self.big_data[3], '-', color=colorTab_More4[3], label="well_4")  # 綠
+        # plt.plot(self.time_array, self.big_data[4], '-', color=colorTab_More4[4], label="well_5")  # 藍
+        # plt.plot(self.time_array, self.big_data[5], '-', color=colorTab_More4[5], label="well_6")  # 靛
+        # plt.plot(self.time_array, self.big_data[6], '-', color=colorTab_More4[6], label="well_7")  # 紫
+        # plt.plot(self.time_array, self.big_data[7], '-', color=colorTab_More4[7], label="well_8")  # 黑
+        # plt.plot(self.time_array, self.big_data[8], '-', color=colorTab_More4[8], label="well_9")  # 紅
+        # plt.plot(self.time_array, self.big_data[9], '-', color=colorTab_More4[9], label="well_10")  # 澄
+        # plt.plot(self.time_array, self.big_data[10], '-', color=colorTab_More4[10], label="well_11")  # 黃
+        # plt.plot(self.time_array, self.big_data[11], '-', color=colorTab_More4[11], label="well_12")  # 綠
+        # plt.plot(self.time_array, self.big_data[12], '-', color=colorTab_More4[12], label="well_13")  # 藍
+        # plt.plot(self.time_array, self.big_data[13], '-', color=colorTab_More4[13], label="well_14")  # 靛
+        # plt.plot(self.time_array, self.big_data[14], '-', color=colorTab_More4[14], label="well_15")  # 紫
+        # plt.plot(self.time_array, self.big_data[15], '-', color=colorTab_More4[15], label="well_16")  # 黑
         plt.ylim(0, 3)
         plt.title("Amplification curve")
         plt.xlabel('Time (min)')  # x軸說明文字
@@ -216,9 +280,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
             df_accumulation = self.df_normalization['accumulation']
-            # print("\n")
-            # print(df_current_well)
-            # print(f"Threshold value: {threshold_value[i]}")
+
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
@@ -273,7 +335,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
             self.move_average = pd.DataFrame(self.big_well)
-            # self.save_excel.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
+            # self.all_well = pd.DataFrame(self.big_data)
+            self.move_average.T.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
+            self.df_normalization.to_excel('./result/CT_Chart'+ now_output_time + "df_normalization.xlsx", encoding="utf_8_sig")
+            # self.temp_move.to_excel('./result/CT_Chart'+ now_output_time + "_all.xlsx", encoding="utf_8_sig")
             self.move_average.to_excel('./result/CT_Chart'+ now_output_time + "move_average.xlsx", encoding="utf_8_sig")
             self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
             self.df_raw.T.to_excel('./result/CSV' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
