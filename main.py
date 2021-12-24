@@ -1,9 +1,8 @@
 import sys
-from CT_Display_1223 import *
+from CT_Display_1225 import *
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
     mainWindows = QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(mainWindows)
