@@ -31,17 +31,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
             else:
                 os.mkdir("CT_image")
     def calculate(self):
-        # self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
+        self.big_well = []
         self.Input_file.setText(self.fname[0])
-
         self.df_raw = pd.read_csv(self.fname[0])
-        self.df_ifc = pd.read_csv("cali_factor.csv")
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
         threshold_value = self.get_ct_threshold()
+        self.Moving_Average()
         self.Ct_value = self.get_ct_value(threshold_value)
-        # print(self.Ct_value)
         self.lineEdit_well_1.setText(str(self.Ct_value[0]))
         self.lineEdit_well_2.setText(str(self.Ct_value[1]))
         self.lineEdit_well_3.setText(str(self.Ct_value[2]))
@@ -75,6 +73,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.well_15_data = []
         self.well_16_data = []
         self.time_array = []
+
         # well1
         for i in range(0, len(self.df_raw.index), 1):
             self.well_1_data.append((self.df_raw.loc[i, 'well_1'] - self.well_baseline[0]) / self.well_baseline[0])
@@ -194,12 +193,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.well_baseline = []
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
-            df_current_ifc = self.df_ifc[f'well{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[
                                                          f'well_{i + 1}'] - self.baseline) / self.baseline  # normalized = (IF(t)-IF(b))/IFc
             self.well_baseline.append(self.baseline)
         # print(self.well_baseline)
+    def Moving_Average(self):
+        for i in range(0, 16, 1):
+            self.big_well.append(self.df_raw["well_" + str(i+1)].rolling(window=5).mean())
 
 
     def get_ct_threshold(self):
@@ -246,13 +247,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
             except Exception as e:
                 # print(e)
                 Ct_value.append(99.99)
-                # print("Ct value is not available")
 
         return Ct_value
-
+    #重置計算
     def reset_file(self):
+        if self.Input_file.setText() == "" or self.Start_time.setText() == "" or self.End_time.setText() == "" or self.Input_N.setText() == "":
+            QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"警告", buttons=QtWidgets.QMessageBox.Ok,
+                defaultButton=QtWidgets.QMessageBox.Ok)
         self.calculate()
-
+    #存檔
     def save_file(self):
         if self.Input_file.text() == "":
             QtWidgets.QMessageBox.critical(self, u"存取失敗", u"未開啟csv檔案", buttons=QtWidgets.QMessageBox.Ok,
@@ -269,10 +272,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_13": [self.Ct_value[12]], "well_14": [self.Ct_value[13]],
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
-            self.save_excel.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
-            # self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
+            self.move_average = pd.DataFrame(self.big_well)
+            # self.save_excel.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
+            self.move_average.to_excel('./result/CT_Chart'+ now_output_time + "move_average.xlsx", encoding="utf_8_sig")
+            self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
             self.df_raw.T.to_excel('./result/CSV' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
-
+    #清除顯示
     def clean_log(self):
         self.Input_file.setText("")
         self.lineEdit_well_1.setText("")

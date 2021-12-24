@@ -192,6 +192,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.well_baseline.append(self.baseline)
         # print(self.well_baseline)
 
+    # def Moving_Average():
+    #     well_move_average = []
+    #     for i in range(0, 16, 1):
+    #         print(df_raw.loc[0, "well_" + str(i + 1)])
+    #         well_move_average.append(df_raw["well_" + str(i + 1)].rolling(window=5).mean())
+    #
+    #     print(well_move_average[0])
+    #     print(well_move_average[1])
+
 
 
     def get_ct_threshold(self):
@@ -207,9 +216,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
             df_accumulation = self.df_normalization['accumulation']
-            # print("\n")
-            # print(df_current_well)
-            # print(f"Threshold value: {threshold_value[i]}")
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
@@ -254,7 +260,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                    "well_9":[self.Ct_value[8]],"well_10":[self.Ct_value[9]],"well_11":[self.Ct_value[10]],"well_12":[self.Ct_value[11]],
                                    "well_13":[self.Ct_value[12]],"well_14":[self.Ct_value[13]],"well_15":[self.Ct_value[14]],"well_16":[self.Ct_value[15]]}
         ,index=["CT_Value"])
-            self.save_excel.to_excel('./result/CT_Chart' + now_output_time+"output.xlsx", encoding="utf_8_sig")
+            # self.save_excel.insert(21,"Moving_Averge",1)
+            self.save_excel.to_excel('./result/CT_Chart' + now_output_time+"_CT.xlsx", encoding="utf_8_sig")
+            self.df_normalization.to_excel('./result/CT_Chart' + now_output_time+"_normalization.xlsx", encoding="utf_8_sig")
             # self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
             self.df_raw.T.to_excel('./result/CSV' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
 

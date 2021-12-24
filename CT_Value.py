@@ -15,6 +15,7 @@ def get_accumulation_time():
         time_now = datetime.strptime(time, "%H:%M:%S")
         time_delta.append((time_now - time_ori).seconds/60)
     df_normalization.insert(1, column="accumulation", value=time_delta)
+    
 
 def get_StdDev_and_Avg():
     StdDev = []
@@ -32,12 +33,17 @@ def normalize():
         baseline = df_current_well[first_time:twice_time].mean()
         df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline) / df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
 
+def Moving_Average():
+    for i in range(0,16,1):
+        print(df_raw.loc[0,"well_" + str(i+1)])
+        well_move_average.append(df_raw["well_" + str(i+1)].rolling(window=5).mean())
+
+
 def get_ct_threshold():
     threshold_value = []
     StdDev, Avg = get_StdDev_and_Avg()
     for i in range(0, 16):
         threshold_value.append(n_sd*StdDev[i] + Avg[i])
-        print(f"Well {i+1}: StdDev is {StdDev[i]}, Avg is {Avg[i]}")
     return threshold_value
 
 def get_ct_value(threshold_value):
@@ -46,12 +52,10 @@ def get_ct_value(threshold_value):
         df_current_well = df_normalization[f'well_{i+1}']
         df_accumulation = df_normalization['accumulation']
         print("\n")
-        print(df_current_well)
-        print(f"Threshold value: {threshold_value[i]}")
         try:
             for j, row in enumerate(df_current_well):
                 if row >= threshold_value[i]:
-                    print(f"row: {row}")
+                    # print(f"row: {row}")
                     thres_lower = df_current_well[j-1]
                     thres_upper = df_current_well[j]                
                     acc_time_lower = df_accumulation[j-1]
@@ -66,22 +70,21 @@ def get_ct_value(threshold_value):
                     x = (x2-x1)*(y-y1)/(y2-y1)+x1
 
                     Ct_value.append(round(x, 2))
-                    print(f"Ct of well_{i+1} is {round(x, 2)}")
+                    # print(f"Ct of well_{i+1} is {round(x, 2)}")
                     break
 
                 # if there is no Ct_value availible
                 elif j == len(df_current_well)-1:
                     Ct_value.append(99.99)
-                    print("Ct value is not available")
         except Exception as e:
             print(e)
             Ct_value.append(99.99)
-            print("Ct value is not available")
 
     return Ct_value
 
 def ct_calculation():
-    global df_raw, df_ifc, df_normalization ,first_time,twice_time,n_sd
+    global df_raw, df_ifc, df_normalization ,first_time,twice_time,n_sd,well_move_average
+    well_move_average =[]
     first_time = int(input("Input first time:   "))
     twice_time = int(input("Input twice time:   "))
     n_sd = int(input("Input Std:   "))   
@@ -92,6 +95,7 @@ def ct_calculation():
     get_accumulation_time()
     normalize()
     threshold_value = get_ct_threshold()
+    Moving_Average()
     Ct_value = get_ct_value(threshold_value)
     print(Ct_value)
     save_excel = pd.DataFrame({"well_1":[Ct_value[0]],"well_2":[Ct_value[1]],"well_3":[Ct_value[2]],"well_4":[Ct_value[3]],
@@ -99,7 +103,11 @@ def ct_calculation():
                                "well_9":[Ct_value[8]],"well_10":[Ct_value[9]],"well_11":[Ct_value[10]],"well_4":[Ct_value[11]],
                                "well_13":[Ct_value[12]],"well_14":[Ct_value[13]],"well_15":[Ct_value[14]],"well_16":[Ct_value[15]]}
     ,index=["CT_Value"])
-    save_excel.to_excel("CT_Value.xlsx",encoding= "utf_8_sig")
+    # save_excel.insert(15, column="accumulation", value=1)
+    save_move_excel = pd.DataFrame(well_move_average)
+    save_excel.to_excel("./result/test/CT_Value.xlsx",encoding= "utf_8_sig")
+    save_move_excel.to_excel("./result/test/Move_Average.xlsx",encoding= "utf_8_sig")
+    
     return Ct_value
 
 def main():
