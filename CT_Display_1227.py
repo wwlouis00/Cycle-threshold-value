@@ -40,6 +40,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.normalize()
         threshold_value = self.get_ct_threshold()
         self.Moving_Average()
+        # UI顯示 16個CT值
         self.Ct_value = self.get_ct_value(threshold_value)
         self.lineEdit_well_1.setText(str(self.Ct_value[0]))
         self.lineEdit_well_2.setText(str(self.Ct_value[1]))
@@ -202,7 +203,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
             threshold_value.append(int(self.Input_N.text()) * StdDev[i] + Avg[i])
-            # print(f"Well {i + 1}: StdDev is {StdDev[i]}, Avg is {Avg[i]}")
         return threshold_value
 
     def get_ct_value(self, threshold_value):
@@ -213,7 +213,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
-                        # print(f"row: {row}")
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -228,13 +227,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         Ct_value.append(round(x, 2))
                         # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
-
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
                         Ct_value.append(99.99)
                         # print("Ct value is not available")
             except Exception as e:
-                # print(e)
                 Ct_value.append(99.99)
 
         return Ct_value
@@ -264,11 +261,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.move_average = pd.DataFrame(self.big_well)
 
             self.move_average.T.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
-            self.df_normalization.to_excel('./result/CT_Chart'+ now_output_time + "df_normalization.xlsx", encoding="utf_8_sig")
-            self.move_finish.to_excel('./result/CT_Chart'+ now_output_time + "_big.xlsx", encoding="utf_8_sig")
-            self.move_average.to_excel('./result/CT_Chart'+ now_output_time + "move_average.xlsx", encoding="utf_8_sig")
-            self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
-            self.df_raw.T.to_excel('./result/CSV' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
+            self.move_finish.to_excel('./result/Display_result/CT_Display_move_finish.xlsx', encoding="utf_8_sig")
+            self.move_average.to_excel('./result/Display_result/CT_Chart_move_average.xlsx', encoding="utf_8_sig")
+            self.save_excel.T.to_excel('./result/Display_result/CT_Value.xlsx', encoding="utf_8_sig")
     #清除顯示
     def clean_log(self):
         self.Input_file.setText("")
