@@ -32,7 +32,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 os.mkdir("CT_image")
     def calculate(self):
         self.big_well = []
-        self.big_data_plot = []
+        self.big_data = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
         self.df_normalization = self.df_raw.copy()
@@ -75,61 +75,62 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.well_16_data = []
         self.time_array = []
 
+        for i in range(1, 17, 1):
+            self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
+        self.all_well = pd.DataFrame(self.big_data)
+        self.move_finish = self.all_well.T
         # well1
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_1_data.append(self.df_normalization.loc[i,'well1'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_1_data.append(self.move_finish.loc[i,'well1'])
         # well2
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_2_data.append(self.df_normalization.loc[i,'well2'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_2_data.append(self.move_finish.loc[i,'well2'])
         # well3
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_3_data.append(self.df_normalization.loc[i,'well3'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_3_data.append(self.move_finish.loc[i,'well3'])
         # well4
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_4_data.append(self.df_normalization.loc[i,'well4'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_4_data.append(self.move_finish.loc[i,'well4'])
         # well5
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_5_data.append(self.df_normalization.loc[i,'well5'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_5_data.append(self.move_finish.loc[i,'well5'])
         # well6
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_6_data.append(self.df_normalization.loc[i,'well6'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_6_data.append(self.move_finish.loc[i,'well6'])
         # well7
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_7_data.append(self.df_normalization.loc[i,'well7'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_7_data.append(self.move_finish.loc[i,'well7'])
         # well8
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_8_data.append(self.df_normalization.loc[i,'well8'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_8_data.append(self.move_finish.loc[i,'well8'])
         # well9
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_9_data.append(self.df_normalization.loc[i,'well9'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_9_data.append(self.move_finish.loc[i,'well9'])
         # well10
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_10_data.append(self.df_normalization.loc[i,'well10'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_10_data.append(self.move_finish.loc[i,'well10'])
         # # well11
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_11_data.append(self.df_normalization.loc[i,'well11'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_11_data.append(self.move_finish.loc[i,'well11'])
         # # well12
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_12_data.append(self.df_normalization.loc[i,'well12'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_12_data.append(self.move_finish.loc[i,'well12'])
         # # well13
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_13_data.append(self.df_normalization.loc[i,'well13'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_13_data.append(self.move_finish.loc[i,'well13'])
         # well14
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_14_data.append(self.df_normalization.loc[i,'well14'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_14_data.append(self.move_finish.loc[i,'well14'])
         # well15
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_15_data.append(self.df_normalization.loc[i,'well15'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_15_data.append(self.move_finish.loc[i,'well15'])
         # wel16
-        for i in range(0, len(self.df_raw.index), 1):
-            self.well_16_data.append(self.df_normalization.loc[i,'well16'])
+        for i in range(0, len(self.move_finish.index), 1):
+            self.well_16_data.append(self.move_finish.loc[i,'well16'])
 
-        for j in range(0, len(self.df_raw.index), 1):
+        for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
 
-
-        # for i in range(0,16,1):
-        #     self.big_data_plot.append(self.temp_move[i].rolling(window=5).mean())
         plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
         plt.plot(self.time_array, self.well_1_data, '-', color=colorTab_More4[0], label="well_1")  # 紅
         plt.plot(self.time_array, self.well_2_data, '-', color=colorTab_More4[1], label="well_2")  # 澄
@@ -153,7 +154,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.ylabel('Fluorescence signal intensity(a.u.)')  # y軸說明文字
         plt.legend(loc="best", fontsize=7.5)
         plt.savefig('CT_image/CT.jpg')
-        # plt.show()
+        plt.show()
         self.displayphoto()
 
     def displayphoto(self):
@@ -187,18 +188,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
         return StdDev, Avg
 
     def normalize(self):
-        self.well_baseline = []
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.df_normalization[f'well{i + 1}'] = abs((self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline)  # normalized = (IF(t)-IF(b))/IFc
-            self.well_baseline.append(self.baseline)
-        # print(self.df_normalization)
-        # print(self.well_baseline)
+
     def Moving_Average(self):
         for i in range(0, 16, 1):
             self.big_well.append(self.df_raw["well_" + str(i+1)].rolling(window=5).mean())
-
 
     def get_ct_threshold(self):
         threshold_value = []
@@ -213,7 +210,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
             df_accumulation = self.df_normalization['accumulation']
-
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
@@ -222,7 +218,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
                         acc_time_upper = df_accumulation[j + 1]
-
                         # linear regression
                         x2 = acc_time_upper
                         y2 = thres_upper
@@ -230,7 +225,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         y1 = thres_lower
                         y = threshold_value[i]
                         x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
-
                         Ct_value.append(round(x, 2))
                         # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
@@ -268,10 +262,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
             self.move_average = pd.DataFrame(self.big_well)
-            # self.all_well = pd.DataFrame(self.big_data)
+
             self.move_average.T.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
             self.df_normalization.to_excel('./result/CT_Chart'+ now_output_time + "df_normalization.xlsx", encoding="utf_8_sig")
-            # self.temp_move.to_excel('./result/CT_Chart'+ now_output_time + "_all.xlsx", encoding="utf_8_sig")
+            self.move_finish.to_excel('./result/CT_Chart'+ now_output_time + "_big.xlsx", encoding="utf_8_sig")
             self.move_average.to_excel('./result/CT_Chart'+ now_output_time + "move_average.xlsx", encoding="utf_8_sig")
             self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
             self.df_raw.T.to_excel('./result/CSV' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
@@ -709,7 +703,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CT_Chart"))
         self.label_well1.setText(_translate("MainWindow", "well_1(A1)"))
         self.label_well9.setText(_translate("MainWindow", "well_9(A9)"))
         self.label_well2.setText(_translate("MainWindow", "well_2(A2)"))

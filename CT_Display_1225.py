@@ -131,12 +131,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
 
-
-
-
-
-        # for i in range(0,16,1):
-        #     self.big_data_plot.append(self.temp_move[i].rolling(window=5).mean())
         plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
         plt.plot(self.time_array, self.well_1_data, '-', color=colorTab_More4[0], label="well_1")  # 紅
         plt.plot(self.time_array, self.well_2_data, '-', color=colorTab_More4[1], label="well_2")  # 澄
@@ -206,7 +200,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16, 1):
             self.big_well.append(self.df_raw["well_" + str(i+1)].rolling(window=5).mean())
 
-
     def get_ct_threshold(self):
         threshold_value = []
         StdDev, Avg = self.get_StdDev_and_Avg()
@@ -220,7 +213,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
             df_accumulation = self.df_normalization['accumulation']
-
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
@@ -229,7 +221,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
                         acc_time_upper = df_accumulation[j + 1]
-
                         # linear regression
                         x2 = acc_time_upper
                         y2 = thres_upper
@@ -237,7 +228,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         y1 = thres_lower
                         y = threshold_value[i]
                         x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
-
                         Ct_value.append(round(x, 2))
                         # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
