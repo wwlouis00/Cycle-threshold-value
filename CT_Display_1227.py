@@ -39,7 +39,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.get_accumulation_time()
         self.normalize()
         threshold_value = self.get_ct_threshold()
-        self.Moving_Average()
         # UI顯示 16個CT值
         self.Ct_value = self.get_ct_value(threshold_value)
         self.lineEdit_well_1.setText(str(self.Ct_value[0]))
@@ -155,7 +154,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.ylabel('Fluorescence signal intensity(a.u.)')  # y軸說明文字
         plt.legend(loc="best", fontsize=7.5)
         plt.savefig('CT_image/CT.jpg')
-        plt.show()
         self.displayphoto()
 
     def displayphoto(self):
@@ -193,10 +191,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.df_normalization[f'well{i + 1}'] = abs((self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline)  # normalized = (IF(t)-IF(b))/IFc
-
-    def Moving_Average(self):
-        for i in range(0, 16, 1):
-            self.big_well.append(self.df_raw["well_" + str(i+1)].rolling(window=5).mean())
 
     def get_ct_threshold(self):
         threshold_value = []
@@ -258,12 +252,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_13": [self.Ct_value[12]], "well_14": [self.Ct_value[13]],
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
-            self.move_average = pd.DataFrame(self.big_well)
 
-            self.move_average.T.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
-            self.move_finish.to_excel('./result/Display_result/CT_Display_move_finish.xlsx', encoding="utf_8_sig")
-            self.move_average.to_excel('./result/Display_result/CT_Chart_move_average.xlsx', encoding="utf_8_sig")
-            self.save_excel.T.to_excel('./result/Display_result/CT_Value.xlsx', encoding="utf_8_sig")
+            self.move_finish.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+            self.save_excel.T.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
     #清除顯示
     def clean_log(self):
         self.Input_file.setText("")
