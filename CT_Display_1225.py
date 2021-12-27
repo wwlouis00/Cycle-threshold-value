@@ -34,7 +34,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.big_well = []
         self.big_data = []
         self.Input_file.setText(self.fname[0])
-        self.df_raw = pd.read_csv(self.fname[0])
+        self.temp_well = pd.read_csv(self.fname[0],header=None)
+        self.df_raw = self.temp_well.drop([0])
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
@@ -151,7 +152,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.ylim(0, 3)
         plt.title("Amplification curve")
         plt.xlabel('Time (min)')  # x軸說明文字
-        plt.ylabel('Fluorescence signal intensity(a.u.)')  # y軸說明文字
+        plt.ylabel('Fluorescence signal intensity (a.u.)')  # y軸說明文字
         plt.legend(loc="best", fontsize=7.5)
         plt.savefig('CT_image/CT.jpg')
         self.displayphoto()
@@ -691,21 +692,21 @@ class Ui_MainWindow(QtWidgets.QWidget):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "CT_Chart"))
         self.label_well1.setText(_translate("MainWindow", "well_1(A1)"))
-        self.label_well9.setText(_translate("MainWindow", "well_9(A9)"))
+        self.label_well9.setText(_translate("MainWindow", "well_9(B1)"))
         self.label_well2.setText(_translate("MainWindow", "well_2(A2)"))
-        self.label_well10.setText(_translate("MainWindow", "well_10(A10)"))
+        self.label_well10.setText(_translate("MainWindow", "well_10(B2)"))
         self.label_well3.setText(_translate("MainWindow", "well_3(A3)"))
-        self.label_well11.setText(_translate("MainWindow", "well_11(A11)"))
+        self.label_well11.setText(_translate("MainWindow", "well_11(B3)"))
         self.label_well4.setText(_translate("MainWindow", "well_4(A4)"))
-        self.label_well12.setText(_translate("MainWindow", "well_12(A12)"))
+        self.label_well12.setText(_translate("MainWindow", "well_12(B4)"))
         self.label_well5.setText(_translate("MainWindow", "well_5(A5)"))
-        self.label_well13.setText(_translate("MainWindow", "well_13(A13)"))
+        self.label_well13.setText(_translate("MainWindow", "well_13(B5)"))
         self.label_well6.setText(_translate("MainWindow", "well_6(A6)"))
-        self.label_well14.setText(_translate("MainWindow", "well_14(A14)"))
+        self.label_well14.setText(_translate("MainWindow", "well_14(B6)"))
         self.label_well7.setText(_translate("MainWindow", "well_7(A7)"))
-        self.label_well15.setText(_translate("MainWindow", "well_15(A15)"))
+        self.label_well15.setText(_translate("MainWindow", "well_15(B7)"))
         self.label_well8.setText(_translate("MainWindow", "well_8(A8)"))
-        self.label_well16.setText(_translate("MainWindow", "well_16(A16)"))
+        self.label_well16.setText(_translate("MainWindow", "well_16(B8)"))
         self.label_7.setText(_translate("MainWindow", "~"))
         self.label_Timeofbackground.setText(_translate("MainWindow", "Time of background"))
         self.label_Threshold.setText(_translate("MainWindow", "Threshold: N  * Std"))

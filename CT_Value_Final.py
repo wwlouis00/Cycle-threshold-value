@@ -7,6 +7,7 @@ import cv2 as cv
 # 讀取該資料
 raw_file_path = "2021_10_22_16_26_07pos.csv"
 
+# 顏色
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
                        '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
                        '#f32020', '#fd9b09', '#406386', '#24a1a1',
@@ -145,11 +146,8 @@ def take_photo():
     for i in range(0,len(Csv_well.index),1):
         well_16_data.append(Csv_well.loc[i,'well16'])
     
-    
-    
     for j in range(0, len(Csv_well.index), 1):
         time_array.append(j / 2)
-
 
     plt.plot(time_array,well_1_data,'-',color = colorTab_More4[0], label="well1")
     plt.plot(time_array,well_2_data,'-',color = colorTab_More4[1], label="well2")
@@ -182,8 +180,8 @@ def take_photo():
 def ct_calculation():
     global df_raw, df_normalization ,first_time,twice_time,n_sd,well_move_average,Csv_well
     well_move_average =[]
-    first_time = int(input("Input first time:   "))
-    twice_time = int(input("Input twice time:   "))
+    first_time = int(input("Input Start time:   "))
+    twice_time = int(input("Input End time:   "))
     n_sd = int(input("Input Std:   "))   
     df_raw = pd.read_csv(raw_file_path)
     df_normalization = df_raw.copy()    #將df_raw複製給df_df_normalization
@@ -199,10 +197,8 @@ def ct_calculation():
                                "well_9":[Ct_value[8]],"well_10":[Ct_value[9]],"well_11":[Ct_value[10]],"well_4":[Ct_value[11]],
                                "well_13":[Ct_value[12]],"well_14":[Ct_value[13]],"well_15":[Ct_value[14]],"well_16":[Ct_value[15]]}
     ,index=["CT_Value"])
-    # save_move_excel = pd.DataFrame(well_move_average)
     save_excel.to_csv("./result/test/CT_Value.csv",encoding= "utf_8_sig")
     Csv_well.to_csv("./result/test/move.csv",encoding= "utf_8_sig")
-    # save_move_excel.to_excel("./result/test/Move_Average.xlsx",encoding= "utf_8_sig")
     
     return Ct_value
 
