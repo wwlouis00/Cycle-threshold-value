@@ -39,7 +39,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.get_accumulation_time()
         self.normalize()
         threshold_value = self.get_ct_threshold()
-        self.Moving_Average()
+        # UI顯示 16個CT值
         self.Ct_value = self.get_ct_value(threshold_value)
         self.lineEdit_well_1.setText(str(self.Ct_value[0]))
         self.lineEdit_well_2.setText(str(self.Ct_value[1]))
@@ -154,9 +154,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.ylabel('Fluorescence signal intensity(a.u.)')  # y軸說明文字
         plt.legend(loc="best", fontsize=7.5)
         plt.savefig('CT_image/CT.jpg')
-        # plt.show()
         self.displayphoto()
-        print(self.big_data)
 
     def displayphoto(self):
         self.img = cv.imread('CT_image/CT.jpg')
@@ -189,23 +187,16 @@ class Ui_MainWindow(QtWidgets.QWidget):
         return StdDev, Avg
 
     def normalize(self):
-        self.well_baseline = []
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.df_normalization[f'well{i + 1}'] = abs((self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline)  # normalized = (IF(t)-IF(b))/IFc
-            self.well_baseline.append(self.baseline)
-
-    def Moving_Average(self):
-        for i in range(0, 16, 1):
-            self.big_well.append(self.df_raw["well_" + str(i+1)].rolling(window=5).mean())
 
     def get_ct_threshold(self):
         threshold_value = []
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
             threshold_value.append(int(self.Input_N.text()) * StdDev[i] + Avg[i])
-            # print(f"Well {i + 1}: StdDev is {StdDev[i]}, Avg is {Avg[i]}")
         return threshold_value
 
     def get_ct_value(self, threshold_value):
@@ -216,7 +207,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             try:
                 for j, row in enumerate(df_current_well):
                     if row >= threshold_value[i]:
-                        # print(f"row: {row}")
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -231,13 +221,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         Ct_value.append(round(x, 2))
                         # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
-
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
                         Ct_value.append(99.99)
                         # print("Ct value is not available")
             except Exception as e:
-                # print(e)
                 Ct_value.append(99.99)
 
         return Ct_value
@@ -264,14 +252,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_13": [self.Ct_value[12]], "well_14": [self.Ct_value[13]],
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
-            self.move_average = pd.DataFrame(self.big_well)
 
-            self.move_average.T.to_excel('./result/CT_Chart' + now_output_time + "output.xlsx", encoding="utf_8_sig")
-            self.df_normalization.to_excel('./result/CT_Chart'+ now_output_time + "df_normalization.xlsx", encoding="utf_8_sig")
-            self.move_finish.to_excel('./result/CT_Chart'+ now_output_time + "_big.xlsx", encoding="utf_8_sig")
-            self.move_average.to_excel('./result/CT_Chart'+ now_output_time + "move_average.xlsx", encoding="utf_8_sig")
-            self.save_excel.T.to_excel('./result/CT_Chart' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
-            self.df_raw.T.to_excel('./result/CSV' + now_output_time + "output_T.xlsx", encoding="utf_8_sig")
+            self.move_finish.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+            self.save_excel.T.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
     #清除顯示
     def clean_log(self):
         self.Input_file.setText("")
@@ -706,7 +689,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CT_Chart"))
         self.label_well1.setText(_translate("MainWindow", "well_1(A1)"))
         self.label_well9.setText(_translate("MainWindow", "well_9(A9)"))
         self.label_well2.setText(_translate("MainWindow", "well_2(A2)"))
