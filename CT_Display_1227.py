@@ -223,10 +223,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         break
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
-                        Ct_value.append(99.99)
+                        Ct_value.append("N/A")
                         # print("Ct value is not available")
             except Exception as e:
-                Ct_value.append(99.99)
+                Ct_value.append("N/A")
 
         return Ct_value
     #重置計算
