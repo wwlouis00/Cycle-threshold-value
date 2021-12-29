@@ -8,7 +8,6 @@ raw_file_path = "detection.csv"
 ifc_file_path = "cali_factor.csv"
 
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
-
                        '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
                        '#f32020', '#fd9b09', '#406386', '#24a1a1',
                        '#1515f8', '#959697', '#744a20', '#7b45a5']
