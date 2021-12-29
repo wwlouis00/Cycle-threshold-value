@@ -34,8 +34,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.big_well = []
         self.big_data = []
         self.Input_file.setText(self.fname[0])
-        self.temp_well = pd.read_csv(self.fname[0],header=None)
-        self.df_raw = self.temp_well.drop([0])
+        self.df_raw = pd.read_csv(self.fname[0])
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
@@ -224,10 +223,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         break
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
-                        Ct_value.append(99.99)
+                        Ct_value.append("N/A")
                         # print("Ct value is not available")
             except Exception as e:
-                Ct_value.append(99.99)
+                Ct_value.append("N/A")
 
         return Ct_value
     #重置計算

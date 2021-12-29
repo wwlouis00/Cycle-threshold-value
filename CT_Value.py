@@ -105,8 +105,8 @@ def ct_calculation():
     ,index=["CT_Value"])
     # save_excel.insert(15, column="accumulation", value=1)
     save_move_excel = pd.DataFrame(well_move_average)
-    save_excel.to_excel("./result/test/CT_Value.xlsx",encoding= "utf_8_sig")
-    save_move_excel.to_excel("./result/test/Move_Average.xlsx",encoding= "utf_8_sig")
+    save_excel.to_csv("./result/test/CT_Value.csv",encoding= "utf_8_sig")
+    save_move_excel.to_csv("./result/test/Move_Average.csv",encoding= "utf_8_sig")
     
     return Ct_value
 

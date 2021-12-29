@@ -2,17 +2,19 @@ import pandas as pd
 import os
 from datetime import datetime, time
 import matplotlib.pyplot as plt
-import cv2 as cv
+# import cv2 as cv
 
-# 讀取該資料
-raw_file_path = "2021_10_22_16_26_07pos.csv"
+# from CT_Value.CT_Value_Final import Csv_well
 
-# 顏色
+# global variable
+raw_file_path = "detection.csv"
+ifc_file_path = "cali_factor.csv"
+
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
+
                        '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
                        '#f32020', '#fd9b09', '#406386', '#24a1a1',
                        '#1515f8', '#959697', '#744a20', '#7b45a5']
-
 
 def get_accumulation_time():
     df_time = df_normalization['time']
@@ -22,46 +24,43 @@ def get_accumulation_time():
         time_now = datetime.strptime(time, "%H:%M:%S")
         time_delta.append((time_now - time_ori).seconds/60)
     df_normalization.insert(1, column="accumulation", value=time_delta)
-    
 
 def get_StdDev_and_Avg():
     StdDev = []
     Avg = []
     for i in range(0, 16):
-        df_current_well = df_normalization[f'well_{i+1}']
-        StdDev.append(df_current_well[first_time*2:twice_time*2].std())
-        Avg.append(df_current_well[first_time:twice_time].mean())
+        df_current_well = df_normalization[f'well{i+1}']
+        StdDev.append(df_current_well[8:30].std())
+        Avg.append(df_current_well[8:30].mean())
     return StdDev, Avg
 
-def normalize():
+def normalize(baseline_begin, baseline_end):
     for i in range(0, 16):
         df_current_well = df_raw[f'well_{i+1}']
-        baseline = df_current_well[first_time*2:twice_time*2].mean()
-        df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline) / baseline # normalized = (IF(t)-IF(b))/IF(b)
-
-def Moving_Average():
-    for i in range(0,16,1):
-        print(df_raw.loc[0,"well_" + str(i+1)])
-        well_move_average.append(df_raw["well_" + str(i+1)].rolling(window=5).mean())
-
+        df_current_ifc = df_ifc[f'well{i+1}']
+        baseline = df_current_well[baseline_begin:baseline_end].mean()
+        df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline)/df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
 
 def get_ct_threshold():
     threshold_value = []
     StdDev, Avg = get_StdDev_and_Avg()
     for i in range(0, 16):
-        threshold_value.append(n_sd*StdDev[i] + Avg[i])
+        threshold_value.append(10*StdDev[i] + Avg[i])
+        print(f"Well {i+1}: StdDev is {StdDev[i]}, Avg is {Avg[i]}")
     return threshold_value
 
 def get_ct_value(threshold_value):
     Ct_value = []
     for i in range(0, 16):
-        df_current_well = df_normalization[f'well_{i+1}']
+        df_current_well = df_normalization[f'well{i+1}']
         df_accumulation = df_normalization['accumulation']
         print("\n")
+        print(df_current_well)
+        print(f"Threshold value: {threshold_value[i]}")
         try:
             for j, row in enumerate(df_current_well):
                 if row >= threshold_value[i]:
-                    # print(f"row: {row}")
+                    print(f"row: {row}")
                     thres_lower = df_current_well[j-1]
                     thres_upper = df_current_well[j]                
                     acc_time_lower = df_accumulation[j-1]
@@ -76,15 +75,17 @@ def get_ct_value(threshold_value):
                     x = (x2-x1)*(y-y1)/(y2-y1)+x1
 
                     Ct_value.append(round(x, 2))
-                    # print(f"Ct of well_{i+1} is {round(x, 2)}")
+                    print(f"Ct of well{i+1} is {round(x, 2)}")
                     break
 
                 # if there is no Ct_value availible
                 elif j == len(df_current_well)-1:
                     Ct_value.append(99.99)
+                    print("Ct value is not available")
         except Exception as e:
             print(e)
             Ct_value.append(99.99)
+            print("Ct value is not available")
 
     return Ct_value
 
@@ -109,6 +110,7 @@ def take_photo():
     time_array = []
 
     for i in range(1,17,1):
+        # all_well.append(df_normalization["well"+str(i)].rolling(window=5).mean().fillna(value = all_well[5], inplace=False))
         all_well.append(df_normalization["well"+str(i)].rolling(window=5).mean())
     temp_well = pd.DataFrame(all_well)
     Csv_well = temp_well.T
@@ -177,33 +179,30 @@ def take_photo():
     return Csv_well
 
 
-def ct_calculation():
-    global df_raw, df_normalization ,first_time,twice_time,n_sd,well_move_average,Csv_well
+def ct_calculation(baseline_begin, baseline_end):
+    global df_raw, df_ifc, df_normalization,well_move_average,Csv_well
     well_move_average =[]
-    first_time = int(input("Input Start time:   "))
-    twice_time = int(input("Input End time:   "))
-    n_sd = int(input("Input Std:   "))   
     df_raw = pd.read_csv(raw_file_path)
-    df_normalization = df_raw.copy()    #將df_raw複製給df_df_normalization
+    df_ifc = pd.read_csv(ifc_file_path)
+    df_normalization = df_raw.copy()
+
     get_accumulation_time()
-    normalize()
+    normalize(baseline_begin, baseline_end)
+    # df_normalization.to_csv("./result/normalization.csv", index=False)
     threshold_value = get_ct_threshold()
-    Moving_Average()
     Ct_value = get_ct_value(threshold_value)
-    print(Ct_value)
     Csv_well = take_photo()
+    print(Ct_value)
     save_excel = pd.DataFrame({"well_1":[Ct_value[0]],"well_2":[Ct_value[1]],"well_3":[Ct_value[2]],"well_4":[Ct_value[3]],
                                "well_5":[Ct_value[4]],"well_6":[Ct_value[5]],"well_7":[Ct_value[6]],"well_8":[Ct_value[7]],
                                "well_9":[Ct_value[8]],"well_10":[Ct_value[9]],"well_11":[Ct_value[10]],"well_4":[Ct_value[11]],
                                "well_13":[Ct_value[12]],"well_14":[Ct_value[13]],"well_15":[Ct_value[14]],"well_16":[Ct_value[15]]}
     ,index=["CT_Value"])
-    save_excel.to_csv("./result/test/CT_Value.csv",encoding= "utf_8_sig")
-    Csv_well.to_csv("./result/test/move.csv",encoding= "utf_8_sig")
-    
+    save_excel.to_csv("./result/CT.csv",encoding= "utf_8_sig")
+    Csv_well.T.to_csv("./result/detection_T.csv",encoding= "utf_8_sig")
     return Ct_value
 
 def main():
-    ct_calculation()
+    ct_calculation(8,30)
 if __name__ == '__main__':
     main()
-    
