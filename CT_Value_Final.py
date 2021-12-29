@@ -2,9 +2,6 @@ import pandas as pd
 import os
 from datetime import datetime, time
 import matplotlib.pyplot as plt
-# import cv2 as cv
-
-# from CT_Value.CT_Value_Final import Csv_well
 
 # global variable
 raw_file_path = "detection.csv"
