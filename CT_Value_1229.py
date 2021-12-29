@@ -36,10 +36,10 @@ def get_StdDev_and_Avg():
 
 def normalize(baseline_begin, baseline_end):
     for i in range(0, 16):
-        df_current_well = df_raw[f'well_{i+1}']
+        df_current_well = df_raw[f'well{i+1}']
         df_current_ifc = df_ifc[f'well{i+1}']
         baseline = df_current_well[baseline_begin:baseline_end].mean()
-        df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline)/df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
+        df_normalization[f'well{i+1}'] = (df_raw[f'well{i+1}']-baseline)/df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
 
 def get_ct_threshold():
     threshold_value = []
