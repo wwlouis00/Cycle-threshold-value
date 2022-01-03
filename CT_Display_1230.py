@@ -272,8 +272,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
 
-            self.move_finish.to_csv('./result/Display_result/CT_Value_MA_data.csv', encoding="utf_8_sig")
-            self.save_excel.T.to_csv('./result/Display_result/CT_Valueall_well.csv', encoding="utf_8_sig")
+            self.move_finish.to_csv('./result/Cali_result/'+ now_output_time +'CT_Value_MA_data.csv', encoding="utf_8_sig")
+            self.save_excel.T.to_csv('./result/Cali_result/' + now_output_time +'CT_Valueall_well.csv', encoding="utf_8_sig")
     #清除顯示
     def clean_log(self):
         self.Input_file.setText("")

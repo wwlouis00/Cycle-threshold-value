@@ -3,11 +3,14 @@ import os
 from datetime import datetime, time
 import matplotlib.pyplot as plt
 
+# from CT_Value.CT_Value_Final import Csv_well
+
 # global variable
 raw_file_path = "detection.csv"
-ifc_file_path = "cali_factor.csv"
+ifc_file_path = "cali_factor_old.csv"
 
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
+
                        '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
                        '#f32020', '#fd9b09', '#406386', '#24a1a1',
                        '#1515f8', '#959697', '#744a20', '#7b45a5']
@@ -32,10 +35,10 @@ def get_StdDev_and_Avg():
 
 def normalize(baseline_begin, baseline_end):
     for i in range(0, 16):
-        df_current_well = df_raw[f'well_{i+1}']
+        df_current_well = df_raw[f'well{i+1}']
         df_current_ifc = df_ifc[f'well{i+1}']
         baseline = df_current_well[baseline_begin:baseline_end].mean()
-        df_normalization[f'well{i+1}'] = (df_raw[f'well_{i+1}']-baseline)/df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
+        df_normalization[f'well{i+1}'] = (df_raw[f'well{i+1}']-baseline)/df_current_ifc[0] # normalized = (IF(t)-IF(b))/IFc
 
 def get_ct_threshold():
     threshold_value = []
@@ -194,8 +197,8 @@ def ct_calculation(baseline_begin, baseline_end):
                                "well_9":[Ct_value[8]],"well_10":[Ct_value[9]],"well_11":[Ct_value[10]],"well_4":[Ct_value[11]],
                                "well_13":[Ct_value[12]],"well_14":[Ct_value[13]],"well_15":[Ct_value[14]],"well_16":[Ct_value[15]]}
     ,index=["CT_Value"])
-    save_excel.to_csv("./result/CT.csv",encoding= "utf_8_sig")
-    Csv_well.T.to_csv("./result/detection_T.csv",encoding= "utf_8_sig")
+    save_excel.to_csv("./result/test/CT.csv",encoding= "utf_8_sig")
+    Csv_well.T.to_csv("./result/test/detection_T.csv",encoding= "utf_8_sig")
     return Ct_value
 
 def main():
