@@ -29,16 +29,32 @@ class Ui_MainWindow(QtWidgets.QWidget):
             QtWidgets.QMessageBox.critical(self, u"警告", u"開始時間跟結束時間錯誤", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         else:
             self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
+            self.Input_file.setText(self.fname[0])
+            # self.calculate()
+            if os.path.isdir("CT_image"):
+                print("")
+            else:
+                os.mkdir("CT_image")
+
+    def browsefile_cali(self):
+        if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"警告", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+        elif (int(self.Start_time.text()) > int(self.End_time.text())):
+            QtWidgets.QMessageBox.critical(self, u"警告", u"開始時間跟結束時間錯誤", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+        else:
+            self.fname_cali = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
+            self.Input_file_Cali.setText(self.fname_cali[0])
             self.calculate()
             if os.path.isdir("CT_image"):
                 print("")
             else:
                 os.mkdir("CT_image")
+
     def calculate(self):
         self.big_well = []
         self.big_data = []
-        self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
+        self.df_ifc = pd.read_csv(self.fname_cali[0])
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
@@ -194,7 +210,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
-            self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline  # normalized = (IF(t)-IF(b))/IFc
+            self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.df_ifc.loc[0,"well"+str(i+1)]  # normalized = (IF(t)-IF(b))/IFc
 
     def get_ct_threshold(self):
         threshold_value = []
@@ -261,6 +277,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
     #清除顯示
     def clean_log(self):
         self.Input_file.setText("")
+        self.Input_file_Cali.setText("")
         self.lineEdit_well_1.setText("")
         self.lineEdit_well_2.setText("")
         self.lineEdit_well_3.setText("")
@@ -281,6 +298,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.End_time.setText("")
         self.Input_N.setText("")
         self.CT_chart.setScene(None)
+
 
 
 
@@ -708,6 +726,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.btn_openfile.clicked.connect(self.browsefile)
+        self.btn_opencali.clicked.connect(self.browsefile_cali)
         self.btn_savefile.clicked.connect(self.save_file)
         self.btn_clean.clicked.connect(self.clean_log)
         self.btn_resetfile.clicked.connect(self.reset_file)
