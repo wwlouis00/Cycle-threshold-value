@@ -148,16 +148,17 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.plot(self.time_array, self.well_14_data, '-', color=colorTab_More4[13], label="well_14")  # 靛
         plt.plot(self.time_array, self.well_15_data, '-', color=colorTab_More4[14], label="well_15")  # 紫
         plt.plot(self.time_array, self.well_16_data, '-', color=colorTab_More4[15], label="well_16")  # 黑
-        plt.ylim(-2, 3)
+        plt.ylim(0, 3)
         plt.title("Amplification curve")
         plt.xlabel('Time (min)')  # x軸說明文字
         plt.ylabel('Fluorescence signal intensity (a.u.)')  # y軸說明文字
-        plt.legend(loc="best", fontsize=7.5)
-        plt.savefig('CT_image/CT.jpg')
+        plt.legend(loc="upper center", bbox_to_anchor=(0.5, 1.05),
+            fancybox=True, shadow=True, ncol=8, fontsize=7.5)
+        plt.savefig('./result/Display_result/CT.jpg')
         self.displayphoto()
 
     def displayphoto(self):
-        self.img = cv.imread('CT_image/CT.jpg')
+        self.img = cv.imread('./result/Display_result/CT.jpg')
         self.img = cv.cvtColor(self.img, cv.COLOR_BGR2RGB)
         x = self.img.shape[1]
         y = self.img.shape[0]

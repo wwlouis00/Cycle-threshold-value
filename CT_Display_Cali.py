@@ -1,27 +1,17 @@
-from PyQt5.QtCore import *
-from PyQt5 import QtCore, QtGui, QtWidgets
 import pandas as pd
 import matplotlib.pyplot as plt
 import cv2 as cv
-from PyQt5.QtGui import QIntValidator
 import datetime
 from datetime import datetime, timedelta
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsPixmapItem,QFileDialog,QDialog,QApplication
-from PyQt5 import QtCore, QtGui, QtWidgets
-now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
-                       '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
-                       '#f32020', '#fd9b09', '#406386', '#24a1a1',
-                       '#1515f8', '#959697', '#744a20', '#7b45a5']
-
-
-
+now_output_time = str(datetime.now().strftime('%m-%d %H-%M'))
+#顏色曲線
+colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763','#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c','#f32020', '#fd9b09', '#406386', '#24a1a1','#1515f8', '#959697', '#744a20', '#7b45a5']
 class Ui_MainWindow(QtWidgets.QWidget):
-
+    #選擇
     def browsefile(self):
         if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
             QtWidgets.QMessageBox.critical(self, u"警告", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
@@ -44,7 +34,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         else:
             self.fname_cali = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.Input_file_Cali.setText(self.fname_cali[0])
-            self.calculate()
             if os.path.isdir("CT_image"):
                 print("")
             else:
@@ -151,7 +140,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
 
-        plt.figure(figsize=(10, 2.5), dpi=120, linewidth=3)
+        plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
         plt.plot(self.time_array, self.well_1_data, '-', color=colorTab_More4[0], label="well_1")  # 紅
         plt.plot(self.time_array, self.well_2_data, '-', color=colorTab_More4[1], label="well_2")  # 澄
         plt.plot(self.time_array, self.well_3_data, '-', color=colorTab_More4[2], label="well_3")  # 黃
@@ -172,12 +161,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.title("Amplification curve")
         plt.xlabel('Time (min)')  # x軸說明文字
         plt.ylabel('Fluorescence signal intensity (a.u.)')  # y軸說明文字
-        plt.legend(loc="best", fontsize=7.5)
-        plt.savefig('CT_image/CT.jpg')
+        plt.legend(loc="upper center",bbox_to_anchor=(0.5, 1.05),
+          fancybox=True, shadow=True, ncol=8,fontsize=7.5)
+        plt.savefig('./result/Cali_result/CT.jpg')
         self.displayphoto()
 
     def displayphoto(self):
-        self.img = cv.imread('CT_image/CT.jpg')
+        self.img = cv.imread('./result/Cali_result/CT.jpg')
         self.img = cv.cvtColor(self.img, cv.COLOR_BGR2RGB)
         x = self.img.shape[1]
         y = self.img.shape[0]
@@ -239,7 +229,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         y = threshold_value[i]
                         x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
                         Ct_value.append(round(x, 2))
-                        # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
@@ -251,14 +240,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
         return Ct_value
     #重置計算
     def reset_file(self):
-        # if self.Input_file.setText() == "" or self.Start_time.setText() == "" or self.End_time.setText() == "" or self.Input_N.setText() == "":
-        #     QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"警告", buttons=QtWidgets.QMessageBox.Ok,defaultButton=QtWidgets.QMessageBox.Ok)
-        self.calculate()
+        if self.Input_file.text() == "" or self.Input_file_Cali.text() == "" or self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"警告", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+        else:
+            self.calculate()
     #存檔
     def save_file(self):
-        if self.Input_file.text() == "":
-            QtWidgets.QMessageBox.critical(self, u"存取失敗", u"未開啟csv檔案", buttons=QtWidgets.QMessageBox.Ok,
-                defaultButton=QtWidgets.QMessageBox.Ok)
+        if self.Input_file.text() == "" or self.Input_file_Cali.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"存取失敗", u"未開啟csv檔案", buttons=QtWidgets.QMessageBox.Ok,defaultButton=QtWidgets.QMessageBox.Ok)
         else:
             QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Excel檔案", buttons=QtWidgets.QMessageBox.Ok,
                 defaultButton=QtWidgets.QMessageBox.Ok)
@@ -271,7 +260,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                             "well_13": [self.Ct_value[12]], "well_14": [self.Ct_value[13]],
                                             "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
-
             self.move_finish.to_csv('./result/Cali_result/'+ now_output_time +'CT_Value_MA_data.csv', encoding="utf_8_sig")
             self.save_excel.T.to_csv('./result/Cali_result/' + now_output_time +'CT_Valueall_well.csv', encoding="utf_8_sig")
     #清除顯示
@@ -298,9 +286,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.End_time.setText("")
         self.Input_N.setText("")
         self.CT_chart.setScene(None)
-
-
-
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -733,7 +718,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "CT_Value Chart"))
         self.label_well1.setText(_translate("MainWindow", "well_1(A1)"))
         self.label_well9.setText(_translate("MainWindow", "well_9(A9)"))
         self.label_well2.setText(_translate("MainWindow", "well_2(A2)"))
@@ -758,5 +743,5 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.btn_openfile.setText(_translate("MainWindow", "Open Dev"))
         self.btn_opencali.setText(_translate("MainWindow", "Open Cali"))
         self.btn_savefile.setText(_translate("MainWindow", "Save"))
-        self.btn_resetfile.setText(_translate("MainWindow", "Reset"))
+        self.btn_resetfile.setText(_translate("MainWindow", "Calculate"))
         self.btn_clean.setText(_translate("MainWindow", "Clean"))

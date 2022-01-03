@@ -173,8 +173,8 @@ def take_photo():
     plt.xlabel('Time (min)')
     plt.legend(loc = "best", fontsize=10)
     plt.grid()
-    plt.savefig('./result/CT.jpg')
-    plt.show()
+    # plt.savefig('./result/test/CT.jpg')
+    # plt.show()
     return Csv_well
 
 
