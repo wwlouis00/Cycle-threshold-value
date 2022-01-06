@@ -34,10 +34,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         else:
             self.fname_cali = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.Input_file_Cali.setText(self.fname_cali[0])
-            if os.path.isdir("CT_image"):
-                print("")
-            else:
-                os.mkdir("CT_image")
 
     def calculate(self):
         self.big_well = []
@@ -241,7 +237,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
     #重置計算
     def reset_file(self):
         if self.Input_file.text() == "" or self.Input_file_Cali.text() == "" or self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
-            QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"警告", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+            QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"未開啟任何Csv檔案", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         else:
             self.calculate()
     #存檔

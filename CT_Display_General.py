@@ -26,10 +26,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         else:
             self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.calculate()
-            if os.path.isdir("CT_image"):
-                print("")
-            else:
-                os.mkdir("CT_image")
+            # if os.path.isdir("CT_image"):
+            #     print("")
+            # else:
+            #     os.mkdir("CT_image")
     def calculate(self):
         self.big_well = []
         self.big_data = []
@@ -229,13 +229,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         # print("Ct value is not available")
             except Exception as e:
                 Ct_value.append("N/A")
-
         return Ct_value
     #重置計算
     def reset_file(self):
-        # if self.Input_file.setText() == "" or self.Start_time.setText() == "" or self.End_time.setText() == "" or self.Input_N.setText() == "":
-        #     QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"警告", buttons=QtWidgets.QMessageBox.Ok,defaultButton=QtWidgets.QMessageBox.Ok)
-        self.calculate()
+        if self.Input_file.text() == "" or self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"未開啟任何Csv檔案", buttons=QtWidgets.QMessageBox.Ok,defaultButton=QtWidgets.QMessageBox.Ok)
+        else:
+            self.calculate()
     #存檔
     def save_file(self):
         if self.Input_file.text() == "":
