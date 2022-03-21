@@ -710,7 +710,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.label_well8.setText(_translate("MainWindow", "well_8(A8)"))
         self.label_well16.setText(_translate("MainWindow", "well_16(B8)"))
         self.label_7.setText(_translate("MainWindow", "~"))
-        self.label_Timeofbackground.setText(_translate("MainWindow", "Time of background"))
+        self.label_Timeofbackground.setText(_translate("MainWindow", "Time of background(Min)"))
         self.label_Threshold.setText(_translate("MainWindow", "Threshold: N  * Std"))
         self.label_N.setText(_translate("MainWindow", "N :"))
         self.btn_openfile.setText(_translate("MainWindow", "Open"))
