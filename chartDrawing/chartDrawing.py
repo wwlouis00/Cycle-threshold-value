@@ -8,8 +8,8 @@ labels = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8",
           "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8"]
 colors = ["#e8a5eb", "#facc9e", "#e8e948", "#1bb763", "#24f2f3", "#1db3ea", "#d1aef8", "#c8c92c",
           "#f32020", "#fd9b09", "#406386", "#24a1a1", "#1414f8", "#959697", "#744a20", "#7b45a5"]
-raw_file_path = "detection.csv"
-ifc_file_path = "cali_factor.csv"
+raw_file_path = "data/detection.csv"
+ifc_file_path = "data/cali_factor.csv"
 
 
 
