@@ -35,6 +35,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.big_data = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
+        self.df_raw.columns = ['well_1','well_2','well_3','well_4','well_5','well_6','well_7','well_8','well_9','well_10','well_11','well_12','well_13','well_14','well_15','well_16','']
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
