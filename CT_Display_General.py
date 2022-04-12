@@ -38,6 +38,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
+        print("-"*50)
         threshold_value = self.get_ct_threshold()
         # UI顯示 16個CT值
         self.Ct_value = self.get_ct_value(threshold_value)
@@ -191,9 +192,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
-            self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
+            self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline #(IF(t)-IF(b))/IF(b)
             print(f'well_{i+1}'+" 的baseline值: " + str(self.baseline))
-            # print(self.baseline)# normalized = (IF(t)-IF(b))/IF(b)
+            
 
     def get_ct_threshold(self):
         threshold_value = []

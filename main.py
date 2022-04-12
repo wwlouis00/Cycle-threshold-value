@@ -1,6 +1,6 @@
 import sys
-# from CT_Display_General import *
-from CT_Display_General_2 import *
+from CT_Display_General import *
+# from CT_Display_General_2 import *
 # from CT_Display_Cali import *
 if __name__ == '__main__':
     app = QApplication(sys.argv)
