@@ -13,10 +13,12 @@ now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+#曲線顏色
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
                        '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
                        '#f32020', '#fd9b09', '#406386', '#24a1a1',
                        '#1515f8', '#959697', '#744a20', '#7b45a5']
+
 class Ui_MainWindow(QtWidgets.QWidget):
     def browsefile(self):
         if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
@@ -26,16 +28,16 @@ class Ui_MainWindow(QtWidgets.QWidget):
         else:
             self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
             self.calculate()
-            # if os.path.isdir("CT_image"):
-            #     print("")
-            # else:
-            #     os.mkdir("CT_image")
+
     def calculate(self):
         self.big_well = []
         self.big_data = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
+        # self.df_raw.columns = ['time','well_1','well_2','well_3','well_4','well_5','well_6','well_7','well_8','well_9','well_10','well_11','well_12','well_13','well_14','well_15','well_16']
+        print("-"*100)
         print(self.df_raw)
+        print("-"*100)
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
@@ -163,8 +165,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
-            print(f'well_{i+1}'+" 的baseline值: " + str(self.baseline))
+            if(i<8):
+                print(f'A{i+1}'+" 的baseline值: " + str(self.baseline))
+            else:
+                print(f'B{i-7}'+" 的baseline值: " + str(self.baseline))
+
+            # print(f'well_{i+1}'+" 的baseline值: " + str(self.baseline))
             # print(self.baseline)# normalized = (IF(t)-IF(b))/IF(b)
+        print("*"*100)
 
     def get_ct_threshold(self):
         threshold_value = []
@@ -219,14 +227,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
             QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Excel檔案", buttons=QtWidgets.QMessageBox.Ok,
                 defaultButton=QtWidgets.QMessageBox.Ok)
             #設置資料欄位
-            self.save_excel = pd.DataFrame({"well_1": [self.Ct_value[0]], "well_2": [self.Ct_value[1]],
-                                            "well_3": [self.Ct_value[2]], "well_4": [self.Ct_value[3]],
-                                            "well_5": [self.Ct_value[4]], "well_6": [self.Ct_value[5]],
-                                            "well_7": [self.Ct_value[6]], "well_8": [self.Ct_value[7]],
-                                            "well_9": [self.Ct_value[8]], "well_10": [self.Ct_value[9]],
-                                            "well_11": [self.Ct_value[10]], "well_12": [self.Ct_value[11]],
-                                            "well_13": [self.Ct_value[12]], "well_14": [self.Ct_value[13]],
-                                            "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
+            self.save_excel = pd.DataFrame({"A1": [self.Ct_value[0]], "A2": [self.Ct_value[1]],
+                                            "A3": [self.Ct_value[2]], "A4": [self.Ct_value[3]],
+                                            "A5": [self.Ct_value[4]], "A6": [self.Ct_value[5]],
+                                            "A7": [self.Ct_value[6]], "A8": [self.Ct_value[7]],
+                                            "B1": [self.Ct_value[8]], "B2": [self.Ct_value[9]],
+                                            "B3": [self.Ct_value[10]], "B4": [self.Ct_value[11]],
+                                            "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
+                                            "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
                 , index=["CT_Value"])
             #儲存資料以及存取位置
             self.move_finish.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
