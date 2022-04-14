@@ -35,28 +35,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.big_data = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
-        
-        self.df_raw.rename(columns={'A1':'well_1'})
-        self.df_raw.rename(columns={'A2':'well_2'})
-        self.df_raw.rename(columns={'A3':'well_3'})
-        self.df_raw.rename(columns={'A4':'well_4'})
-        self.df_raw.rename(columns={'A5':'well_5'})
-        self.df_raw.rename(columns={'A6':'well_6'})
-        self.df_raw.rename(columns={'A7':'well_7'})
-        self.df_raw.rename(columns={'A8':'well_8'})
-        self.df_raw.rename(columns={'B1':'well_9'})
-        self.df_raw.rename(columns={'B2':'well_10'})
-        self.df_raw.rename(columns={'B3':'well_11'})
-        self.df_raw.rename(columns={'B4':'well_12'})
-        self.df_raw.rename(columns={'B5':'well_13'})
-        self.df_raw.rename(columns={'B6':'well_14'})
-        self.df_raw.rename(columns={'B7':'well_15'})
-        self.df_raw.rename(columns={'B8':'well_16'})
         print(self.df_raw)
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
-        print("-"*50)
         threshold_value = self.get_ct_threshold()
         # UI顯示 16個CT值
         self.Ct_value = self.get_ct_value(threshold_value)
@@ -99,7 +81,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
         self.all_well = pd.DataFrame(self.big_data)
         self.move_finish = self.all_well.T
-
         for i in range(0, len(self.move_finish.index), 1):
             self.A1_data.append(self.move_finish.loc[i,'well1'])
             self.A2_data.append(self.move_finish.loc[i,'well2'])
@@ -117,8 +98,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.B6_data.append(self.move_finish.loc[i,'well14'])
             self.B7_data.append(self.move_finish.loc[i,'well15'])
             self.B8_data.append(self.move_finish.loc[i,'well16'])
-
-
 
         for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
@@ -183,9 +162,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
-            self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline #(IF(t)-IF(b))/IF(b)
+            self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             print(f'well_{i+1}'+" 的baseline值: " + str(self.baseline))
-            
+            # print(self.baseline)# normalized = (IF(t)-IF(b))/IF(b)
 
     def get_ct_threshold(self):
         threshold_value = []
@@ -240,14 +219,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
             QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Excel檔案", buttons=QtWidgets.QMessageBox.Ok,
                 defaultButton=QtWidgets.QMessageBox.Ok)
             #設置資料欄位
-            self.save_excel = pd.DataFrame({"A1": [self.Ct_value[0]], "A2": [self.Ct_value[1]],
-                                            "A3": [self.Ct_value[2]], "A4": [self.Ct_value[3]],
-                                            "A5": [self.Ct_value[4]], "A6": [self.Ct_value[5]],
-                                            "A7": [self.Ct_value[6]], "A8": [self.Ct_value[7]],
-                                            "B1": [self.Ct_value[8]], "B2": [self.Ct_value[9]],
-                                            "B3": [self.Ct_value[10]], "B4": [self.Ct_value[11]],
-                                            "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
-                                            "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
+            self.save_excel = pd.DataFrame({"well_1": [self.Ct_value[0]], "well_2": [self.Ct_value[1]],
+                                            "well_3": [self.Ct_value[2]], "well_4": [self.Ct_value[3]],
+                                            "well_5": [self.Ct_value[4]], "well_6": [self.Ct_value[5]],
+                                            "well_7": [self.Ct_value[6]], "well_8": [self.Ct_value[7]],
+                                            "well_9": [self.Ct_value[8]], "well_10": [self.Ct_value[9]],
+                                            "well_11": [self.Ct_value[10]], "well_12": [self.Ct_value[11]],
+                                            "well_13": [self.Ct_value[12]], "well_14": [self.Ct_value[13]],
+                                            "well_15": [self.Ct_value[14]], "well_16": [self.Ct_value[15]]}
                 , index=["CT_Value"])
             #儲存資料以及存取位置
             self.move_finish.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
