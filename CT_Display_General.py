@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphics
 from PyQt5 import QtCore, QtGui, QtWidgets
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 import os
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 #曲線顏色
@@ -34,7 +35,16 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.big_data = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
-        # self.df_raw.columns = ['time','well_1','well_2','well_3','well_4','well_5','well_6','well_7','well_8','well_9','well_10','well_11','well_12','well_13','well_14','well_15','well_16']
+        # print(self.coco)
+        self.df_raw.reset_index(inplace=True)
+        
+        self.df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                            'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+        self.df_raw.drop(labels=["B8"], axis="columns")
+        # self.df_raw.rename(columns={"index":"time"})
+        self.df_raw.rename(columns={"index": "time", "B": "c"},inplace=True)
         print("-"*100)
         print(self.df_raw)
         print("-"*100)
@@ -701,3 +711,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.btn_savefile.setText(_translate("MainWindow", "Save"))
         self.btn_resetfile.setText(_translate("MainWindow", "Reset"))
         self.btn_clean.setText(_translate("MainWindow", "Clean"))
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    mainWindows = QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(mainWindows)
+    mainWindows.show()
+    sys.exit(app.exec_())
