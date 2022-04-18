@@ -22,6 +22,9 @@ colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
 
 class Ui_MainWindow(QtWidgets.QWidget):
     def browsefile(self):
+        if not os.path.isdir('./result'):
+            print("Directory 'result' does not exist.")
+            os.mkdir('./result')
         if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
             QtWidgets.QMessageBox.critical(self, u"警告", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         elif (int(self.Start_time.text()) > int(self.End_time.text())):
@@ -45,9 +48,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.df_raw.drop(labels=["B8"], axis="columns")
         # self.df_raw.rename(columns={"index":"time"})
         self.df_raw.rename(columns={"index": "time", "B": "c"},inplace=True)
-        print("-"*100)
+        print("-"*150)
         print(self.df_raw)
-        print("-"*100)
+        print("-"*150)
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
@@ -176,9 +179,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             if(i<8):
-                print(f'A{i+1}'+" 的baseline值: " + str(self.baseline))
+                print(f'A{i+1}'+" baseline value: " + str(self.baseline))
             else:
-                print(f'B{i-7}'+" 的baseline值: " + str(self.baseline))
+                print(f'B{i-7}'+" baseline value: " + str(self.baseline))
 
             # print(f'well_{i+1}'+" 的baseline值: " + str(self.baseline))
             # print(self.baseline)# normalized = (IF(t)-IF(b))/IF(b)
@@ -236,6 +239,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         else:
             QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Excel檔案", buttons=QtWidgets.QMessageBox.Ok,
                 defaultButton=QtWidgets.QMessageBox.Ok)
+            print("Save data successful !!!")
             #設置資料欄位
             self.save_excel = pd.DataFrame({"A1": [self.Ct_value[0]], "A2": [self.Ct_value[1]],
                                             "A3": [self.Ct_value[2]], "A4": [self.Ct_value[3]],
