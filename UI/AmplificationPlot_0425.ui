@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>959</width>
-    <height>798</height>
+    <width>955</width>
+    <height>789</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>354</y>
       <width>931</width>
-      <height>403</height>
+      <height>409</height>
      </rect>
     </property>
     <property name="font">
@@ -171,12 +171,12 @@
         <x>20</x>
         <y>174</y>
         <width>301</width>
-        <height>26</height>
+        <height>32</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_4">
+      <layout class="QGridLayout" name="Threshold_N">
        <item row="0" column="0">
-        <widget class="QLabel" name="baseline_start_2">
+        <widget class="QLabel" name="label_threshold">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -193,7 +193,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="baseline_start_time_2">
+        <widget class="QLineEdit" name="Input_N">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
