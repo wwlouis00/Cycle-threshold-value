@@ -13,9 +13,6 @@ wellList_MA5_NOR = []
 for n in range(1,well_num+1,1):
     wellList_MA5_NOR.append("well" f"{n}""_NOR")
 
-print(wellList_MA5_NOR)
-
-
 colorTab_More4 = ['#333c41','#eb0973','#39a6dd','#91be3e',
                   '#96cbb3','#0081b4','#e990ab','#e5352b',
                   '#ffd616','#29245c','#85b7e2','#00af3e',

@@ -33,8 +33,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
     def calculate(self):
         self.big_well = []
         self.big_data = []
-        if self.baseline_start_time.text() == "" or self.baseline_end_time.text() == "":
-        print("yes")
+        # if self.baseline_start_time.text() == "" or self.baseline_end_time.text() == "":
+        # print("yes")
 
 
     def setupUi(self, MainWindow):
