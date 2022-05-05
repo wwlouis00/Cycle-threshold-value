@@ -1,15 +1,28 @@
+############################################
+######## Cycle Threshold 2022/05/05#########
+########       louis Wang     ##############
+############################################
 from turtle import color
+from isort import file
 from matplotlib.axis import XAxis
 import plotly.graph_objs as go
 import pandas as pd
 import os
 from datetime import datetime, time
+now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 
+
+#Create folder
 if not os.path.isdir('./result'):
     print("Directory 'result' does not exist.")
     os.mkdir('./result')
-raw_file_path = "./data/2022_04_11_17_23_03RP4.csv"
+#File    
+raw_file_path = "./data/2022_04_11_13_11_08.csv"
 
+well_num = 16
+wellList_MA5_NOR = []
+
+#時間欄位
 def get_accumulation_time():
     df_time = df_normalization['time']
     time_ori = datetime.strptime(df_time[0], "%H:%M:%S")
@@ -19,7 +32,7 @@ def get_accumulation_time():
         time_delta.append((time_now - time_ori).seconds/60)
     df_normalization.insert(1, column="accumulation", value=time_delta)
     
-
+#計算標準差及平均值
 def get_StdDev_and_Avg():
     StdDev = []
     Avg = []
@@ -80,12 +93,26 @@ def get_ct_value(threshold_value):
 
     return Ct_value
 def ct_calculation():
+    big_data=[]
     global df_raw, df_normalization ,first_time,twice_time,n_sd,well_move_average,Csv_well
     well_move_average =[]
+    print("-"*120)
     first_time = int(input("Input Start time:   "))
     twice_time = int(input("Input End time:   "))
-    n_sd = int(input("Input Std:   "))   
+    n_sd = int(input("Input Std:   "))
+    print("-"*120)   
     df_raw = pd.read_csv(raw_file_path)
+    df_raw.reset_index(inplace=True)
+    df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                            'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+    df_raw.drop(labels=["B8"], axis="columns")
+        # self.df_raw.rename(columns={"index":"time"})
+    df_raw.rename(columns={"index": "time", "B": "c"},inplace=True)
+    print("-"*150)
+    print(df_raw)
+    print("-"*150)
     df_normalization = df_raw.copy()    #將df_raw複製給df_df_normalization
     get_accumulation_time()
     normalize()
@@ -93,10 +120,62 @@ def ct_calculation():
     Moving_Average()
     Ct_value = get_ct_value(threshold_value)
     print(Ct_value)
+    A1_data=[]
+    A2_data=[]
+    A3_data=[]
+    A4_data=[]
+    A5_data=[]
+    A6_data=[]
+    A7_data=[]
+    A8_data=[]
+    B1_data=[]
+    B2_data=[]
+    B3_data=[]
+    B4_data=[]
+    B5_data=[]
+    B6_data=[]
+    B7_data=[]
+    B8_data=[]
+    time_array = []
+
+    for i in range(1,17,1):
+        big_data.append(df_normalization["well"+str(i)].rolling(window=5).mean())
+    all_well = pd.DataFrame(big_data)
+    move_finish = all_well.T
+    for i in range(0,len(move_finish.index),1):
+        A1_data.append(move_finish.loc[i,'well1'])
+        A2_data.append(move_finish.loc[i,'well2'])
+        A3_data.append(move_finish.loc[i,'well3'])
+        A4_data.append(move_finish.loc[i,'well4'])
+        A5_data.append(move_finish.loc[i,'well5'])
+        A6_data.append(move_finish.loc[i,'well6'])
+        A7_data.append(move_finish.loc[i,'well7'])
+        A8_data.append(move_finish.loc[i,'well8'])
+        B1_data.append(move_finish.loc[i,'well9'])
+        B2_data.append(move_finish.loc[i,'well10'])
+        B3_data.append(move_finish.loc[i,'well11'])
+        B4_data.append(move_finish.loc[i,'well12'])
+        B5_data.append(move_finish.loc[i,'well13'])
+        B6_data.append(move_finish.loc[i,'well14'])
+        B7_data.append(move_finish.loc[i,'well15'])
+        B8_data.append(move_finish.loc[i,'well16'])
+
+    for j in range(0, len(move_finish.index), 1):
+        time_array.append(j / 2)
+    move_finish.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+        
+
+# def save_file(file):
+#     file.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+
+
+
+    
 
 
 def main():
     ct_calculation()
+    print("成功")
 if __name__ == '__main__':
     main()
 
@@ -119,8 +198,7 @@ if __name__ == '__main__':
 # raw_file_path = raw_file_path.fillna(0)
 # print(raw_file_path)
 
-# well_num = 16
-# wellList_MA5_NOR = []
+
 
 # for n in range(1,well_num+1,1):
 #     wellList_MA5_NOR.append("well" f"{n}""_NOR")
