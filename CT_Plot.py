@@ -189,7 +189,7 @@ def ct_calculation():
     move_finish.insert(0,"index",index_well, True)
     print("-"*100)
     print(move_finish)  
-    move_finish.to_csv('./result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+    move_finish.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
     
     
     return move_finish
