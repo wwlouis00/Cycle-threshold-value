@@ -46,7 +46,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
                             'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
         self.df_raw.drop(labels=["B8"], axis="columns")
-        # self.df_raw.rename(columns={"index":"time"})
         self.df_raw.rename(columns={"index": "time", "B": "c"},inplace=True)
         print("-"*150)
         print(self.df_raw)
@@ -182,9 +181,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))
             else:
                 print(f'B{i-7}'+" baseline value: " + str(self.baseline))
-
-            # print(f'well_{i+1}'+" 的baseline值: " + str(self.baseline))
-            # print(self.baseline)# normalized = (IF(t)-IF(b))/IF(b)
         print("*"*100)
 
     def get_ct_threshold(self):
