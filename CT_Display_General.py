@@ -24,7 +24,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
     def browsefile(self):
         if not os.path.isdir('./result'):
             print("Directory 'result' does not exist.")
-            os.mkdir('./result')
+        if not os.path.isdir('./result/Cali_result/'):
+            os.mkdir('./result/Cali_result/')
+        if not os.path.isdir('./result/Display_result/'):
+            os.mkdir('./result/Display_result/')
         if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
             QtWidgets.QMessageBox.critical(self, u"警告", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         elif (int(self.Start_time.text()) > int(self.End_time.text())):
@@ -133,7 +136,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         plt.plot(self.time_array, self.B6_data, '-', color=colorTab_More4[13], label="B6")  # 靛
         plt.plot(self.time_array, self.B7_data, '-', color=colorTab_More4[14], label="B7")  # 紫
         plt.plot(self.time_array, self.B8_data, '-', color=colorTab_More4[15], label="B8")  # 黑
-        plt.ylim(0, 3)
+        plt.ylim(-1, 3)
         plt.title("Amplification curve")
         plt.xlabel('Time (min)')  # x軸說明文字
         plt.ylabel('Normalized fluorescent intensity')  # y軸說明文字
