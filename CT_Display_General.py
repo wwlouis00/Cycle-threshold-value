@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphics
 from PyQt5 import QtCore, QtGui, QtWidgets
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 import os
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
@@ -722,3 +723,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.btn_savefile.setText(_translate("MainWindow", "Save"))
         self.btn_resetfile.setText(_translate("MainWindow", "Reset"))
         self.btn_clean.setText(_translate("MainWindow", "Clean"))
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    mainWindows = QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(mainWindows)
+    mainWindows.show()
+    sys.exit(app.exec_())
