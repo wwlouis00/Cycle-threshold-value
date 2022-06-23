@@ -32,7 +32,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
             QtWidgets.QMessageBox.critical(self, u"警告", u"開始時間跟結束時間錯誤", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         else:
             self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
-            self.calculate()
+            if(self.fname[0]==""):
+                print("no file")
+            else:
+                self.calculate()
 
     def calculate(self):
         self.big_well = []
