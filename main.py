@@ -149,8 +149,7 @@ class Ui_MainWindow(QMainWindow, Ui_MainWindow):
         plt.title("Amplification curve")
         plt.xlabel('Time (min)')  # x軸說明文字
         plt.ylabel('Normalized fluorescent intensity')  # y軸說明文字
-        plt.legend(loc="upper center", bbox_to_anchor=(0.5, 1.05),
-            fancybox=True, shadow=True, ncol=8, fontsize=7.5)
+        plt.legend(loc="upper center", bbox_to_anchor=(0.5, 1.05),fancybox=True, shadow=True, ncol=8, fontsize=7.5)
         plt.savefig('./result/Display_result/CT.jpg')
         self.displayphoto()
 
