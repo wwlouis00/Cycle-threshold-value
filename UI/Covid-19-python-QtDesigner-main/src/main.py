@@ -95,6 +95,7 @@ class MatplotlibWidget(QMainWindow):
 
         # Cargar estados
         self.loadEstados()
+        print(self.data_fr)
 
         # Método para cargar los estados en combo box y agregar la palabra All al inicio de la lista
     def loadEstados(self):
