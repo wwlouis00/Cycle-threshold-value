@@ -1,80 +1,43 @@
-import sys
-import os
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem,QFileDialog, QGraphicsScene, QGraphicsPixmapItem
-from PyQt5.QtGui import QImage, QPixmap
-from CT_dynamic import Ui_MainWindow
+# ------------------------------------------------------
+# ---------------------- main.py -----------------------
+# ------------------------------------------------------
+from PyQt5.QtWidgets import*
+from PyQt5.uic import loadUi
+
 from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as NavigationToolbar)
-import datetime
-from datetime import datetime, timedelta
-import cv2 as cv
 import pandas as pd
 import numpy as np
-import matplotlib as plt
-now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
+import random
+from datetime import datetime
+first_time = 2
+twice_time = 7
+n_sd = 10
+# 讀取該資料
+raw_file_path = "./data/2022_04_11_13_11_08.csv"
+# now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
+# 顏色
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
-                       '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
-                       '#f32020', '#fd9b09', '#406386', '#24a1a1',
-                       '#1515f8', '#959697', '#744a20', '#7b45a5']
-class MatplotlibWidget(QMainWindow,Ui_MainWindow):
-    def __init__(self,app):
-        super(QMainWindow,self).__init__()
-        self.app = app
-        self.setup_ui()
-        self.setWindowTitle("Dashboard Covid 19 QT Designer ")
-        self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))  # Agregar Axes 
-        self.connect_signals()
-        self.plotPaisMuertes()
+                  '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
+                  '#f32020', '#fd9b09', '#406386', '#24a1a1',
+                  '#1515f8', '#959697', '#744a20', '#7b45a5']
 
-    def setup_ui(self):
-        self.setupUi(self)
+class MatplotlibWidget(QMainWindow):
+    def __init__(self):
+        QMainWindow.__init__(self)
+
+        loadUi("qt_designer.ui",self)
+
+        self.setWindowTitle("PyQt5 & Matplotlib Example GUI")
+
+        self.pushButton_generate_random_signal.clicked.connect(self.update_graph)
+
+        self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
+
     
-    def connect_signals(self):
-        self.setupUi(self)
-        self.btn_open.clicked.connect(self.browsefile)
-        self.slider_threshold.valueChanged.connect(self.sl_threshold)
-        self.slider_begin.valueChanged.connect(self.sl_begin)
-        self.slider_end.valueChanged.connect(self.sl_end)
-        self.A1_radio.clicked.connect(self.plotPaisMuertes)
-        self.A2_radio.clicked.connect(self.plotPaisMuertes)
-        self.A3_radio.clicked.connect(self.plotPaisMuertes)
-        self.A4_radio.clicked.connect(self.plotPaisMuertes)
-        self.A5_radio.clicked.connect(self.plotPaisMuertes)
-        self.A6_radio.clicked.connect(self.plotPaisMuertes)
-        self.A7_radio.clicked.connect(self.plotPaisMuertes)
-        self.A8_radio.clicked.connect(self.plotPaisMuertes)
-        self.B1_radio.clicked.connect(self.plotPaisMuertes)
-        self.B2_radio.clicked.connect(self.plotPaisMuertes)
-        self.B3_radio.clicked.connect(self.plotPaisMuertes)
-        self.B4_radio.clicked.connect(self.plotPaisMuertes)
-        self.B5_radio.clicked.connect(self.plotPaisMuertes)
-        self.B6_radio.clicked.connect(self.plotPaisMuertes)
-        self.B7_radio.clicked.connect(self.plotPaisMuertes)
-        self.B8_radio.clicked.connect(self.plotPaisMuertes)
-        
-
-    def browsefile(self):
-        if not os.path.isdir('./result'):
-            os.mkdir('./result')
-            os.mkdir('./result/Cali_result/')
-            os.mkdir('./result/Display_result/')
-        self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
-        if(self.fname[0]==""):
-            print("no file")
-        else:
-            self.calculate()
-    
-    def plotPaisMuertes(self):
-        self.MplWidget.canvas.axes.cla()
-        self.MplWidget.canvas.axes1.cla()
-        # if self.A1_radio.isChecked():
-        #     print("yes")
-
     def calculate(self):
         self.big_well = []
         self.big_data = []
-        self.Input_file.setText(self.fname[0])
-        self.df_raw = pd.read_csv(self.fname[0])
+        self.df_raw = pd.read_csv(raw_file_path)
         # print(self.coco)
         self.df_raw.reset_index(inplace=True)
         
@@ -92,23 +55,6 @@ class MatplotlibWidget(QMainWindow,Ui_MainWindow):
         self.normalize()
         threshold_value = self.get_ct_threshold()
         # UI顯示 16個CT值
-        self.Ct_value = self.get_ct_value(threshold_value)
-        # self.lineEdit_well_1.setText(str(self.Ct_value[0]))
-        # self.lineEdit_well_2.setText(str(self.Ct_value[1]))
-        # self.lineEdit_well_3.setText(str(self.Ct_value[2]))
-        # self.lineEdit_well_4.setText(str(self.Ct_value[3]))
-        # self.lineEdit_well_5.setText(str(self.Ct_value[4]))
-        # self.lineEdit_well_6.setText(str(self.Ct_value[5]))
-        # self.lineEdit_well_7.setText(str(self.Ct_value[6]))
-        # self.lineEdit_well_8.setText(str(self.Ct_value[7]))
-        # self.lineEdit_well_9.setText(str(self.Ct_value[8]))
-        # self.lineEdit_well_10.setText(str(self.Ct_value[9]))
-        # self.lineEdit_well_11.setText(str(self.Ct_value[10]))
-        # self.lineEdit_well_12.setText(str(self.Ct_value[11]))
-        # self.lineEdit_well_13.setText(str(self.Ct_value[12]))
-        # self.lineEdit_well_14.setText(str(self.Ct_value[13]))
-        # self.lineEdit_well_15.setText(str(self.Ct_value[14]))
-        # self.lineEdit_well_16.setText(str(self.Ct_value[15]))
 
         self.A1_data = []
         self.A2_data = []
@@ -152,9 +98,7 @@ class MatplotlibWidget(QMainWindow,Ui_MainWindow):
 
         for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
-        
-        print(self.move_finish)
-        self.loadEstados()
+
         # plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
         # plt.plot(self.time_array, self.A1_data, '-', color=colorTab_More4[0], label="A1")  # 紅
         # plt.plot(self.time_array, self.A2_data, '-', color=colorTab_More4[1], label="A2")  # 澄
@@ -177,13 +121,9 @@ class MatplotlibWidget(QMainWindow,Ui_MainWindow):
         # plt.xlabel('Time (min)')  # x軸說明文字
         # plt.ylabel('Normalized fluorescent intensity')  # y軸說明文字
         # plt.legend(loc="upper center", bbox_to_anchor=(0.5, 1.05),
-        #     fancybox=True, shadow=True, ncol=8, fontsize=7.5)
+            # fancybox=True, shadow=True, ncol=8, fontsize=7.5)
         # plt.savefig('./result/Display_result/CT.jpg')
         # self.displayphoto()
-    def loadEstados(self):
-            # Borrar Axes
-        self.MplWidget.canvas.axes.cla()
-        self.MplWidget.canvas.axes1.cla()
 
     def displayphoto(self):
         self.img = cv.imread('./result/Display_result/CT.jpg')
@@ -211,29 +151,25 @@ class MatplotlibWidget(QMainWindow,Ui_MainWindow):
         Avg = []
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
-            # StdDev.append(df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].std())
-            # Avg.append(df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean())
             StdDev.append(df_current_well[2 * 2:7 * 2].std())
-            Avg.append(df_current_well[2 * 2:7 * 2].mean())
+            Avg.append(df_current_well[2* 2:7 * 2].mean())
         return StdDev, Avg
 
     def normalize(self):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
-            # self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
             self.baseline = df_current_well[2* 2:7 * 2].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             if(i<8):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))
             else:
                 print(f'B{i-7}'+" baseline value: " + str(self.baseline))
-        print("-"*150)
+        print("*"*100)
 
     def get_ct_threshold(self):
         threshold_value = []
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
-            # threshold_value.append(int(self.Input_N.text()) * StdDev[i] + Avg[i])
             threshold_value.append(10 * StdDev[i] + Avg[i])
         return threshold_value
 
@@ -266,63 +202,31 @@ class MatplotlibWidget(QMainWindow,Ui_MainWindow):
             except Exception as e:
                 Ct_value.append("N/A")
         return Ct_value
+        
     
-    def sl_threshold(self):
-        print("test")
-    def sl_begin(self):
-        if self.All_radio.isChecked():
-            self.calculate()
-    def sl_end(self):
-        print("test")
-        # if self.ui.radioButtonCasos.isChecked():
-        #     self.selectPlotCasos()
-        # elif self.ui.radioButtonMuertes.isChecked():
-        #     self.selectPlotMuertes()
-        # elif self.ui.radioButtonAmbos.isChecked():
-        #     self.selectPlotAmbos()
-        # self.calculate()
-        # if self.Start_time.text() == "" or self.End_time.text() == "" or self.Input_N.text() == "":
-        #     QtWidgets.QMessageBox.critical(self, u"警告", u"請輸入Time of background", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
-        # elif (int(self.Start_time.text()) > int(self.End_time.text())):
-        #     QtWidgets.QMessageBox.critical(self, u"警告", u"開始時間跟結束時間錯誤", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
-        # else:
-        #     self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
-        #     self.calculate()
-    # def setup
-        # self.getCSV()  # Cargar datos CSV
-        # self.indexState()  # Indice para estados
-        # self.indexDate()  # Indice de fechas
-        # self.setWindowTitle("Dashboard Covid 19 QT Designer ")  # Título de MainWindows
-        # self.addToolBar(NavigationToolbar(self.ui.MplWidget.canvas, self))  # Agregar Axes
-        # self.ui.comboBoxCountry.activated.connect(self.clearStates)  # Limpiar listBox de estados, para una carga nueva
-        # self.ui.comboBoxCountry.activated.connect(self.loadEstados)  # Cargar estados al listBox
-        # self.plotAmbosPaises()  # Graficar de inicio Muertes y casos acumulativos
+    def update_graph(self):
+        self.calculate()
+        fs = 500
+        f = random.randint(1, 100)
+        ts = 1/fs
+        length_of_signal = 100
+        t = np.linspace(0,1,length_of_signal)
+        
+        cosinus_signal = np.cos(2*np.pi*f*t)
+        sinus_signal = np.sin(2*np.pi*f*t)
 
-        # # llamar métodos según el radio Button seleccionado para graficar
-        # self.ui.radioButtonCasos.clicked.connect(self.selectPlotCasos)
-        # self.ui.radioButtonMuertes.clicked.connect(self.selectPlotMuertes)
-        # self.ui.radioButtonAmbos.clicked.connect(self.selectPlotAmbos)
+        self.MplWidget.canvas.axes.clear()
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A1_data)
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A2_data)
+        self.MplWidget.canvas.axes.set_xlim(0,20)
+        self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
+        #self.MplWidget.canvas.set_scales(20,0.1)
+        # self.MplWidget.canvas.axes.legend(('cosinus', 'sinus'),loc='upper right')
+        self.MplWidget.canvas.axes.set_title('Cosinus - Sinus Signal')
+        self.MplWidget.canvas.draw()
+        
 
-        # # llamar métodos según el radio Button seleccionado para graficar datos diarios y acumulados
-        # self.ui.radioButtonDiarios.clicked.connect(self.DatosDiarios)
-        # self.ui.radioButton_2.clicked.connect(self.DatosAcumulativos)
-
-        # # Al hacer clic en un pais se grafica de forma automática segun los radio Buttos y listBox activados
-        # self.ui.comboBoxCountry.activated.connect(self.btnstate)
-
-        # # Al hacer clic en un estado se grafica de forma automática segun los radio Buttos y listBox activados
-        # self.ui.comboBoxEstado.activated.connect(self.btnstate2)
-
-        # # Según se mueva el slider y de acurdo a los radio buttons selccionados se presentará la media móvil
-        # self.ui.sliderPromedio.valueChanged.connect(self.sliderSelect)
-    def clearRows(self):
-        while self.tableWidget.rowCount() > 0:
-            self.tableWidget.removeRow(0)
-    # =============== Funciones ======================
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MatplotlibWidget(app)
-    window.show()
-    sys.exit(app.exec_())
-
-    
+app = QApplication([])
+window = MatplotlibWidget()
+window.show()
+app.exec_()
