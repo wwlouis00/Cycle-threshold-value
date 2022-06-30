@@ -17,9 +17,9 @@
    <widget class="MplWidget" name="MplWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>10</x>
       <y>6</y>
-      <width>661</width>
+      <width>711</width>
       <height>193</height>
      </rect>
     </property>
@@ -46,7 +46,7 @@
      <rect>
       <x>280</x>
       <y>204</y>
-      <width>201</width>
+      <width>271</width>
       <height>31</height>
      </rect>
     </property>
@@ -122,7 +122,7 @@
        <x>10</x>
        <y>18</y>
        <width>241</width>
-       <height>115</height>
+       <height>121</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
@@ -368,23 +368,16 @@
      <rect>
       <x>280</x>
       <y>246</y>
-      <width>201</width>
-      <height>115</height>
+      <width>271</width>
+      <height>85</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Threshold</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+     <item row="1" column="2">
+      <widget class="QLCDNumber" name="ns_baseline_begin"/>
      </item>
-     <item row="0" column="1">
-      <widget class="QSlider" name="slider_threshold">
+     <item row="2" column="1">
+      <widget class="QSlider" name="slider_end">
        <property name="minimum">
         <number>0</number>
        </property>
@@ -396,13 +389,20 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLCDNumber" name="ns_threshold"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="baseline_begin">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Baseline Begin:</string>
+        <string>Threshold</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="baseline_end">
+       <property name="text">
+        <string>Baseline End:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -422,21 +422,11 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLCDNumber" name="ns_baseline_begin"/>
+     <item row="0" column="2">
+      <widget class="QLCDNumber" name="ns_threshold"/>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="baseline_end">
-       <property name="text">
-        <string>Baseline End:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QSlider" name="slider_end">
+     <item row="0" column="1">
+      <widget class="QSlider" name="slider_threshold">
        <property name="minimum">
         <number>0</number>
        </property>
@@ -451,14 +441,24 @@
      <item row="2" column="2">
       <widget class="QLCDNumber" name="ns_baseline_end"/>
      </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="baseline_begin">
+       <property name="text">
+        <string>Baseline Begin:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>560</x>
       <y>204</y>
-      <width>211</width>
+      <width>161</width>
       <height>157</height>
      </rect>
     </property>
