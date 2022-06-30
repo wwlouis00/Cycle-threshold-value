@@ -241,7 +241,7 @@ class MatplotlibWidget(QMainWindow):
 
         slider = self.rollingMean() # Se obtiene el valor del slider según el deslizamiento
         self.ui.lcdNumberSlider.display(slider) # el valor recuperado del slider pasarlo al led
-
+        print(slider)
         # Se convierte las listas a dataFrames para utilizar la función rolling para la media móvil
         df_CasosAcumulativos = pd.DataFrame(casosList, columns=['Casos'])
         rolling_mean = df_CasosAcumulativos.rolling(window=slider).mean()

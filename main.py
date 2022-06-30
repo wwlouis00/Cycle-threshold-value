@@ -219,36 +219,44 @@ class MatplotlibWidget(QMainWindow):
     def clean_log(self):
         self.Input_file.setText("")
         print("Clean data successful !!!")
-
+    
+    def rollingMean(self):
+        value = self.ns_baseline_begin.value()
+        return value
 
     def sl_begin(self):
         if self.All_radio.isChecked():
-            print("yes")
+            slider = self.rollingMean()
+            self.ns_baseline_begin.display(slider)
+            print(slider)
+    
     def update_graph(self):
         self.calculate()
 
         self.MplWidget.canvas.axes.clear()
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A1_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A2_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A3_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A4_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A5_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A6_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A7_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.A8_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B1_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B2_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B3_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B4_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B5_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B6_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data)
-        self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data)
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A1_data,color =colorTab_More4[0],label="A1")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A2_data,color =colorTab_More4[1],label="A2")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A3_data,color =colorTab_More4[2],label="A3")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A4_data,color =colorTab_More4[3],label="A4")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A5_data,color =colorTab_More4[4],label="A5")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A6_data,color =colorTab_More4[5],label="A6")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A7_data,color =colorTab_More4[6],label="A7")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.A8_data,color =colorTab_More4[7],label="A8")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B1_data,color =colorTab_More4[8],label="B1")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B2_data,color =colorTab_More4[9],label="B2")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B3_data,color =colorTab_More4[10],label="B3")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B4_data,color =colorTab_More4[11],label="B4")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B5_data,color =colorTab_More4[12],label="B5")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B6_data,color =colorTab_More4[13],label="B6")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data,color =colorTab_More4[14],label="B7")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data,color =colorTab_More4[15],label="B8")
         self.MplWidget.canvas.axes.set_xlim(0,20)
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
-        self.MplWidget.canvas.axes.legend(('cosinus', 'sinus','cosinus', 'sinus','cosinus', 'sinus'),loc='upper right')
-        self.MplWidget.canvas.axes.set_title('Amplification curve')
+        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
+        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
+        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
+        self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
 
 if __name__ == '__main__':
