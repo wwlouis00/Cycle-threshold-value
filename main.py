@@ -1,18 +1,16 @@
 from PyQt5.QtWidgets import*
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.uic import loadUi
 from matplotlib.backends.backend_qt5agg import (NavigationToolbar2QT as NavigationToolbar)
 import os
 import pandas as pd
 import numpy as np
-import random
 from datetime import datetime
 first_time = 2
 twice_time = 7
 n_sd = 10
-# 讀取該資料
-raw_file_path = "./data/2022_04_11_13_11_08.csv"
-# now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
-# 顏色
+now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
+#Color
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
                   '#25f2f3', '#1db3ea', '#d1aef8', '#c8c92c',
                   '#f32020', '#fd9b09', '#406386', '#24a1a1',
@@ -26,15 +24,20 @@ class MatplotlibWidget(QMainWindow):
         self.connect_signals()
     def connect_signals(self):
         self.btn_open.clicked.connect(self.browsefile)
-        # self.btn_savefile.clicked.connect(self.save_file)
-        # self.btn_clean.clicked.connect(self.clean_log)
+        self.btn_save.clicked.connect(self.save_file)
+        self.btn_clear.clicked.connect(self.clean_log)
+        self.slider_begin.valueChanged.connect(self.sl_begin)
+
     def browsefile(self):
         if not os.path.isdir('./result'):
             os.mkdir('./result')
             os.mkdir('./result/Cali_result/')
             os.mkdir('./result/Display_result/')
         self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
-        self.update_graph()
+        if(self.fname[0]==""):
+            print("no file")
+        else:
+            self.update_graph()
     def calculate(self):
         self.big_well = []
         self.big_data = []
@@ -102,18 +105,6 @@ class MatplotlibWidget(QMainWindow):
         for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
 
-    def displayphoto(self):
-        self.img = cv.imread('./result/Display_result/CT.jpg')
-        self.img = cv.cvtColor(self.img, cv.COLOR_BGR2RGB)
-        x = self.img.shape[1]
-        y = self.img.shape[0]
-        frame = QImage(self.img, x, y, x * 3, QImage.Format_RGB888)
-        self.pix = QPixmap.fromImage(frame)
-        self.item = QGraphicsPixmapItem(self.pix)
-        self.scene = QGraphicsScene()
-        self.scene.addItem(self.item)
-        self.CT_chart.setScene(self.scene)
-
     def get_accumulation_time(self):
         df_time = self.df_normalization['time']
         time_ori = datetime.strptime(df_time[0], "%H:%M:%S")
@@ -141,7 +132,7 @@ class MatplotlibWidget(QMainWindow):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))
             else:
                 print(f'B{i-7}'+" baseline value: " + str(self.baseline))
-        print("*"*100)
+        print("-"*150)
 
     def get_ct_threshold(self):
         threshold_value = []
@@ -179,16 +170,62 @@ class MatplotlibWidget(QMainWindow):
             except Exception as e:
                 Ct_value.append("N/A")
         return Ct_value
+    
+    def save_file(self):
+        #儲存失敗
+        if self.Input_file.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"存取失敗", u"未開啟csv檔案", buttons=QtWidgets.QMessageBox.Ok,
+                defaultButton=QtWidgets.QMessageBox.Ok)
+        #儲存成功
+        else:
+            try :
+                if len(self.df_raw.index) < 7:
+                    raise
+                #設置資料欄位
+                self.save_excel = pd.DataFrame({"A1": [self.Ct_value[0]], "A2": [self.Ct_value[1]],
+                                                "A3": [self.Ct_value[2]], "A4": [self.Ct_value[3]],
+                                                "A5": [self.Ct_value[4]], "A6": [self.Ct_value[5]],
+                                                "A7": [self.Ct_value[6]], "A8": [self.Ct_value[7]],
+                                                "B1": [self.Ct_value[8]], "B2": [self.Ct_value[9]],
+                                                "B3": [self.Ct_value[10]], "B4": [self.Ct_value[11]],
+                                                "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
+                                                "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
+                    , index=["CT_Value"])
+                #儲存資料以及存取位置
+                self.save_excel.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
+                self.move_finish.T.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+                print(self.save_excel)
+                QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Csv檔案", buttons=QtWidgets.QMessageBox.Ok,
+                    defaultButton=QtWidgets.QMessageBox.Ok)
+                print("Save data successful !!!")
+            except:
+                self.save_excel = pd.DataFrame({"A1": [self.Ct_value[0]], "A2": [self.Ct_value[1]],
+                                                "A3": [self.Ct_value[2]], "A4": [self.Ct_value[3]],
+                                                "A5": [self.Ct_value[4]], "A6": [self.Ct_value[5]],
+                                                "A7": [self.Ct_value[6]], "A8": [self.Ct_value[7]],
+                                                "B1": [self.Ct_value[8]], "B2": [self.Ct_value[9]],
+                                                "B3": [self.Ct_value[10]], "B4": [self.Ct_value[11]],
+                                                "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
+                                                "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
+                    , index=["CT_Value"])
+                #儲存資料以及存取位置
+                self.save_excel.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
+                self.df_normalization = self.df_normalization.drop(columns=['time','accumulation','shutter_speed','ISO']) #Drop 'time','accumulation','shutter_speed','ISO'
+                self.df_normalization.T.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
+                QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Csv檔案", buttons=QtWidgets.QMessageBox.Ok,
+                    defaultButton=QtWidgets.QMessageBox.Ok)
+                print("Save data successful !!!")
+
+    def clean_log(self):
+        self.Input_file.setText("")
+        print("Clean data successful !!!")
+
+
+    def sl_begin(self):
+        if self.All_radio.isChecked():
+            print("yes")
     def update_graph(self):
         self.calculate()
-        fs = 500
-        f = random.randint(1, 100)
-        ts = 1/fs
-        length_of_signal = 100
-        t = np.linspace(0,1,length_of_signal)
-        
-        cosinus_signal = np.cos(2*np.pi*f*t)
-        sinus_signal = np.sin(2*np.pi*f*t)
 
         self.MplWidget.canvas.axes.clear()
         self.MplWidget.canvas.axes.plot(self.time_array, self.A1_data)
@@ -207,11 +244,11 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.plot(self.time_array, self.B6_data)
         self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data)
         self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data)
-        # self.MplWidget.canvas.axes.set_xlim(0,20)
+        self.MplWidget.canvas.axes.set_xlim(0,20)
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
-        # self.MplWidget.canvas.axes.legend(('cosinus', 'sinus'),loc='upper right')
-        self.MplWidget.canvas.axes.set_title('Cosinus - Sinus Signal')
+        self.MplWidget.canvas.axes.legend(('cosinus', 'sinus','cosinus', 'sinus','cosinus', 'sinus'),loc='upper right')
+        self.MplWidget.canvas.axes.set_title('Amplification curve')
         self.MplWidget.canvas.draw()
 
 if __name__ == '__main__':
