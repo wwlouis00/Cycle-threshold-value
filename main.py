@@ -22,11 +22,40 @@ class MatplotlibWidget(QMainWindow):
         self.setWindowTitle("CT_Value")
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
+        self.slider_func()
     def connect_signals(self):
         self.btn_open.clicked.connect(self.browsefile)
         self.btn_save.clicked.connect(self.save_file)
         self.btn_clear.clicked.connect(self.clean_log)
         self.slider_begin.valueChanged.connect(self.sl_begin)
+        self.A1_radio.clicked.connect(self.slider_func)
+        self.A2_radio.clicked.connect(self.slider_func)
+        self.A3_radio.clicked.connect(self.slider_func)
+        self.A4_radio.clicked.connect(self.slider_func)
+        self.A5_radio.clicked.connect(self.slider_func)
+        self.A6_radio.clicked.connect(self.slider_func)
+        self.A7_radio.clicked.connect(self.slider_func)
+        self.A8_radio.clicked.connect(self.slider_func)
+        self.B1_radio.clicked.connect(self.slider_func)
+        self.B2_radio.clicked.connect(self.slider_func)
+        self.B3_radio.clicked.connect(self.slider_func)
+        self.B4_radio.clicked.connect(self.slider_func)
+        self.B5_radio.clicked.connect(self.slider_func)
+        self.B6_radio.clicked.connect(self.slider_func)
+        self.B7_radio.clicked.connect(self.slider_func)
+        self.B8_radio.clicked.connect(self.slider_func)
+        self.Clear_radio.clicked.connect(self.slider_func)
+    
+        # self.MplWidget.canvas.axes.clear()
+        # self.MplWidget.canvas.axes.plot(self.time_array, self.A5_data,color =colorTab_More4[4],label="A5")
+        # self.MplWidget.canvas.axes.set_xlim(0,20)
+        # # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
+        # #self.MplWidget.canvas.set_scales(20,0.1)
+        # self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
+        # self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
+        # self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
+        # self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
+        # self.MplWidget.canvas.draw()
 
     def browsefile(self):
         if not os.path.isdir('./result'):
@@ -37,10 +66,11 @@ class MatplotlibWidget(QMainWindow):
         if(self.fname[0]==""):
             print("no file")
         else:
-            self.update_graph()
+            self.calculate()
     def calculate(self):
         self.big_well = []
         self.big_data = []
+        self.big_array = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
         self.df_raw.reset_index(inplace=True)
@@ -50,7 +80,7 @@ class MatplotlibWidget(QMainWindow):
                             'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
                             'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
         self.df_raw.drop(labels=["B8"], axis="columns")
-        self.df_raw.rename(columns={"index": "time", "B": "c"},inplace=True)
+        self.df_raw.rename(columns={"index": "time"},inplace=True)
         print("-"*150)
         print(self.df_raw)
         print("-"*150)
@@ -104,7 +134,24 @@ class MatplotlibWidget(QMainWindow):
 
         for j in range(0, len(self.move_finish.index), 1):
             self.time_array.append(j / 2)
-
+        
+        self.big_array.append(self.A1_data)
+        self.big_array.append(self.A2_data)
+        self.big_array.append(self.A3_data)
+        self.big_array.append(self.A4_data)
+        self.big_array.append(self.A5_data)
+        self.big_array.append(self.A6_data)
+        self.big_array.append(self.A7_data)
+        self.big_array.append(self.A8_data)
+        self.big_array.append(self.B1_data)
+        self.big_array.append(self.B2_data)
+        self.big_array.append(self.B3_data)
+        self.big_array.append(self.B4_data)
+        self.big_array.append(self.B5_data)
+        self.big_array.append(self.B6_data)
+        self.big_array.append(self.B7_data)
+        self.big_array.append(self.B8_data)
+        self.update_graph()
     def get_accumulation_time(self):
         df_time = self.df_normalization['time']
         time_ori = datetime.strptime(df_time[0], "%H:%M:%S")
@@ -231,8 +278,6 @@ class MatplotlibWidget(QMainWindow):
             print(slider)
     
     def update_graph(self):
-        self.calculate()
-
         self.MplWidget.canvas.axes.clear()
         self.MplWidget.canvas.axes.plot(self.time_array, self.A1_data,color =colorTab_More4[0],label="A1")
         self.MplWidget.canvas.axes.plot(self.time_array, self.A2_data,color =colorTab_More4[1],label="A2")
@@ -250,6 +295,90 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.plot(self.time_array, self.B6_data,color =colorTab_More4[13],label="B6")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data,color =colorTab_More4[14],label="B7")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data,color =colorTab_More4[15],label="B8")
+        self.MplWidget.canvas.axes.set_xlim(0,20)
+        # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
+        #self.MplWidget.canvas.set_scales(20,0.1)
+        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
+        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
+        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
+        self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
+        self.MplWidget.canvas.draw()
+    
+    def slider_func(self):
+        if(self.Input_file.setText("")):
+            print("no file")
+        else:
+            if self.A1_radio.isChecked():
+                plot = 0
+                plot_color = 0
+                self.slider_func_plot(plot,plot_color)
+            if self.A2_radio.isChecked():
+                plot = 1
+                plot_color = 1
+                self.slider_func_plot(plot,plot_color)
+            if self.A3_radio.isChecked():
+                plot = 2
+                plot_color = 2
+                self.slider_func_plot(plot,plot_color)
+            if self.A4_radio.isChecked():
+                plot = 3
+                plot_color = 3
+                self.slider_func_plot(plot,plot_color)
+            if self.A5_radio.isChecked():
+                plot = 4
+                plot_color = 4
+                self.slider_func_plot(plot,plot_color)
+            if self.A6_radio.isChecked():
+                plot = 5
+                plot_color = 5
+                self.slider_func_plot(plot,plot_color)
+            if self.A7_radio.isChecked():
+                plot = 6
+                plot_color = 6
+                self.slider_func_plot(plot,plot_color)
+            if self.A8_radio.isChecked():
+                plot = 7
+                plot_color = 7
+                self.slider_func_plot(plot,plot_color)
+            if self.B1_radio.isChecked():
+                plot = 8
+                plot_color = 8
+                self.slider_func_plot(plot,plot_color)
+            if self.B2_radio.isChecked():
+                plot = 9
+                plot_color = 9
+                self.slider_func_plot(plot,plot_color)
+            if self.B3_radio.isChecked():
+                plot = 10
+                plot_color = 10
+                self.slider_func_plot(plot,plot_color)
+            if self.B4_radio.isChecked():
+                plot = 11
+                plot_color = 11
+                self.slider_func_plot(plot,plot_color)
+            if self.B5_radio.isChecked():
+                plot = 12
+                plot_color = 12
+                self.slider_func_plot(plot,plot_color)
+            if self.B6_radio.isChecked():
+                plot = 13
+                plot_color = 13
+                self.slider_func_plot(plot,plot_color)
+            if self.B7_radio.isChecked():
+                plot = 14
+                plot_color = 14
+                self.slider_func_plot(plot,plot_color)
+            if self.B8_radio.isChecked():
+                plot = 15
+                plot_color = 15
+                self.slider_func_plot(plot,plot_color)
+            # if self.All_radio.isChecked():
+            #     self.update_graph()
+                
+
+    def slider_func_plot(self,plot,plot_color):
+        self.MplWidget.canvas.axes.clear()
+        self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[plot],color =colorTab_More4[plot_color],label="A1")
         self.MplWidget.canvas.axes.set_xlim(0,20)
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
