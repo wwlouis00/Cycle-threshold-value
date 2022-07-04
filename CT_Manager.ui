@@ -47,7 +47,7 @@
       <x>280</x>
       <y>204</y>
       <width>271</width>
-      <height>31</height>
+      <height>32</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_4">
@@ -55,6 +55,7 @@
       <widget class="QPushButton" name="btn_open">
        <property name="font">
         <font>
+         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -71,6 +72,7 @@
       <widget class="QPushButton" name="btn_save">
        <property name="font">
         <font>
+         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -87,6 +89,7 @@
       <widget class="QPushButton" name="btn_clear">
        <property name="font">
         <font>
+         <pointsize>10</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -107,11 +110,11 @@
       <x>10</x>
       <y>228</y>
       <width>261</width>
-      <height>145</height>
+      <height>157</height>
      </rect>
     </property>
     <property name="title">
-     <string>Seleccionar</string>
+     <string>選擇</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -122,7 +125,7 @@
        <x>10</x>
        <y>18</y>
        <width>241</width>
-       <height>121</height>
+       <height>130</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
@@ -367,7 +370,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>246</y>
+      <y>288</y>
       <width>271</width>
       <height>85</height>
      </rect>
@@ -459,7 +462,7 @@
       <x>560</x>
       <y>204</y>
       <width>161</width>
-      <height>157</height>
+      <height>175</height>
      </rect>
     </property>
     <column>
@@ -473,6 +476,35 @@
      </property>
     </column>
    </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>252</y>
+      <width>271</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QRadioButton" name="main_radio">
+       <property name="text">
+        <string>main</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QRadioButton" name="nor_radio">
+       <property name="text">
+        <string>Normalize</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -484,7 +516,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>
