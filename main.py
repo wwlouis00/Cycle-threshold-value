@@ -44,6 +44,7 @@ class MatplotlibWidget(QMainWindow):
         self.B6_radio.clicked.connect(self.slider_func)
         self.B7_radio.clicked.connect(self.slider_func)
         self.B8_radio.clicked.connect(self.slider_func)
+        self.All_radio.clicked.connect(self.slider_func)
         self.Clear_radio.clicked.connect(self.slider_func)
     
         # self.MplWidget.canvas.axes.clear()
@@ -372,10 +373,9 @@ class MatplotlibWidget(QMainWindow):
                 plot = 15
                 plot_color = 15
                 self.slider_func_plot(plot,plot_color)
-            # if self.All_radio.isChecked():
-            #     self.update_graph()
-                
-
+            if self.Clear_radio.isChecked():
+                self.MplWidget.canvas.axes.clear()
+                self.MplWidget.canvas.draw()
     def slider_func_plot(self,plot,plot_color):
         self.MplWidget.canvas.axes.clear()
         self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[plot],color =colorTab_More4[plot_color],label="A1")
