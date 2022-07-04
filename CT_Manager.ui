@@ -465,6 +465,11 @@
       <height>175</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
     <column>
      <property name="text">
       <string>CH</string>
@@ -500,6 +505,9 @@
       <widget class="QRadioButton" name="nor_radio">
        <property name="text">
         <string>Normalize</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

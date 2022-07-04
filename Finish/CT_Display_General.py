@@ -49,8 +49,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
                             'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
                             'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
-        self.df_raw.drop(labels=["B8"], axis="columns")
-        self.df_raw.rename(columns={"index": "time", "B": "c"},inplace=True)
+        self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+        self.df_raw.rename(columns={"index": "time"},inplace=True)
         print("-"*150)
         print(self.df_raw)
         print("-"*150)
@@ -172,14 +172,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
         Avg = []
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
-            StdDev.append(df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].std())
-            Avg.append(df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean())
+            StdDev.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].std())
+            Avg.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean())
         return StdDev, Avg
 
     def normalize(self):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
-            self.baseline = df_current_well[int(self.Start_time.text()) * 2:int(self.End_time.text()) * 2].mean()
+            self.baseline = df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             if(i<8):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))

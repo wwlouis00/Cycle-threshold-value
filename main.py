@@ -8,8 +8,9 @@ import numpy as np
 from datetime import datetime
 
 from sqlalchemy import false
-first_time = 2
-twice_time = 7
+# first_time = 2
+# twice_time = 7
+first_time,twice_time = 2,7
 n_sd = 10
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 #Color
@@ -25,6 +26,7 @@ class MatplotlibWidget(QMainWindow):
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
         self.slider_func()
+        self.tableWidget_ct()
         
     def connect_signals(self):
         self.btn_open.clicked.connect(self.browsefile)
@@ -52,6 +54,7 @@ class MatplotlibWidget(QMainWindow):
         self.nor_radio.clicked.connect(self.nor_data)
         self.main_radio.clicked.connect(self.main_data)
         
+        
     def browsefile(self):
         if not os.path.isdir('./result'):
             os.mkdir('./result')
@@ -59,7 +62,7 @@ class MatplotlibWidget(QMainWindow):
             os.mkdir('./result/Display_result/')
         self.fname = QFileDialog.getOpenFileName(self, '開啟csv檔案', 'C:\Program Files (x86)', 'csv files (*.csv)')
         if(self.fname[0]==""):
-            print("no file")
+            None
         else:
             self.calculate()
             
@@ -75,7 +78,7 @@ class MatplotlibWidget(QMainWindow):
                             'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
                             'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
                             'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
-        self.df_raw.drop(labels=["B8"], axis="columns")
+        self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
         self.df_raw.rename(columns={"index": "time"},inplace=True)
         print("-"*150)
         print(self.df_raw)
@@ -168,14 +171,14 @@ class MatplotlibWidget(QMainWindow):
         Avg = []
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
-            StdDev.append(df_current_well[int(first_time) * 2:int(twice_time) * 2].std())
-            Avg.append(df_current_well[int(first_time) * 2:int(twice_time) * 2].mean())
+            StdDev.append(df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].std())
+            Avg.append(df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].mean())
         return StdDev, Avg
 
     def normalize(self):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
-            self.baseline = df_current_well[int(first_time) * 2:int(twice_time) * 2].mean()
+            self.baseline = df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             if(i<8):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))
@@ -420,6 +423,9 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
+    def tableWidget_ct(self):
+        fila = 0
+        self.tableWidget.insertRow(fila)
 
 if __name__ == '__main__':
     app = QApplication([])
