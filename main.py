@@ -8,8 +8,7 @@ import numpy as np
 from datetime import datetime
 
 from sqlalchemy import false
-# first_time = 2
-# twice_time = 7
+
 first_time,twice_time = 2,7
 n_sd = 10
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
@@ -107,9 +106,7 @@ class MatplotlibWidget(QMainWindow):
         self.B6_data = []
         self.B7_data = []
         self.B8_data = []
-        self.time_array = []
-        self.nor_array = []
-        self.nor_plot =[]
+        self.time_array,self.nor_array,self.nor_plot = [],[],[]
         for i in range(0,16,1):      
             self.nor_array.append(self.df_normalization[f'well{i+1}'].mean())
         self.nor_mean = np.mean(self.nor_array)
@@ -156,7 +153,8 @@ class MatplotlibWidget(QMainWindow):
         self.big_array.append(self.B6_data)
         self.big_array.append(self.B7_data)
         self.big_array.append(self.B8_data)
-        self.update_graph()
+        # self.update_graph()
+        self.slider_func()
     def get_accumulation_time(self):
         df_time = self.df_normalization['time']
         time_ori = datetime.strptime(df_time[0], "%H:%M:%S")
@@ -313,7 +311,8 @@ class MatplotlibWidget(QMainWindow):
     
     def nor_data(self):
         if self.Input_file.text() == "":
-            None
+            # None
+            self.groupBox.setChecked(False)
         else:
             self.groupBox.setChecked(False)
             self.MplWidget.canvas.axes.clear()
@@ -339,6 +338,8 @@ class MatplotlibWidget(QMainWindow):
         elif self.Clear_radio.isChecked():
             self.MplWidget.canvas.axes.clear()
             self.MplWidget.canvas.draw()
+        elif self.nor_radio.isChecked():
+            self.nor_data()
         else:
             if self.All_radio.isChecked():
                 self.update_graph()
