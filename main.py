@@ -9,8 +9,8 @@ from datetime import datetime
 
 from sqlalchemy import false
 
-first_time,twice_time = 2,7
-n_sd = 10
+first_time,twice_time,n_sd  = 2,7,10
+
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 #Color
 colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
@@ -20,7 +20,8 @@ colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
 class MatplotlibWidget(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        loadUi("CT_Manager.ui",self)
+        # loadUi("CT_Manager.ui",self)
+        loadUi("CT_Manager_desktop.ui",self)
         self.setWindowTitle("CT_Value")
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
@@ -30,8 +31,9 @@ class MatplotlibWidget(QMainWindow):
     def connect_signals(self):
         self.btn_open.clicked.connect(self.browsefile)
         self.btn_save.clicked.connect(self.save_file)
-        self.btn_clear.clicked.connect(self.clean_log)
+        # self.btn_clear.clicked.connect(self.clean_log)
         self.slider_begin.valueChanged.connect(self.sl_begin)
+        self.slider_end.valueChanged.connect(self.sl_begin)
         self.A1_radio.clicked.connect(self.slider_func)
         self.A2_radio.clicked.connect(self.slider_func)
         self.A3_radio.clicked.connect(self.slider_func)
@@ -112,7 +114,8 @@ class MatplotlibWidget(QMainWindow):
         self.nor_mean = np.mean(self.nor_array)
 
         for i in range(1, 17, 1):
-            self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
+            self.big_data.append(self.df_normalization["well"+str(i)])
+            # self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
         self.all_well = pd.DataFrame(self.big_data)
         self.move_finish = self.all_well.T
         for i in range(0, len(self.move_finish.index), 1):
@@ -301,7 +304,7 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data,color =colorTab_More4[14],label="B7")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data,color =colorTab_More4[15],label="B8")
         self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
-        self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
+        # self.MplWidget.canvas.axes.set_ylim(-2,4)
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
@@ -325,13 +328,14 @@ class MatplotlibWidget(QMainWindow):
             self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
             self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
             self.MplWidget.canvas.draw()
+    #主要曲線
     def main_data(self):
         if self.Input_file.text() == "":
             None
         else:
             self.groupBox.setChecked(True)
             self.slider_func()
-
+    #選擇單一曲線以及各選擇鍵功能 
     def slider_func(self):
         if self.Input_file.text() == "":
             None
@@ -421,12 +425,30 @@ class MatplotlibWidget(QMainWindow):
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
-        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
+        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=7)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
     def tableWidget_ct(self):
         fila = 0
         self.tableWidget.insertRow(fila)
+        if self.Input_file.text() == "":
+            None
+        else:
+            fila = 0
+            lista2 = []
+            for i in range(16):
+                # casos[i]
+                # fecha[i]
+                lista2.append((str(self.Ct_value[i]), str(self.Ct_value[i])))
+            for registro in lista2:
+                columna = 0
+                # print(registro)
+                self.tableWidget.insertRow(fila)
+                for elemento in registro:
+                    celda = QTableWidgetItem(str(elemento))
+                    self.tableWidget.setItem(fila, columna)
+                    columna += 1
+            fila += 1
 
 if __name__ == '__main__':
     app = QApplication([])
