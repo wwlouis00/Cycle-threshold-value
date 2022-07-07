@@ -29,7 +29,7 @@ class MatplotlibWidget(QMainWindow):
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
         self.slider_func()
-        # self.tableWidget_ct()
+        self.tableWidget_ct()
         
         
     def connect_signals(self):
@@ -80,9 +80,10 @@ class MatplotlibWidget(QMainWindow):
         self.df_raw.reset_index(inplace=True)
         
         self.df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
-                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
-                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
-                            'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+                                    'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                                    'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                                    'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},
+                                    inplace = True)
         self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
         self.df_raw.rename(columns={"index": "time"},inplace=True)
         print("-"*150)
@@ -380,6 +381,7 @@ class MatplotlibWidget(QMainWindow):
                     plot = 0
                     plot_color = 0
                     plot_channel = 'A1'
+
                 if self.A2_radio.isChecked():
                     plot = 1
                     plot_color = 1
@@ -457,26 +459,27 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
     def tableWidget_ct(self):
-        fila = 0
-        self.tableWidget.insertRow(fila)
         if self.Input_file.text() == "":
-            None
-        else:
             fila = 0
-            lista2 = []
-            for i in range(16):
-                # casos[i]
-                # fecha[i]
-                lista2.append((str(self.Ct_value[i]), str(self.Ct_value[i])))
-            for registro in lista2:
-                columna = 0
-                # print(registro)
-                self.tableWidget.insertRow(fila)
-                for elemento in registro:
-                    celda = QTableWidgetItem(str(elemento))
-                    self.tableWidget.setItem(fila, columna)
-                    columna += 1
-            fila += 1
+            self.tableWidget.insertRow(fila)
+            if self.Input_file.text() == "":
+                None
+            else:
+                fila = 0
+                lista2 = []
+                for i in range(16):
+                    # casos[i]
+                    # fecha[i]
+                    lista2.append((str(self.Ct_value[i]), str(self.Ct_value[i])))
+                for registro in lista2:
+                    columna = 0
+                    # print(registro)
+                    self.tableWidget.insertRow(fila)
+                    for elemento in registro:
+                        celda = QTableWidgetItem(str(elemento))
+                        self.tableWidget.setItem(fila, columna)
+                        columna += 1
+                fila += 1
 
 if __name__ == '__main__':
     app = QApplication([])
