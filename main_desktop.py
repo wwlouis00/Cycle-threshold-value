@@ -10,7 +10,7 @@ from datetime import datetime
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import sys
-from sqlalchemy import false
+# from sqlalchemy import false
 
 first_time,twice_time,n_sd  = 2,7,10
 
@@ -23,13 +23,13 @@ colorTab_More4 = ['#e8a5eb', '#facc9e', '#e8e948', '#1bb763',
 class MatplotlibWidget(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        loadUi("CT_Manager.ui",self)
-        # loadUi("CT_Manager_desktop.ui",self)
+        # loadUi("CT_Manager.ui",self)
+        loadUi("CT_Manager_desktop.ui",self)
         self.setWindowTitle("CT_Value")
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
         self.slider_func()
-        self.tableWidget_ct()
+        # self.tableWidget_ct()
         
         
     def connect_signals(self):
@@ -205,7 +205,7 @@ class MatplotlibWidget(QMainWindow):
             df_accumulation = self.df_normalization['accumulation']
             try:
                 for j, row in enumerate(df_current_well):
-                    if row >= threshold_value[i]:
+                    if row >= threshold_value[i] and j > first_time:
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -223,9 +223,28 @@ class MatplotlibWidget(QMainWindow):
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
                         Ct_value.append("N/A")
-                        # print("Ct value is not available")
-            except Exception as e:
-                Ct_value.append("N/A")
+                        print("Ct value is not available")
+            except:
+                for j, row in enumerate(df_current_well):
+                    if row >= threshold_value[i] and j > first_time:
+                        thres_lower = df_current_well[j - 1]
+                        thres_upper = df_current_well[j]
+                        acc_time_lower = df_accumulation[j - 1]
+                        acc_time_upper = df_accumulation[j + 1]
+                        # linear regression
+                        x2 = acc_time_upper
+                        y2 = thres_upper
+                        x1 = acc_time_lower
+                        y1 = thres_lower
+                        y = threshold_value[i]
+                        x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
+                        Ct_value.append(round(x, 2))
+                        # print(f"Ct of well_{i + 1} is {round(x, 2)}")
+                        break
+                    # if there is no Ct_value availible
+                    elif j == len(df_current_well) - 1:
+                        Ct_value.append("N/A")
+                        print("Ct value is not available")
         return Ct_value
     
     def save_file(self):
@@ -312,7 +331,7 @@ class MatplotlibWidget(QMainWindow):
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
-        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
+        self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=10)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
     
@@ -353,6 +372,10 @@ class MatplotlibWidget(QMainWindow):
             if self.All_radio.isChecked():
                 self.update_graph()
             else:
+                # if self.A1_checkBox.isChecked():
+                #     plot = 0
+                #     plot_color = 0
+                #     plot_channel = 'A1'
                 if self.A1_radio.isChecked():
                     plot = 0
                     plot_color = 0
@@ -430,7 +453,7 @@ class MatplotlibWidget(QMainWindow):
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
-        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=7)
+        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
     def tableWidget_ct(self):

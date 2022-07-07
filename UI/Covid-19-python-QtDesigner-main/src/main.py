@@ -271,7 +271,7 @@ class MatplotlibWidget(QMainWindow):
             casosArray = np.zeros([len(casosList), 1], dtype=int)
             casosAux = np.zeros([len(casosList), 1], dtype=int)
 
-            # For para calcular los datos diarios y almacenarlos en los arreglos correspondientes
+            # For para calcular los datos diarios y  almacenarlos en los arreglos correspondientes
             for i in range(len(casosList)):
 
                 if i == 0:
