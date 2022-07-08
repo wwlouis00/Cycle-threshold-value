@@ -1,3 +1,4 @@
+from operator import index
 from PyQt5.QtCore import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pandas as pd
@@ -5,7 +6,7 @@ import matplotlib.pyplot as plt
 import cv2 as cv
 from PyQt5.QtGui import QIntValidator
 import datetime
-from datetime import datetime, timedelta
+from datetime import datetime, time
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsPixmapItem,QFileDialog,QDialog,QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -42,109 +43,149 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.big_data = []
         self.Input_file.setText(self.fname[0])
         self.df_raw = pd.read_csv(self.fname[0])
-        # print(self.coco)
         self.df_raw.reset_index(inplace=True)
         
-        self.df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
-                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
-                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
-                            'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
-        self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
-        self.df_raw.rename(columns={"index": "time"},inplace=True)
+        
+        #     self.df_raw.rename(columns={'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+        #                                 'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+        #                                 'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+        #                                 'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+        #     self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+        #     # self.df_raw = self.df_raw.drop(labels=["time"], axis="columns")
+        #     # self.df_raw = self.df_raw.drop(labels=["accumulated time"], axis="columns")
+        #     self.df_raw.rename(columns={"index": "time"},inplace=True)
+            # self.df_raw = self.df_raw.drop(labels=["accumulated time"], axis="columns")
+        #     self.df_raw = self.df_raw.drop(labels=["accumulated time"], axis="columns")
+            # self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+            # self.df_raw = self.df_raw.drop(labels=["time"], axis="columns")
+            # self.df_raw.rename(columns={'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+            #                             'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+            #                             'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+            #                             'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+        # self.df_raw.rename(columns={'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+        #                             'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+        #                             'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+        #                             'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+
+        # self.df_raw.loc['time'] = self.df_raw.loc['index']
+        if 'accumulated time' in self.df_raw.columns:
+            self.df_raw = self.df_raw.drop(labels=["accumulated"], axis="columns")
+
+        else:
+            self.df_raw.rename(columns={'time':'well_1','A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+                                        'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                                        'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                                        'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+            self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+
+            self.df_raw.rename(columns={"index": "time"},inplace=True)
+        
+        # self.df_raw = self.df_raw.drop(labels=["accumulated time"], axis="columns")
+        # self.df_raw.rename(columns={'A1':'well_1', 'A2':'well_2', 'A3':'well_3','A4':'well_4',
+        #                             'A5':'well_5', 'A6':'well_6', 'A7':'well_7','A8':'well_8', 
+        #                             'B1':'well_9', 'B2':'well_10', 'B3':'well_11','B4':'well_12',
+        #                             'B5':'well_13', 'B6':'well_14', 'B7':'well_15', 'B8':'well_16'},inplace = True)
+        # self.df_raw.rename(columns={"index": "time"},inplace=True)
+        # self.df_raw = self.df_raw.drop(labels=["index"], axis="columns")
+        # self.df_raw.rename(columns={'well1':'well_1', 'well2':'well_2', 'well3':'well_3','well4':'well_4',
+        #                             'well5':'well_5', 'well6':'well_6', 'well7':'well_7','well8':'well_8', 
+        #                             'well9':'well_9', 'well10':'well_10', 'well11':'well_11','well12':'well_12',
+        #                             'well13':'well_13','well14':'well_14', 'well15':'well_15', 'well16':'well_16'},inplace = True)
+        # self.df_raw.rename(columns={"index": "time"},inplace=True)
         print("-"*150)
         print(self.df_raw)
         print("-"*150)
-        self.df_normalization = self.df_raw.copy()
-        self.get_accumulation_time()
-        self.normalize()
-        threshold_value = self.get_ct_threshold()
-        # UI顯示 16個CT值
-        self.Ct_value = self.get_ct_value(threshold_value)
-        self.lineEdit_well_1.setText(str(self.Ct_value[0]))
-        self.lineEdit_well_2.setText(str(self.Ct_value[1]))
-        self.lineEdit_well_3.setText(str(self.Ct_value[2]))
-        self.lineEdit_well_4.setText(str(self.Ct_value[3]))
-        self.lineEdit_well_5.setText(str(self.Ct_value[4]))
-        self.lineEdit_well_6.setText(str(self.Ct_value[5]))
-        self.lineEdit_well_7.setText(str(self.Ct_value[6]))
-        self.lineEdit_well_8.setText(str(self.Ct_value[7]))
-        self.lineEdit_well_9.setText(str(self.Ct_value[8]))
-        self.lineEdit_well_10.setText(str(self.Ct_value[9]))
-        self.lineEdit_well_11.setText(str(self.Ct_value[10]))
-        self.lineEdit_well_12.setText(str(self.Ct_value[11]))
-        self.lineEdit_well_13.setText(str(self.Ct_value[12]))
-        self.lineEdit_well_14.setText(str(self.Ct_value[13]))
-        self.lineEdit_well_15.setText(str(self.Ct_value[14]))
-        self.lineEdit_well_16.setText(str(self.Ct_value[15]))
+        # self.df_normalization = self.df_raw.copy()
+        # self.get_accumulation_time()
+        # self.normalize()
+        # threshold_value = self.get_ct_threshold()
+        # # UI顯示 16個CT值
+        # self.Ct_value = self.get_ct_value(threshold_value)
+        # self.lineEdit_well_1.setText(str(self.Ct_value[0]))
+        # self.lineEdit_well_2.setText(str(self.Ct_value[1]))
+        # self.lineEdit_well_3.setText(str(self.Ct_value[2]))
+        # self.lineEdit_well_4.setText(str(self.Ct_value[3]))
+        # self.lineEdit_well_5.setText(str(self.Ct_value[4]))
+        # self.lineEdit_well_6.setText(str(self.Ct_value[5]))
+        # self.lineEdit_well_7.setText(str(self.Ct_value[6]))
+        # self.lineEdit_well_8.setText(str(self.Ct_value[7]))
+        # self.lineEdit_well_9.setText(str(self.Ct_value[8]))
+        # self.lineEdit_well_10.setText(str(self.Ct_value[9]))
+        # self.lineEdit_well_11.setText(str(self.Ct_value[10]))
+        # self.lineEdit_well_12.setText(str(self.Ct_value[11]))
+        # self.lineEdit_well_13.setText(str(self.Ct_value[12]))
+        # self.lineEdit_well_14.setText(str(self.Ct_value[13]))
+        # self.lineEdit_well_15.setText(str(self.Ct_value[14]))
+        # self.lineEdit_well_16.setText(str(self.Ct_value[15]))
 
-        self.A1_data = []
-        self.A2_data = []
-        self.A3_data = []
-        self.A4_data = []
-        self.A5_data = []
-        self.A6_data = []
-        self.A7_data = []
-        self.A8_data = []
-        self.B1_data = []
-        self.B2_data = []
-        self.B3_data = []
-        self.B4_data = []
-        self.B5_data = []
-        self.B6_data = []
-        self.B7_data = []
-        self.B8_data = []
-        self.time_array = []
+        # self.A1_data = []
+        # self.A2_data = []
+        # self.A3_data = []
+        # self.A4_data = []
+        # self.A5_data = []
+        # self.A6_data = []
+        # self.A7_data = []
+        # self.A8_data = []
+        # self.B1_data = []
+        # self.B2_data = []
+        # self.B3_data = []
+        # self.B4_data = []
+        # self.B5_data = []
+        # self.B6_data = []
+        # self.B7_data = []
+        # self.B8_data = []
+        # self.time_array = []
 
-        for i in range(1, 17, 1):
-            self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
-        self.all_well = pd.DataFrame(self.big_data)
-        self.move_finish = self.all_well.T
-        for i in range(0, len(self.move_finish.index), 1):
-            self.A1_data.append(self.move_finish.loc[i,'well1'])
-            self.A2_data.append(self.move_finish.loc[i,'well2'])
-            self.A3_data.append(self.move_finish.loc[i,'well3'])
-            self.A4_data.append(self.move_finish.loc[i,'well4'])
-            self.A5_data.append(self.move_finish.loc[i,'well5'])
-            self.A6_data.append(self.move_finish.loc[i,'well6'])
-            self.A7_data.append(self.move_finish.loc[i,'well7'])
-            self.A8_data.append(self.move_finish.loc[i,'well8'])
-            self.B1_data.append(self.move_finish.loc[i,'well9'])
-            self.B2_data.append(self.move_finish.loc[i,'well10'])
-            self.B3_data.append(self.move_finish.loc[i,'well11'])
-            self.B4_data.append(self.move_finish.loc[i,'well12'])
-            self.B5_data.append(self.move_finish.loc[i,'well13'])
-            self.B6_data.append(self.move_finish.loc[i,'well14'])
-            self.B7_data.append(self.move_finish.loc[i,'well15'])
-            self.B8_data.append(self.move_finish.loc[i,'well16'])
+        # for i in range(1, 17, 1):
+        #     self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
+        # self.all_well = pd.DataFrame(self.big_data)
+        # self.move_finish = self.all_well.T
+        # for i in range(0, len(self.move_finish.index), 1):
+        #     self.A1_data.append(self.move_finish.loc[i,'well1'])
+        #     self.A2_data.append(self.move_finish.loc[i,'well2'])
+        #     self.A3_data.append(self.move_finish.loc[i,'well3'])
+        #     self.A4_data.append(self.move_finish.loc[i,'well4'])
+        #     self.A5_data.append(self.move_finish.loc[i,'well5'])
+        #     self.A6_data.append(self.move_finish.loc[i,'well6'])
+        #     self.A7_data.append(self.move_finish.loc[i,'well7'])
+        #     self.A8_data.append(self.move_finish.loc[i,'well8'])
+        #     self.B1_data.append(self.move_finish.loc[i,'well9'])
+        #     self.B2_data.append(self.move_finish.loc[i,'well10'])
+        #     self.B3_data.append(self.move_finish.loc[i,'well11'])
+        #     self.B4_data.append(self.move_finish.loc[i,'well12'])
+        #     self.B5_data.append(self.move_finish.loc[i,'well13'])
+        #     self.B6_data.append(self.move_finish.loc[i,'well14'])
+        #     self.B7_data.append(self.move_finish.loc[i,'well15'])
+        #     self.B8_data.append(self.move_finish.loc[i,'well16'])
 
-        for j in range(0, len(self.move_finish.index), 1):
-            self.time_array.append(j / 2)
+        # for j in range(0, len(self.move_finish.index), 1):
+        #     self.time_array.append(j / 2)
 
-        plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
-        plt.plot(self.time_array, self.A1_data, '-', color=colorTab_More4[0], label="A1")  # 紅
-        plt.plot(self.time_array, self.A2_data, '-', color=colorTab_More4[1], label="A2")  # 澄
-        plt.plot(self.time_array, self.A3_data, '-', color=colorTab_More4[2], label="A3")  # 黃
-        plt.plot(self.time_array, self.A4_data, '-', color=colorTab_More4[3], label="A4")  # 綠
-        plt.plot(self.time_array, self.A5_data, '-', color=colorTab_More4[4], label="A5")  # 藍
-        plt.plot(self.time_array, self.A6_data, '-', color=colorTab_More4[5], label="A6")  # 靛
-        plt.plot(self.time_array, self.A7_data, '-', color=colorTab_More4[6], label="A7")  # 紫
-        plt.plot(self.time_array, self.A8_data, '-', color=colorTab_More4[7], label="A8")  # 黑
-        plt.plot(self.time_array, self.B1_data, '-', color=colorTab_More4[8], label="B1")  # 紅
-        plt.plot(self.time_array, self.B2_data, '-', color=colorTab_More4[9], label="B2")  # 澄
-        plt.plot(self.time_array, self.B3_data, '-', color=colorTab_More4[10], label="B3")  # 黃
-        plt.plot(self.time_array, self.B4_data, '-', color=colorTab_More4[11], label="B4")  # 綠
-        plt.plot(self.time_array, self.B5_data, '-', color=colorTab_More4[12], label="B5")  # 藍
-        plt.plot(self.time_array, self.B6_data, '-', color=colorTab_More4[13], label="B6")  # 靛
-        plt.plot(self.time_array, self.B7_data, '-', color=colorTab_More4[14], label="B7")  # 紫
-        plt.plot(self.time_array, self.B8_data, '-', color=colorTab_More4[15], label="B8")  # 黑
-        plt.ylim(-1, 3)
-        plt.title("Amplification curve")
-        plt.xlabel('Time (min)')  # x軸說明文字
-        plt.ylabel('Normalized fluorescent intensity')  # y軸說明文字
-        plt.legend(loc="upper center", bbox_to_anchor=(0.5, 1.05),
-            fancybox=True, shadow=True, ncol=8, fontsize=7.5)
-        plt.savefig('./result/Display_result/CT.jpg')
-        self.displayphoto()
+        # plt.figure(figsize=(10, 2.5), dpi=100, linewidth=3)
+        # plt.plot(self.time_array, self.A1_data, '-', color=colorTab_More4[0], label="A1")  # 紅
+        # plt.plot(self.time_array, self.A2_data, '-', color=colorTab_More4[1], label="A2")  # 澄
+        # plt.plot(self.time_array, self.A3_data, '-', color=colorTab_More4[2], label="A3")  # 黃
+        # plt.plot(self.time_array, self.A4_data, '-', color=colorTab_More4[3], label="A4")  # 綠
+        # plt.plot(self.time_array, self.A5_data, '-', color=colorTab_More4[4], label="A5")  # 藍
+        # plt.plot(self.time_array, self.A6_data, '-', color=colorTab_More4[5], label="A6")  # 靛
+        # plt.plot(self.time_array, self.A7_data, '-', color=colorTab_More4[6], label="A7")  # 紫
+        # plt.plot(self.time_array, self.A8_data, '-', color=colorTab_More4[7], label="A8")  # 黑
+        # plt.plot(self.time_array, self.B1_data, '-', color=colorTab_More4[8], label="B1")  # 紅
+        # plt.plot(self.time_array, self.B2_data, '-', color=colorTab_More4[9], label="B2")  # 澄
+        # plt.plot(self.time_array, self.B3_data, '-', color=colorTab_More4[10], label="B3")  # 黃
+        # plt.plot(self.time_array, self.B4_data, '-', color=colorTab_More4[11], label="B4")  # 綠
+        # plt.plot(self.time_array, self.B5_data, '-', color=colorTab_More4[12], label="B5")  # 藍
+        # plt.plot(self.time_array, self.B6_data, '-', color=colorTab_More4[13], label="B6")  # 靛
+        # plt.plot(self.time_array, self.B7_data, '-', color=colorTab_More4[14], label="B7")  # 紫
+        # plt.plot(self.time_array, self.B8_data, '-', color=colorTab_More4[15], label="B8")  # 黑
+        # plt.ylim(-0.1, 2)
+        # plt.title("Amplification curve")
+        # plt.xlabel('Time (min)')  # x軸說明文字
+        # plt.ylabel('Normalized fluorescent intensity')  # y軸說明文字
+        # plt.legend(loc="upper center", bbox_to_anchor=(0.5, 1.05),
+        #     fancybox=True, shadow=True, ncol=8, fontsize=7.5)
+        # plt.savefig('./result/Display_result/CT.jpg')
+        # self.displayphoto()
 
     def displayphoto(self):
         self.img = cv.imread('./result/Display_result/CT.jpg')
@@ -162,6 +203,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         df_time = self.df_normalization['time']
         time_ori = datetime.strptime(df_time[0], "%H:%M:%S")
         time_delta = []
+        print(time_ori)
         for time in df_time:
             time_now = datetime.strptime(time, "%H:%M:%S")
             time_delta.append((time_now - time_ori).seconds / 60)

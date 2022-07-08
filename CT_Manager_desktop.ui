@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>6</y>
-      <width>831</width>
+      <width>951</width>
       <height>613</height>
      </rect>
     </property>
@@ -44,10 +44,10 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>12</y>
-      <width>261</width>
-      <height>253</height>
+      <x>970</x>
+      <y>6</y>
+      <width>211</width>
+      <height>259</height>
      </rect>
     </property>
     <property name="font">
@@ -433,10 +433,10 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>1130</x>
-      <y>12</y>
-      <width>231</width>
-      <height>253</height>
+      <x>1190</x>
+      <y>6</y>
+      <width>171</width>
+      <height>259</height>
      </rect>
     </property>
     <property name="font">
@@ -459,9 +459,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>188</width>
-          <height>581</height>
+          <y>-365</y>
+          <width>129</width>
+          <height>565</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_6">
@@ -889,8 +889,8 @@
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>270</y>
+      <x>970</x>
+      <y>276</y>
       <width>321</width>
       <height>397</height>
      </rect>
@@ -1115,38 +1115,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>684</y>
-      <width>87</width>
-      <height>49</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QRadioButton" name="nor_radio">
-       <property name="text">
-        <string>Normalize</string>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QRadioButton" name="main_radio">
-       <property name="text">
-        <string>main</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QWidget" name="layoutWidget_2">
     <property name="geometry">
      <rect>
@@ -1209,6 +1177,63 @@
      <string/>
     </property>
    </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>361</x>
+      <y>698</y>
+      <width>395</width>
+      <height>46</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QRadioButton" name="origin_radio">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>origin</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QRadioButton" name="main_radio">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>main</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QRadioButton" name="nor_radio">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Normalize</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -1216,7 +1241,7 @@
      <x>0</x>
      <y>0</y>
      <width>1374</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

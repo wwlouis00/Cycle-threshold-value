@@ -10,9 +10,8 @@ from datetime import datetime
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import sys
-# from sqlalchemy import false
 
-first_time,twice_time,n_sd  = 2,7,10
+first_time,twice_time,n_sd  = 4,14,10
 
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 #Color
@@ -35,7 +34,6 @@ class MatplotlibWidget(QMainWindow):
     def connect_signals(self):
         self.btn_open.clicked.connect(self.browsefile)
         self.btn_save.clicked.connect(self.save_file)
-        # self.btn_clear.clicked.connect(self.clean_log)
         self.slider_begin.valueChanged.connect(self.sl_begin)
         self.slider_end.valueChanged.connect(self.sl_begin)
         self.A1_radio.clicked.connect(self.slider_func)
@@ -55,9 +53,11 @@ class MatplotlibWidget(QMainWindow):
         self.B7_radio.clicked.connect(self.slider_func)
         self.B8_radio.clicked.connect(self.slider_func)
         self.All_radio.clicked.connect(self.slider_func)
+        self.origin_radio.clicked.connect(self.slider_func)
         self.Clear_radio.clicked.connect(self.clear_radio)
         self.nor_radio.clicked.connect(self.nor_data)
         self.main_radio.clicked.connect(self.main_data)
+        
         
         
     def browsefile(self):
@@ -69,26 +69,57 @@ class MatplotlibWidget(QMainWindow):
         if(self.fname[0]==""):
             None
         else:
+            self.Input_file.setText(self.fname[0])
+            self.df_raw = pd.read_csv(self.fname[0])
+            self.df_raw.reset_index(inplace=True)
+            self.origin_time = []
+            self.df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+                                        'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                                        'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                                        'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},
+                                        inplace = True)
+            self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+            self.df_raw.rename(columns={"index": "time"},inplace=True)
+            print("-"*150)
+            print(self.df_raw)
+            print("-"*150)
+            for j in range(0, len(self.df_raw.index), 1):
+                self.origin_time.append(j)
+            print(self.origin_time)
+            self.origin_data()
             self.calculate()
+            
+    
+    def origin_data(self):
+        self.MplWidget.canvas.axes.clear()
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_1'],color =colorTab_More4[0],label="A1")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_2'],color =colorTab_More4[1],label="A2")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_3'],color =colorTab_More4[2],label="A3")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_4'],color =colorTab_More4[3],label="A4")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_5'],color =colorTab_More4[4],label="A5")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_6'],color =colorTab_More4[5],label="A6")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_7'],color =colorTab_More4[6],label="A7")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_8'],color =colorTab_More4[7],label="A8")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_9'],color =colorTab_More4[8],label="B1")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_10'],color =colorTab_More4[9],label="B2")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_11'],color =colorTab_More4[10],label="B3")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_12'],color =colorTab_More4[11],label="B4")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_13'],color =colorTab_More4[12],label="B5")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_14'],color =colorTab_More4[13],label="B6")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_15'],color =colorTab_More4[14],label="B7")
+        self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_16'],color =colorTab_More4[15],label="B8")
+        self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index))
+        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
+        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10) 
+        self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=10)
+        self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
+        self.MplWidget.canvas.draw()
+            # self.calculate()
             
     def calculate(self):
         self.big_well = []
         self.big_data = []
         self.big_array = []
-        self.Input_file.setText(self.fname[0])
-        self.df_raw = pd.read_csv(self.fname[0])
-        self.df_raw.reset_index(inplace=True)
-        
-        self.df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
-                                    'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
-                                    'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
-                                    'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},
-                                    inplace = True)
-        self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
-        self.df_raw.rename(columns={"index": "time"},inplace=True)
-        print("-"*150)
-        print(self.df_raw)
-        print("-"*150)
         self.df_normalization = self.df_raw.copy()
         self.get_accumulation_time()
         self.normalize()
@@ -332,14 +363,13 @@ class MatplotlibWidget(QMainWindow):
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
-        self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=10)
+        self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=7)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
     
     def nor_data(self):
         if self.Input_file.text() == "":
-            # None
-            self.groupBox.setChecked(False)
+            None
         else:
             self.groupBox.setChecked(False)
             self.MplWidget.canvas.axes.clear()
@@ -366,10 +396,14 @@ class MatplotlibWidget(QMainWindow):
         elif self.Clear_radio.isChecked():
             self.MplWidget.canvas.axes.clear()
             self.MplWidget.canvas.draw()
+
         elif self.nor_radio.isChecked():
             self.nor_data()
+        
+        elif self.origin_radio.isChecked():
+            self.origin_data()
+
         else:
-            # if self.All_radio.isChecked():
             if self.All_radio.isChecked():
                 self.update_graph()
             else:
@@ -377,6 +411,67 @@ class MatplotlibWidget(QMainWindow):
                 #     plot = 0
                 #     plot_color = 0
                 #     plot_channel = 'A1'
+
+                # if self.A2_checkBox.isChecked():
+                #     plot = 1
+                #     plot_color = 1
+                #     plot_channel = 'A2'
+                # if self.A3_checkBox.isChecked():
+                #     plot = 2
+                #     plot_color = 2
+                #     plot_channel = 'A3'
+                # if self.A4_checkBox.isChecked():
+                #     plot = 3
+                #     plot_color = 3
+                #     plot_channel = 'A4'
+                # if self.A5_checkBox.isChecked():
+                #     plot = 4
+                #     plot_color = 4
+                #     plot_channel = 'A5'
+                # if self.A6_checkBox.isChecked():
+                #     plot = 5
+                #     plot_color = 5
+                #     plot_channel = 'A6'
+                # if self.A7_checkBox.isChecked():
+                #     plot = 6
+                #     plot_color = 6
+                #     plot_channel = 'A7'
+                # if self.A8_checkBox.isChecked():
+                #     plot = 7
+                #     plot_color = 7
+                #     plot_channel = 'A8'
+                # if self.B1_checkBox.isChecked():
+                #     plot = 8
+                #     plot_color = 8
+                #     plot_channel = 'B1'
+                # if self.B2_checkBox.isChecked():
+                #     plot = 9
+                #     plot_color = 9
+                #     plot_channel = 'B2'
+                # if self.B3_checkBox.isChecked():
+                #     plot = 10
+                #     plot_color = 10
+                #     plot_channel = 'B3'
+                # if self.B4_checkBox.isChecked():
+                #     plot = 11
+                #     plot_color = 11
+                #     plot_channel = 'B4'
+                # if self.B5_checkBox.isChecked():
+                #     plot = 12
+                #     plot_color = 12
+                #     plot_channel = 'B5'
+                # if self.B6_checkBox.isChecked():
+                #     plot = 13
+                #     plot_color = 13
+                #     plot_channel = 'B6'
+                # if self.B7_checkBox.isChecked():
+                #     plot = 14
+                #     plot_color = 14
+                #     plot_channel = 'B7'
+                # if self.B8_checkBox.isChecked():
+                #     plot = 15
+                #     plot_color = 15
+                #     plot_channel = 'B8'
                 if self.A1_radio.isChecked():
                     plot = 0
                     plot_color = 0
@@ -453,33 +548,34 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.set_xlim(0,20)
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
-        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
+        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
         self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
     def tableWidget_ct(self):
+        # if self.Input_file.text() == "":
+        #     fila = 0
+        #     self.tableWidget.insertRow(fila)
         if self.Input_file.text() == "":
-            fila = 0
-            self.tableWidget.insertRow(fila)
-            if self.Input_file.text() == "":
-                None
-            else:
-                fila = 0
-                lista2 = []
-                for i in range(16):
-                    # casos[i]
-                    # fecha[i]
-                    lista2.append((str(self.Ct_value[i]), str(self.Ct_value[i])))
-                for registro in lista2:
-                    columna = 0
-                    # print(registro)
-                    self.tableWidget.insertRow(fila)
-                    for elemento in registro:
-                        celda = QTableWidgetItem(str(elemento))
-                        self.tableWidget.setItem(fila, columna)
-                        columna += 1
-                fila += 1
+            None
+        else:
+            self.tableWidget_ct.setRowCount(40)
+            self.tableWidget_ct.insertRow(0, 0, QtWidgets.QTableWidgetItem(self.Ct_value[0]))
+            # fila = 0
+            # lista2 = []
+            # for i in range(16):
+            #     # casos[i]
+            #     # fecha[i]
+            #     lista2.append((str(self.Ct_value[i]), str(self.Ct_value[i])))
+            # for registro in lista2:
+            #     columna = 0
+            #     self.tableWidget.insertRow(fila)
+            #     for elemento in registro:
+            #         celda = QTableWidgetItem(str(elemento))
+            #         self.tableWidget.setItem(fila, columna)
+            #         columna += 1
+            # fila += 1
 
 if __name__ == '__main__':
     app = QApplication([])
