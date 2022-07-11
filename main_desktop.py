@@ -55,22 +55,23 @@ class MatplotlibWidget(QMainWindow):
         self.actionSave.triggered.connect(self.save_file)
         self.actionExit.triggered.connect(qApp.quit)
         ################################################
-        # self.CT_A1.clicked.connect(self.slider_func)
-        # self.CT_A2.clicked.connect(self.slider_func)
-        # self.CT_A3.clicked.connect(self.slider_func)
-        # self.A4_radio.clicked.connect(self.slider_func)
-        # self.A5_radio.clicked.connect(self.slider_func)
-        # self.A6_radio.clicked.connect(self.slider_func)
-        # self.A7_radio.clicked.connect(self.slider_func)
-        # self.A8_radio.clicked.connect(self.slider_func)
-        # self.B1_radio.clicked.connect(self.slider_func)
-        # self.B2_radio.clicked.connect(self.slider_func)
-        # self.B3_radio.clicked.connect(self.slider_func)
-        # self.B4_radio.clicked.connect(self.slider_func)
-        # self.B5_radio.clicked.connect(self.slider_func)
-        # self.B6_radio.clicked.connect(self.slider_func)
-        # self.B7_radio.clicked.connect(self.slider_func)
-        # self.B8_radio.clicked.connect(self.slider_func)
+        self.All_checkBox.clicked.connect(self.slider_func)
+        self.A1_checkBox.clicked.connect(self.slider_func)
+        self.A2_checkBox.clicked.connect(self.slider_func)
+        self.A3_checkBox.clicked.connect(self.slider_func)
+        self.A4_checkBox.clicked.connect(self.slider_func)
+        self.A5_checkBox.clicked.connect(self.slider_func)
+        self.A6_checkBox.clicked.connect(self.slider_func)
+        self.A7_checkBox.clicked.connect(self.slider_func)
+        self.A8_checkBox.clicked.connect(self.slider_func)
+        self.B1_checkBox.clicked.connect(self.slider_func)
+        self.B2_checkBox.clicked.connect(self.slider_func)
+        self.B3_checkBox.clicked.connect(self.slider_func)
+        self.B4_checkBox.clicked.connect(self.slider_func)
+        self.B5_checkBox.clicked.connect(self.slider_func)
+        self.B6_checkBox.clicked.connect(self.slider_func)
+        self.B7_checkBox.clicked.connect(self.slider_func)
+        self.B8_checkBox.clicked.connect(self.slider_func)
         self.All_radio.clicked.connect(self.slider_func)
         self.origin_radio.clicked.connect(self.slider_func)
         self.Clear_radio.clicked.connect(self.clear_radio)
@@ -455,9 +456,102 @@ class MatplotlibWidget(QMainWindow):
             self.origin_data()
 
         else:
-            if self.All_radio.isChecked():
+            # if self.All_radio.isChecked():
+            #     self.update_graph()
+            if self.All_checkBox.isChecked():
+                self.A1_checkBox.setChecked(False)
+                self.A2_checkBox.setChecked(False)
+                self.A3_checkBox.setChecked(False)
+                self.A4_checkBox.setChecked(False)
+                self.A5_checkBox.setChecked(False)
+                self.A6_checkBox.setChecked(False)
+                self.A7_checkBox.setChecked(False)
+                self.A8_checkBox.setChecked(False)
+                self.B1_checkBox.setChecked(False)
+                self.B2_checkBox.setChecked(False)
+                self.B3_checkBox.setChecked(False)
+                self.B4_checkBox.setChecked(False)
+                self.B5_checkBox.setChecked(False)
+                self.B6_checkBox.setChecked(False)
+                self.B7_checkBox.setChecked(False)
+                self.B8_checkBox.setChecked(False)
                 self.update_graph()
+            
+                if self.All_checkBox.setChecked(False):
+                    self.MplWidget.canvas.axes.clear()
+                    self.MplWidget.canvas.draw()
             else:
+                # if self.A1_checkBox.isChecked():
+                #     self.All_checkBox.setChecked(False)
+                #     plot = 0
+                #     plot_color = 0
+                #     plot_channel = 'A1'
+                    
+                # if self.A2_checkBox.isChecked():
+                #     plot = 1
+                #     plot_color = 1
+                #     plot_channel = 'A2'
+                
+                # if self.A3_checkBox.isChecked():
+                #     self.All_checkBox.setChecked(False)
+                #     plot = 2
+                #     plot_color = 2
+                #     plot_channel = 'A3'
+                    
+                # if self.A4_checkBox.isChecked():
+                #     plot = 3
+                #     plot_color = 3
+                #     plot_channel = 'A4'
+                
+                # if self.A5_checkBox.isChecked():
+                #     plot = 4
+                #     plot_color = 4
+                #     plot_channel = 'A5'
+                # if self.A6_checkBox.isChecked():
+                #     plot = 5
+                #     plot_color = 5
+                #     plot_channel = 'A6'
+                # if self.A7_checkBox.isChecked():
+                #     plot = 6
+                #     plot_color = 6
+                #     plot_channel = 'A7'
+                # if self.A8_checkBox.isChecked():
+                #     plot = 7
+                #     plot_color = 7
+                #     plot_channel = 'A8'
+                # if self.B1_checkBox.isChecked():
+                #     plot = 8
+                #     plot_color = 8
+                #     plot_channel = 'B1'
+                # if self.B2_checkBox.isChecked():
+                #     plot = 9
+                #     plot_color = 9
+                #     plot_channel = 'B2'
+                # if self.B3_checkBox.isChecked():
+                #     plot = 10
+                #     plot_color = 10
+                #     plot_channel = 'B3'
+                # if self.B4_checkBox.isChecked():
+                #     plot = 11
+                #     plot_color = 11
+                #     plot_channel = 'B4'
+                # if self.B5_checkBox.isChecked():
+                #     plot = 12
+                #     plot_color = 12
+                #     plot_channel = 'B5'
+                # if self.B6_checkBox.isChecked():
+                #     plot = 13
+                #     plot_color = 13
+                #     plot_channel = 'B6'
+                # if self.B7_checkBox.isChecked():
+                #     plot = 14
+                #     plot_color = 14
+                #     plot_channel = 'B7'
+                # if self.B8_checkBox.isChecked():
+                #     plot = 15
+                #     plot_color = 15
+                #     plot_channel = 'B8'
+                
                 if self.A1_radio.isChecked():
                     plot = 0
                     plot_color = 0
@@ -530,11 +624,12 @@ class MatplotlibWidget(QMainWindow):
             self.MplWidget.canvas.draw()
     def slider_func_plot(self,plot,plot_color,plot_channel):
         self.MplWidget.canvas.axes.clear()
-        self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[plot],color =colorTab_More4[plot_color],label= plot_channel)
+        for i in range (1,3,1):
+            self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[plot],color =colorTab_More4[plot_color],label= plot_channel)
         self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
-        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
+        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7)
         self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'o',color = "green", label="Threshold") 
         self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
