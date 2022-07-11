@@ -429,7 +429,8 @@ class MatplotlibWidget(QMainWindow):
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
-        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
+        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7)
+        self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'-',color = "green", label="Normalize") 
         self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=7)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()

@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>6</y>
+      <y>12</y>
       <width>951</width>
-      <height>613</height>
+      <height>667</height>
      </rect>
     </property>
    </widget>
@@ -28,9 +28,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>636</y>
+      <y>690</y>
       <width>831</width>
-      <height>25</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -46,8 +46,8 @@
      <rect>
       <x>970</x>
       <y>6</y>
-      <width>211</width>
-      <height>259</height>
+      <width>201</width>
+      <height>283</height>
      </rect>
     </property>
     <property name="font">
@@ -433,10 +433,10 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>1190</x>
+      <x>1180</x>
       <y>6</y>
-      <width>171</width>
-      <height>259</height>
+      <width>181</width>
+      <height>283</height>
      </rect>
     </property>
     <property name="font">
@@ -459,14 +459,14 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-365</y>
-          <width>129</width>
+          <y>0</y>
+          <width>138</width>
           <height>565</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_6">
-         <item row="17" column="0">
-          <widget class="QCheckBox" name="B4_checkBox">
+         <item row="20" column="0">
+          <widget class="QCheckBox" name="B7_checkBox">
            <property name="font">
             <font>
              <pointsize>10</pointsize>
@@ -475,35 +475,7 @@
             </font>
            </property>
            <property name="text">
-            <string>B4</string>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="0">
-          <widget class="QCheckBox" name="A8_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>A8</string>
-           </property>
-          </widget>
-         </item>
-         <item row="15" column="0">
-          <widget class="QCheckBox" name="B3_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>B3</string>
+            <string>B7</string>
            </property>
           </widget>
          </item>
@@ -521,8 +493,8 @@
            </property>
           </widget>
          </item>
-         <item row="18" column="0">
-          <widget class="QCheckBox" name="B5_checkBox">
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="Clear_checkBox">
            <property name="font">
             <font>
              <pointsize>10</pointsize>
@@ -531,7 +503,107 @@
             </font>
            </property>
            <property name="text">
-            <string>B5</string>
+            <string>Clear</string>
+           </property>
+          </widget>
+         </item>
+         <item row="17" column="0">
+          <widget class="QCheckBox" name="B4_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>B4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="0">
+          <widget class="QCheckBox" name="B2_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>B2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="17" column="1">
+          <widget class="QPushButton" name="pushButton_17">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(36, 161, 161);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QPushButton" name="pushButton_9">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(37, 242, 243);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QCheckBox" name="A4_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>A4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="A3_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>A3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QCheckBox" name="A5_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>A5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(200, 201, 44);</string>
+           </property>
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
@@ -563,6 +635,40 @@
            </property>
           </widget>
          </item>
+         <item row="18" column="0">
+          <widget class="QCheckBox" name="B5_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>B5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QPushButton" name="pushButton_10">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(27, 183, 89);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="pushButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(232, 165, 235);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="0">
           <widget class="QCheckBox" name="A1_checkBox">
            <property name="font">
@@ -577,45 +683,13 @@
            </property>
           </widget>
          </item>
-         <item row="9" column="0">
-          <widget class="QCheckBox" name="A7_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
+         <item row="18" column="1">
+          <widget class="QPushButton" name="pushButton_16">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(21, 21, 248);</string>
            </property>
            <property name="text">
-            <string>A7</string>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="0">
-          <widget class="QCheckBox" name="B2_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>B2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QCheckBox" name="A5_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>A5</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -633,31 +707,13 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
-          <widget class="QCheckBox" name="A3_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
+         <item row="12" column="1">
+          <widget class="QPushButton" name="pushButton_5">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(243, 32, 32);</string>
            </property>
            <property name="text">
-            <string>A3</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="Clear_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Clear</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -678,92 +734,10 @@
            </property>
           </widget>
          </item>
-         <item row="21" column="0">
-          <widget class="QCheckBox" name="checkBox_16">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>B8</string>
-           </property>
-          </widget>
-         </item>
-         <item row="20" column="0">
-          <widget class="QCheckBox" name="B7_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>B7</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QCheckBox" name="A4_checkBox">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>A4</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="pushButton">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(232, 165, 235);</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="1">
           <widget class="QPushButton" name="pushButton_3">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(250, 204, 158);</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QPushButton" name="pushButton_11">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(232, 233, 72);</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QPushButton" name="pushButton_10">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(27, 183, 89);</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QPushButton" name="pushButton_9">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(37, 242, 243);</string>
            </property>
            <property name="text">
             <string/>
@@ -780,30 +754,38 @@
            </property>
           </widget>
          </item>
-         <item row="9" column="1">
-          <widget class="QPushButton" name="pushButton_7">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(209, 174, 248);</string>
+         <item row="15" column="0">
+          <widget class="QCheckBox" name="B3_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
            </property>
            <property name="text">
-            <string/>
+            <string>B3</string>
            </property>
           </widget>
          </item>
-         <item row="11" column="1">
-          <widget class="QPushButton" name="pushButton_6">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(200, 201, 44);</string>
+         <item row="21" column="0">
+          <widget class="QCheckBox" name="checkBox_16">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
            </property>
            <property name="text">
-            <string/>
+            <string>B8</string>
            </property>
           </widget>
          </item>
-         <item row="12" column="1">
-          <widget class="QPushButton" name="pushButton_5">
+         <item row="15" column="1">
+          <widget class="QPushButton" name="pushButton_2">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(243, 32, 32);</string>
+            <string notr="true">background-color: rgb(64, 99, 134);</string>
            </property>
            <property name="text">
             <string/>
@@ -820,30 +802,58 @@
            </property>
           </widget>
          </item>
-         <item row="15" column="1">
-          <widget class="QPushButton" name="pushButton_2">
+         <item row="20" column="1">
+          <widget class="QPushButton" name="pushButton_14">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(64, 99, 134);</string>
+            <string notr="true">background-color: rgb(116, 74, 32);</string>
            </property>
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
-         <item row="17" column="1">
-          <widget class="QPushButton" name="pushButton_17">
+         <item row="9" column="0">
+          <widget class="QCheckBox" name="A7_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>A7</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <widget class="QCheckBox" name="A8_checkBox">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>A8</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QPushButton" name="pushButton_11">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(36, 161, 161);</string>
+            <string notr="true">background-color: rgb(232, 233, 72);</string>
            </property>
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
-         <item row="18" column="1">
-          <widget class="QPushButton" name="pushButton_16">
+         <item row="9" column="1">
+          <widget class="QPushButton" name="pushButton_7">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(21, 21, 248);</string>
+            <string notr="true">background-color: rgb(209, 174, 248);</string>
            </property>
            <property name="text">
             <string/>
@@ -854,16 +864,6 @@
           <widget class="QPushButton" name="pushButton_15">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(149, 150, 151);</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="20" column="1">
-          <widget class="QPushButton" name="pushButton_14">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(116, 74, 32);</string>
            </property>
            <property name="text">
             <string/>
@@ -890,9 +890,9 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>276</y>
-      <width>321</width>
-      <height>397</height>
+      <y>294</y>
+      <width>391</width>
+      <height>451</height>
      </rect>
     </property>
     <property name="font">
@@ -906,8 +906,14 @@
      <string>Threshold Cycle Calculation</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_4">
-     <item row="0" column="0">
+     <item row="0" column="0" colspan="2">
       <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="2">
+        <widget class="QLCDNumber" name="ns_threshold"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLCDNumber" name="ns_baseline_begin"/>
+       </item>
        <item row="1" column="1">
         <widget class="QSlider" name="slider_begin">
          <property name="minimum">
@@ -921,26 +927,27 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QLCDNumber" name="ns_baseline_end"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="Start_time">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Threshold</string>
+          <string>2</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <widget class="QLCDNumber" name="ns_baseline_begin"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="baseline_begin">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Baseline Begin:</string>
+          <string>Threshold</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -970,8 +977,15 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QLCDNumber" name="ns_threshold"/>
+       <item row="3" column="0">
+        <widget class="QLabel" name="baseline_begin_2">
+         <property name="text">
+          <string>Baseline Begin:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item row="0" column="1">
         <widget class="QSlider" name="slider_threshold">
@@ -986,231 +1000,608 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="2">
+        <widget class="QLCDNumber" name="ns_baseline_end"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="End_time">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>7</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="baseline_end_2">
+         <property name="text">
+          <string>Baseline End:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="baseline_begin">
+         <property name="text">
+          <string>Baseline Begin:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="Input_std">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>10</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_Threshold_2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Threshold: N  * Std</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
-     <item row="1" column="0">
-      <widget class="QTableWidget" name="tableWidget">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <row>
-        <property name="text">
-         <string>A1</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A2</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A3</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A4</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A5</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A6</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A7</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>A8</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B1</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B2</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B3</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B4</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B5</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B6</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B7</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B8</string>
-        </property>
-       </row>
-       <column>
-        <property name="text">
-         <string>CH</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Value</string>
-        </property>
-       </column>
+     <item row="2" column="0" colspan="2">
+      <layout class="QGridLayout" name="gridLayout_9">
        <item row="0" column="0">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
+        <widget class="QLabel" name="label_well1">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item row="0" column="1">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
+        <widget class="QLineEdit" name="CT_A1">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
-      </widget>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_well9">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLineEdit" name="CT_B1">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_well2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A2</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="CT_A2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_well10">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B2</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLineEdit" name="CT_B2">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_well3">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="CT_A3">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_well11">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="CT_B3">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_well4">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A4</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="CT_A4">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="label_well12">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B4</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QLineEdit" name="CT_B4">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_well5">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A5</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="CT_A5">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_well13">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B5</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLineEdit" name="CT_B5">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_well6">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A6</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="CT_A6">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLabel" name="label_well14">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B6</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QLineEdit" name="CT_B6">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_well7">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A7</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="CT_A7">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLabel" name="label_well15">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B7</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3">
+        <widget class="QLineEdit" name="CT_B7">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_well8">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>A8</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="CT_A8">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_well16">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>B8</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3">
+        <widget class="QLineEdit" name="CT_B8">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>666</y>
-      <width>271</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_8">
-     <item row="0" column="0">
-      <widget class="QPushButton" name="btn_open">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(0, 0, 255);</string>
-       </property>
-       <property name="text">
-        <string>Open</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="btn_save">
-       <property name="font">
-        <font>
-         <pointsize>10</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(0, 170, 0);</string>
-       </property>
-       <property name="text">
-        <string>Save</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="pushButton_12">
-    <property name="geometry">
-     <rect>
-      <x>1240</x>
-      <y>696</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(232, 165, 235);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
    </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>361</x>
-      <y>698</y>
-      <width>395</width>
-      <height>46</height>
+      <x>10</x>
+      <y>720</y>
+      <width>732</width>
+      <height>51</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QRadioButton" name="origin_radio">
-       <property name="font">
-        <font>
-         <pointsize>20</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>origin</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QRadioButton" name="main_radio">
        <property name="font">
         <font>
          <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>main</string>
+        <string>Normalize</string>
        </property>
        <property name="checked">
         <bool>false</bool>
@@ -1222,13 +1613,32 @@
        <property name="font">
         <font>
          <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>Normalize</string>
+        <string>Threshold</string>
        </property>
        <property name="checked">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QRadioButton" name="origin_radio">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Origin</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

@@ -28,12 +28,10 @@ class MatplotlibWidget(QMainWindow):
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
         self.slider_func()
-        self.tableWidget_ct()
+
         
         
     def connect_signals(self):
-        self.btn_open.clicked.connect(self.browsefile)
-        self.btn_save.clicked.connect(self.save_file)
         self.slider_begin.valueChanged.connect(self.sl_begin)
         self.slider_end.valueChanged.connect(self.sl_begin)
         self.A1_radio.clicked.connect(self.slider_func)
@@ -52,6 +50,27 @@ class MatplotlibWidget(QMainWindow):
         self.B6_radio.clicked.connect(self.slider_func)
         self.B7_radio.clicked.connect(self.slider_func)
         self.B8_radio.clicked.connect(self.slider_func)
+        self.All_radio.clicked.connect(self.slider_func)
+        self.actionOpen.triggered.connect(self.browsefile)
+        self.actionSave.triggered.connect(self.save_file)
+        self.actionExit.triggered.connect(qApp.quit)
+        ################################################
+        # self.CT_A1.clicked.connect(self.slider_func)
+        # self.CT_A2.clicked.connect(self.slider_func)
+        # self.CT_A3.clicked.connect(self.slider_func)
+        # self.A4_radio.clicked.connect(self.slider_func)
+        # self.A5_radio.clicked.connect(self.slider_func)
+        # self.A6_radio.clicked.connect(self.slider_func)
+        # self.A7_radio.clicked.connect(self.slider_func)
+        # self.A8_radio.clicked.connect(self.slider_func)
+        # self.B1_radio.clicked.connect(self.slider_func)
+        # self.B2_radio.clicked.connect(self.slider_func)
+        # self.B3_radio.clicked.connect(self.slider_func)
+        # self.B4_radio.clicked.connect(self.slider_func)
+        # self.B5_radio.clicked.connect(self.slider_func)
+        # self.B6_radio.clicked.connect(self.slider_func)
+        # self.B7_radio.clicked.connect(self.slider_func)
+        # self.B8_radio.clicked.connect(self.slider_func)
         self.All_radio.clicked.connect(self.slider_func)
         self.origin_radio.clicked.connect(self.slider_func)
         self.Clear_radio.clicked.connect(self.clear_radio)
@@ -73,13 +92,23 @@ class MatplotlibWidget(QMainWindow):
             self.df_raw = pd.read_csv(self.fname[0])
             self.df_raw.reset_index(inplace=True)
             self.origin_time = []
-            self.df_raw.rename(columns={'time':'well_1', 'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
-                                        'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
-                                        'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
-                                        'B4':'well_13', 'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},
-                                        inplace = True)
-            self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
-            self.df_raw.rename(columns={"index": "time"},inplace=True)
+            #Csv data has "accumulated time" column
+            if 'accumulated time' in self.df_raw.columns:
+                self.df_raw = self.df_raw.drop(labels=["time"], axis="columns")
+                self.df_raw.rename(columns={'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+                                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                                            'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+                self.df_raw.rename(columns={'accumulated time':'well_1','index':'time'},inplace = True)
+                self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+            #Csv data has not "accumulated time" column
+            else:
+                self.df_raw.rename(columns={'time':'well_1','A1':'well_2', 'A2':'well_3', 'A3':'well_4',
+                                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
+                                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
+                                            'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+                self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
+                self.df_raw.rename(columns={"index": "time"},inplace=True)
             print("-"*150)
             print(self.df_raw)
             print("-"*150)
@@ -88,7 +117,6 @@ class MatplotlibWidget(QMainWindow):
             print(self.origin_time)
             self.origin_data()
             self.calculate()
-            
     
     def origin_data(self):
         self.MplWidget.canvas.axes.clear()
@@ -114,7 +142,6 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=10)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
         self.MplWidget.canvas.draw()
-            # self.calculate()
             
     def calculate(self):
         self.big_well = []
@@ -124,7 +151,7 @@ class MatplotlibWidget(QMainWindow):
         self.get_accumulation_time()
         self.normalize()
         threshold_value = self.get_ct_threshold()
-        # UI顯示 16個CT值
+        #Display A1~B8 CT Value
         self.Ct_value = self.get_ct_value(threshold_value)
 
         self.A1_data = []
@@ -192,8 +219,25 @@ class MatplotlibWidget(QMainWindow):
         self.big_array.append(self.B6_data)
         self.big_array.append(self.B7_data)
         self.big_array.append(self.B8_data)
-        # self.update_graph()
+
         self.slider_func()
+        self.CT_A1.setText(str(self.Ct_value[0]))
+        self.CT_A2.setText(str(self.Ct_value[1]))
+        self.CT_A3.setText(str(self.Ct_value[2]))
+        self.CT_A4.setText(str(self.Ct_value[3]))
+        self.CT_A5.setText(str(self.Ct_value[4]))
+        self.CT_A6.setText(str(self.Ct_value[5]))
+        self.CT_A7.setText(str(self.Ct_value[6]))
+        self.CT_A8.setText(str(self.Ct_value[7]))
+        self.CT_B1.setText(str(self.Ct_value[8]))
+        self.CT_B2.setText(str(self.Ct_value[9]))
+        self.CT_B3.setText(str(self.Ct_value[10]))
+        self.CT_B4.setText(str(self.Ct_value[11]))
+        self.CT_B5.setText(str(self.Ct_value[12]))
+        self.CT_B6.setText(str(self.Ct_value[13]))
+        self.CT_B7.setText(str(self.Ct_value[14]))
+        self.CT_B8.setText(str(self.Ct_value[15]))
+
     def get_accumulation_time(self):
         df_time = self.df_normalization['time']
         time_ori = datetime.strptime(df_time[0], "%H:%M:%S")
@@ -208,14 +252,17 @@ class MatplotlibWidget(QMainWindow):
         Avg = []
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
-            StdDev.append(df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].std())
-            Avg.append(df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].mean())
+            # StdDev.append(df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].std())
+            StdDev.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].std())
+            
+            Avg.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean())
         return StdDev, Avg
 
     def normalize(self):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
-            self.baseline = df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].mean()
+            # self.baseline = df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].mean()
+            self.baseline = df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             if(i<8):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))
@@ -227,7 +274,7 @@ class MatplotlibWidget(QMainWindow):
         threshold_value = []
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
-            threshold_value.append(int(n_sd) * StdDev[i] + Avg[i])
+            threshold_value.append(int(self.Input_std.text()) * StdDev[i] + Avg[i])
         return threshold_value
 
     def get_ct_value(self, threshold_value):
@@ -271,7 +318,6 @@ class MatplotlibWidget(QMainWindow):
                         y = threshold_value[i]
                         x = (x2 - x1) * (y - y1) / (y2 - y1) + x1
                         Ct_value.append(round(x, 2))
-                        # print(f"Ct of well_{i + 1} is {round(x, 2)}")
                         break
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
@@ -280,16 +326,16 @@ class MatplotlibWidget(QMainWindow):
         return Ct_value
     
     def save_file(self):
-        #儲存失敗
+        #Save fail
         if self.Input_file.text() == "":
             QtWidgets.QMessageBox.critical(self, u"存取失敗", u"未開啟csv檔案", buttons=QtWidgets.QMessageBox.Ok,
                 defaultButton=QtWidgets.QMessageBox.Ok)
-        #儲存成功
+        #Save successful
         else:
             try :
                 if len(self.df_raw.index) < 7:
                     raise
-                #設置資料欄位
+                #setup data 
                 self.save_excel = pd.DataFrame({"A1": [self.Ct_value[0]], "A2": [self.Ct_value[1]],
                                                 "A3": [self.Ct_value[2]], "A4": [self.Ct_value[3]],
                                                 "A5": [self.Ct_value[4]], "A6": [self.Ct_value[5]],
@@ -299,7 +345,7 @@ class MatplotlibWidget(QMainWindow):
                                                 "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
                                                 "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
                     , index=["CT_Value"])
-                #儲存資料以及存取位置
+                #Save data and path
                 self.save_excel.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
                 self.move_finish.T.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
                 print(self.save_excel)
@@ -316,14 +362,14 @@ class MatplotlibWidget(QMainWindow):
                                                 "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
                                                 "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
                     , index=["CT_Value"])
-                #儲存資料以及存取位置
+                #Save data and path
                 self.save_excel.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
                 self.df_normalization = self.df_normalization.drop(columns=['time','accumulation','shutter_speed','ISO']) #Drop 'time','accumulation','shutter_speed','ISO'
                 self.df_normalization.T.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
                 QtWidgets.QMessageBox.information(self, u"存取成功", u"已成功另存Csv檔案", buttons=QtWidgets.QMessageBox.Ok,
                     defaultButton=QtWidgets.QMessageBox.Ok)
                 print("Save data successful !!!")
-
+    #Clean all display information
     def clean_log(self):
         self.Input_file.setText("")
         self.MplWidget.canvas.axes.clear()
@@ -340,6 +386,7 @@ class MatplotlibWidget(QMainWindow):
             self.ns_baseline_begin.display(slider)
             print(slider)
     
+    # Display Normalize all chart
     def update_graph(self):
         self.MplWidget.canvas.axes.clear()
         self.MplWidget.canvas.axes.plot(self.time_array, self.A1_data,color =colorTab_More4[0],label="A1")
@@ -358,15 +405,19 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.plot(self.time_array, self.B6_data,color =colorTab_More4[13],label="B6")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data,color =colorTab_More4[14],label="B7")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data,color =colorTab_More4[15],label="B8")
+        self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'o',color = "green", label="Threshold")
+        # self.MplWidget.canvas.axes.vlines(first_time,0,2,color="red")
         self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
         # self.MplWidget.canvas.axes.set_ylim(-2,4)
         #self.MplWidget.canvas.set_scales(20,0.1)
-        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
-        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
-        self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=7)
-        self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
+        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
+        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10) 
+        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=5, fontsize=7)
+        self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
+
         self.MplWidget.canvas.draw()
     
+    # Display threshold chart
     def nor_data(self):
         if self.Input_file.text() == "":
             None
@@ -382,14 +433,14 @@ class MatplotlibWidget(QMainWindow):
             self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
             self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
             self.MplWidget.canvas.draw()
-    #主要曲線
+    #Display Normalize and all(A1~B8) chart
     def main_data(self):
         if self.Input_file.text() == "":
             None
         else:
             self.groupBox.setChecked(True)
             self.slider_func()
-    #選擇單一曲線以及各選擇鍵功能 
+    #Choose one chart
     def slider_func(self):
         if self.Input_file.text() == "":
             None
@@ -407,71 +458,6 @@ class MatplotlibWidget(QMainWindow):
             if self.All_radio.isChecked():
                 self.update_graph()
             else:
-                # if self.A1_checkBox.isChecked():
-                #     plot = 0
-                #     plot_color = 0
-                #     plot_channel = 'A1'
-
-                # if self.A2_checkBox.isChecked():
-                #     plot = 1
-                #     plot_color = 1
-                #     plot_channel = 'A2'
-                # if self.A3_checkBox.isChecked():
-                #     plot = 2
-                #     plot_color = 2
-                #     plot_channel = 'A3'
-                # if self.A4_checkBox.isChecked():
-                #     plot = 3
-                #     plot_color = 3
-                #     plot_channel = 'A4'
-                # if self.A5_checkBox.isChecked():
-                #     plot = 4
-                #     plot_color = 4
-                #     plot_channel = 'A5'
-                # if self.A6_checkBox.isChecked():
-                #     plot = 5
-                #     plot_color = 5
-                #     plot_channel = 'A6'
-                # if self.A7_checkBox.isChecked():
-                #     plot = 6
-                #     plot_color = 6
-                #     plot_channel = 'A7'
-                # if self.A8_checkBox.isChecked():
-                #     plot = 7
-                #     plot_color = 7
-                #     plot_channel = 'A8'
-                # if self.B1_checkBox.isChecked():
-                #     plot = 8
-                #     plot_color = 8
-                #     plot_channel = 'B1'
-                # if self.B2_checkBox.isChecked():
-                #     plot = 9
-                #     plot_color = 9
-                #     plot_channel = 'B2'
-                # if self.B3_checkBox.isChecked():
-                #     plot = 10
-                #     plot_color = 10
-                #     plot_channel = 'B3'
-                # if self.B4_checkBox.isChecked():
-                #     plot = 11
-                #     plot_color = 11
-                #     plot_channel = 'B4'
-                # if self.B5_checkBox.isChecked():
-                #     plot = 12
-                #     plot_color = 12
-                #     plot_channel = 'B5'
-                # if self.B6_checkBox.isChecked():
-                #     plot = 13
-                #     plot_color = 13
-                #     plot_channel = 'B6'
-                # if self.B7_checkBox.isChecked():
-                #     plot = 14
-                #     plot_color = 14
-                #     plot_channel = 'B7'
-                # if self.B8_checkBox.isChecked():
-                #     plot = 15
-                #     plot_color = 15
-                #     plot_channel = 'B8'
                 if self.A1_radio.isChecked():
                     plot = 0
                     plot_color = 0
@@ -545,37 +531,15 @@ class MatplotlibWidget(QMainWindow):
     def slider_func_plot(self,plot,plot_color,plot_channel):
         self.MplWidget.canvas.axes.clear()
         self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[plot],color =colorTab_More4[plot_color],label= plot_channel)
-        self.MplWidget.canvas.axes.set_xlim(0,20)
+        self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
         # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
-        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
+        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7)
+        self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'o',color = "green", label="Threshold") 
         self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
         self.MplWidget.canvas.draw()
-    def tableWidget_ct(self):
-        # if self.Input_file.text() == "":
-        #     fila = 0
-        #     self.tableWidget.insertRow(fila)
-        if self.Input_file.text() == "":
-            None
-        else:
-            self.tableWidget_ct.setRowCount(40)
-            self.tableWidget_ct.insertRow(0, 0, QtWidgets.QTableWidgetItem(self.Ct_value[0]))
-            # fila = 0
-            # lista2 = []
-            # for i in range(16):
-            #     # casos[i]
-            #     # fecha[i]
-            #     lista2.append((str(self.Ct_value[i]), str(self.Ct_value[i])))
-            # for registro in lista2:
-            #     columna = 0
-            #     self.tableWidget.insertRow(fila)
-            #     for elemento in registro:
-            #         celda = QTableWidgetItem(str(elemento))
-            #         self.tableWidget.setItem(fila, columna)
-            #         columna += 1
-            # fila += 1
 
 if __name__ == '__main__':
     app = QApplication([])
