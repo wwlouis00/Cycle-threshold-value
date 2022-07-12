@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1370</width>
-    <height>807</height>
+    <width>1369</width>
+    <height>816</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,8 +36,8 @@
     <property name="font">
      <font>
       <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
    </widget>
@@ -158,7 +158,7 @@
           <x>0</x>
           <y>0</y>
           <width>178</width>
-          <height>671</height>
+          <height>565</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_6">
@@ -606,10 +606,28 @@
      <item row="0" column="0" colspan="2">
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="2">
-        <widget class="QLCDNumber" name="ns_threshold"/>
+        <widget class="QLCDNumber" name="ns_threshold">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QLCDNumber" name="ns_baseline_begin"/>
+        <widget class="QLCDNumber" name="ns_baseline_begin">
+         <property name="digitCount">
+          <number>5</number>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
        </item>
        <item row="1" column="1">
         <widget class="QSlider" name="slider_begin">
@@ -634,7 +652,7 @@
           </font>
          </property>
          <property name="text">
-          <string>2</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -698,7 +716,11 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QLCDNumber" name="ns_baseline_end"/>
+        <widget class="QLCDNumber" name="ns_baseline_end">
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
        </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="End_time">
@@ -710,7 +732,7 @@
           </font>
          </property>
          <property name="text">
-          <string>7</string>
+          <string/>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -768,6 +790,24 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QPushButton" name="btn_resetfile">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 0);
+color: rgb(206, 206, 0);</string>
+         </property>
+         <property name="text">
+          <string>Reset</string>
          </property>
         </widget>
        </item>
@@ -1284,8 +1324,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1370</width>
-     <height>25</height>
+     <width>1369</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

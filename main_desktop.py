@@ -10,7 +10,6 @@ import numpy as np
 from datetime import datetime
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
-import sys
 
 now_output_time = str(datetime.now().strftime('%Y-%m-%d %H-%M-%S'))
 #Color
@@ -53,11 +52,10 @@ class MatplotlibWidget(QMainWindow):
         self.B7_checkBox.clicked.connect(self.slider_func)
         self.B8_checkBox.clicked.connect(self.slider_func)
         self.origin_radio.clicked.connect(self.slider_func)
-        # self.Clear_radio.clicked.connect(self.clear_radio)
+        self.btn_resetfile.clicked.connect(self.reset_file)
         self.nor_radio.clicked.connect(self.nor_data)
         self.main_radio.clicked.connect(self.main_data)
-        
-        
+
         
     def browsefile(self):
         if not os.path.isdir('./result'):
@@ -232,17 +230,19 @@ class MatplotlibWidget(QMainWindow):
         Avg = []
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
-            # StdDev.append(df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].std())
-            StdDev.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].std())
+            StdDev.append(df_current_well[int(self.ns_baseline_begin.value()) * 2 + 1:int(self.ns_baseline_end.value()) * 2 + 1].std())
+            # StdDev.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].std())
             
-            Avg.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean())
+            
+            # Avg.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean())
+            Avg.append(df_current_well[int(self.ns_baseline_begin.value()) * 2 + 1:int(self.ns_baseline_end.value()) * 2 + 1].mean())
         return StdDev, Avg
 
     def normalize(self):
         for i in range(0, 16):
             df_current_well = self.df_raw[f'well_{i + 1}']
-            # self.baseline = df_current_well[int(first_time) * 2 + 1:int(twice_time) * 2 + 1].mean()
-            self.baseline = df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean()
+            self.baseline = df_current_well[int(self.ns_baseline_begin.value()) * 2 + 1:int(self.ns_baseline_end.value()) * 2 + 1].mean()
+            # self.baseline = df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean()
             self.df_normalization[f'well{i + 1}'] = (self.df_raw[f'well_{i + 1}'] - self.baseline) / self.baseline
             if(i<8):
                 print(f'A{i+1}'+" baseline value: " + str(self.baseline))
@@ -255,6 +255,7 @@ class MatplotlibWidget(QMainWindow):
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
             threshold_value.append(int(self.Input_std.text()) * StdDev[i] + Avg[i])
+        print(threshold_value)
         return threshold_value
 
     def get_ct_value(self, threshold_value):
@@ -264,7 +265,7 @@ class MatplotlibWidget(QMainWindow):
             df_accumulation = self.df_normalization['accumulation']
             try:
                 for j, row in enumerate(df_current_well):
-                    if row >= threshold_value[i] and j > int(self.Start_time.text()):
+                    if row >= threshold_value[i] and j > int(self.slider_begin.value()):
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -285,7 +286,7 @@ class MatplotlibWidget(QMainWindow):
                         print("Ct value is not available")
             except:
                 for j, row in enumerate(df_current_well):
-                    if row >= threshold_value[i] and j > int(self.Start_time.text()):
+                    if row >= threshold_value[i] and j > int(self.slider_begin.value()):
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -304,7 +305,11 @@ class MatplotlibWidget(QMainWindow):
                         Ct_value.append("N/A")
                         print("Ct value is not available")
         return Ct_value
-    
+    def reset_file(self):
+        if self.Input_file.text() == "" or self.Input_std.text() == "":
+            QtWidgets.QMessageBox.critical(self, u"未輸入開始時間以及結束時間!", u"未開啟任何Csv檔案", buttons=QtWidgets.QMessageBox.Ok,defaultButton=QtWidgets.QMessageBox.Ok)
+        else:
+            self.calculate()
     def save_file(self):
         #Save fail
         if self.Input_file.text() == "":
@@ -357,15 +362,20 @@ class MatplotlibWidget(QMainWindow):
         print("Clean data successful !!!")
     
     def rollingMean(self):
-        value = self.ns_baseline_begin.value()
-        return value
-
+        # value = self.ns_baseline_begin.value()
+        # return value
+        # self.Start_time.setText(f"{self.ns_baseline_begin.value()}")
+        self.ns_baseline_begin.display(self.slider_begin.value())
+        self.ns_baseline_end.display(self.slider_end.value())
+        print(type(self.ns_baseline_begin))
     def sl_begin(self):
-        if self.All_checkBox.isChecked():
-            slider = self.rollingMean()
-            self.ns_baseline_begin.display(slider)
-            print(slider)
-    
+        # if self.All_checkBox.isChecked():
+        #     # self.slider_begin.valueChanged.connect(self.rollingMean)
+        #     slider = self.rollingMean()
+        #     self.ns_baseline_begin.display(slider)
+        #     print(slider)
+        self.slider_begin.valueChanged.connect(self.rollingMean)
+        self.slider_end.valueChanged.connect(self.rollingMean)
     # Display Normalize all chart
     def update_graph(self):
         self.MplWidget.canvas.axes.clear()
@@ -385,7 +395,7 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.plot(self.time_array, self.B6_data,color =colorTab_More4[13],label="B6")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B7_data,color =colorTab_More4[14],label="B7")
         self.MplWidget.canvas.axes.plot(self.time_array, self.B8_data,color =colorTab_More4[15],label="B8")
-        self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'o',color = "green", label="Threshold")
+        self.MplWidget.canvas.axes.plot(self.time_array, self.nor_plot,'o',color = "green", label="Threshold")
         # self.MplWidget.canvas.axes.vlines(first_time,0,2,color="red")
         self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
         # self.MplWidget.canvas.axes.set_ylim(-2,4)
@@ -445,22 +455,18 @@ class MatplotlibWidget(QMainWindow):
                     self.plot.append(0)
                     self.plot_color.append(0)
                     self.plot_channel.append('A1')
-
                 if self.A2_checkBox.isChecked():
                     self.plot.append(1)
                     self.plot_color.append(1)
                     self.plot_channel.append('A2')
-
                 if self.A3_checkBox.isChecked():
                     self.plot.append(2)
                     self.plot_color.append(2)
                     self.plot_channel.append('A3')
-
                 if self.A4_checkBox.isChecked():
                     self.plot.append(3)
                     self.plot_color.append(3)
                     self.plot_channel.append('A4')
-                
                 if self.A5_checkBox.isChecked():
                     self.plot.append(4)
                     self.plot_color.append(4)
@@ -513,12 +519,6 @@ class MatplotlibWidget(QMainWindow):
                 print(self.plot_color)
                 print(self.plot_channel)
                 self.slider_func_plot(self.plot,self.plot_color,self.plot_channel)
-
-
-    def clear_radio(self):
-        if self.Clear_radio.isChecked():
-            self.MplWidget.canvas.axes.clear()
-            self.MplWidget.canvas.draw()
     def slider_func_plot(self,plot,plot_color,plot_channel):
         self.MplWidget.canvas.axes.clear()
         if self.main_radio.isChecked():
