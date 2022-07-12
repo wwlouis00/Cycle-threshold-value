@@ -1,3 +1,4 @@
+from tkinter import NONE
 from PyQt5.QtWidgets import*
 # from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QApplication, QLabel
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -26,34 +27,15 @@ class MatplotlibWidget(QMainWindow):
         self.addToolBar(NavigationToolbar(self.MplWidget.canvas, self))
         self.connect_signals()
         self.slider_func()
-
-        
-        
     def connect_signals(self):
         self.slider_begin.valueChanged.connect(self.sl_begin)
         self.slider_end.valueChanged.connect(self.sl_begin)
-        self.A1_radio.clicked.connect(self.slider_func)
-        self.A2_radio.clicked.connect(self.slider_func)
-        self.A3_radio.clicked.connect(self.slider_func)
-        self.A4_radio.clicked.connect(self.slider_func)
-        self.A5_radio.clicked.connect(self.slider_func)
-        self.A6_radio.clicked.connect(self.slider_func)
-        self.A7_radio.clicked.connect(self.slider_func)
-        self.A8_radio.clicked.connect(self.slider_func)
-        self.B1_radio.clicked.connect(self.slider_func)
-        self.B2_radio.clicked.connect(self.slider_func)
-        self.B3_radio.clicked.connect(self.slider_func)
-        self.B4_radio.clicked.connect(self.slider_func)
-        self.B5_radio.clicked.connect(self.slider_func)
-        self.B6_radio.clicked.connect(self.slider_func)
-        self.B7_radio.clicked.connect(self.slider_func)
-        self.B8_radio.clicked.connect(self.slider_func)
-        self.All_radio.clicked.connect(self.slider_func)
         self.actionOpen.triggered.connect(self.browsefile)
         self.actionSave.triggered.connect(self.save_file)
         self.actionExit.triggered.connect(qApp.quit)
         ################################################
         self.All_checkBox.clicked.connect(self.slider_func)
+        self.Clear_checkBox.clicked.connect(self.slider_func)
         self.A1_checkBox.clicked.connect(self.slider_func)
         self.A2_checkBox.clicked.connect(self.slider_func)
         self.A3_checkBox.clicked.connect(self.slider_func)
@@ -70,9 +52,8 @@ class MatplotlibWidget(QMainWindow):
         self.B6_checkBox.clicked.connect(self.slider_func)
         self.B7_checkBox.clicked.connect(self.slider_func)
         self.B8_checkBox.clicked.connect(self.slider_func)
-        self.All_radio.clicked.connect(self.slider_func)
         self.origin_radio.clicked.connect(self.slider_func)
-        self.Clear_radio.clicked.connect(self.clear_radio)
+        # self.Clear_radio.clicked.connect(self.clear_radio)
         self.nor_radio.clicked.connect(self.nor_data)
         self.main_radio.clicked.connect(self.main_data)
         
@@ -283,7 +264,7 @@ class MatplotlibWidget(QMainWindow):
             df_accumulation = self.df_normalization['accumulation']
             try:
                 for j, row in enumerate(df_current_well):
-                    if row >= threshold_value[i] and j > self.Start_time:
+                    if row >= threshold_value[i] and j > int(self.Start_time.text()):
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -304,7 +285,7 @@ class MatplotlibWidget(QMainWindow):
                         print("Ct value is not available")
             except:
                 for j, row in enumerate(df_current_well):
-                    if row >= threshold_value[i] and j > self.Start_time:
+                    if row >= threshold_value[i] and j > int(self.Start_time.text()):
                         thres_lower = df_current_well[j - 1]
                         thres_upper = df_current_well[j]
                         acc_time_lower = df_accumulation[j - 1]
@@ -380,7 +361,7 @@ class MatplotlibWidget(QMainWindow):
         return value
 
     def sl_begin(self):
-        if self.All_radio.isChecked():
+        if self.All_checkBox.isChecked():
             slider = self.rollingMean()
             self.ns_baseline_begin.display(slider)
             print(slider)
@@ -427,10 +408,10 @@ class MatplotlibWidget(QMainWindow):
             self.MplWidget.canvas.axes.set_xlim(0,20)
             # self.MplWidget.canvas.axes.set_ylim(-0.1,0.1)
             #self.MplWidget.canvas.set_scales(20,0.1)
-            self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=5)  # Inserta el título del eje X
-            self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7) 
-            self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=5)
-            self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
+            self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
+            self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10) 
+            self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
+            self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
             self.MplWidget.canvas.draw()
     #Display Normalize and all(A1~B8) chart
     def main_data(self):
@@ -443,47 +424,24 @@ class MatplotlibWidget(QMainWindow):
     def slider_func(self):
         if self.Input_file.text() == "":
             None
-        elif self.Clear_radio.isChecked():
+        elif self.Clear_checkBox.isChecked():
             self.MplWidget.canvas.axes.clear()
             self.MplWidget.canvas.draw()
 
         elif self.nor_radio.isChecked():
             self.nor_data()
         
-        elif self.origin_radio.isChecked():
-            self.origin_data()
-
-        else:
-            # if self.All_radio.isChecked():
-            #     self.update_graph()
+        elif self.origin_radio.isChecked() or self.main_radio.isChecked():
+            self.plot = []
+            self.plot_color = []
+            self.plot_channel = []
             if self.All_checkBox.isChecked():
-                self.A1_checkBox.setChecked(False)
-                self.A2_checkBox.setChecked(False)
-                self.A3_checkBox.setChecked(False)
-                self.A4_checkBox.setChecked(False)
-                self.A5_checkBox.setChecked(False)
-                self.A6_checkBox.setChecked(False)
-                self.A7_checkBox.setChecked(False)
-                self.A8_checkBox.setChecked(False)
-                self.B1_checkBox.setChecked(False)
-                self.B2_checkBox.setChecked(False)
-                self.B3_checkBox.setChecked(False)
-                self.B4_checkBox.setChecked(False)
-                self.B5_checkBox.setChecked(False)
-                self.B6_checkBox.setChecked(False)
-                self.B7_checkBox.setChecked(False)
-                self.B8_checkBox.setChecked(False)
-                self.update_graph()
-            
-                if self.All_checkBox.setChecked(False):
-                    self.MplWidget.canvas.axes.clear()
-                    self.MplWidget.canvas.draw()
+                if self.origin_radio.isChecked():
+                    self.origin_data()
+                if self.main_radio.isChecked():
+                    self.update_graph()
             else:
-                self.plot = []
-                self.plot_color = []
-                self.plot_channel = []
                 if self.A1_checkBox.isChecked():
-                    self.All_checkBox.setChecked(False)
                     self.plot.append(0)
                     self.plot_color.append(0)
                     self.plot_channel.append('A1')
@@ -494,11 +452,10 @@ class MatplotlibWidget(QMainWindow):
                     self.plot_channel.append('A2')
 
                 if self.A3_checkBox.isChecked():
-                    self.All_checkBox.setChecked(False)
                     self.plot.append(2)
                     self.plot_color.append(2)
                     self.plot_channel.append('A3')
-    
+
                 if self.A4_checkBox.isChecked():
                     self.plot.append(3)
                     self.plot_color.append(3)
@@ -552,94 +509,38 @@ class MatplotlibWidget(QMainWindow):
                     self.plot.append(15)
                     self.plot_color.append(15)
                     self.plot_channel.append('B8')
-                
                 print(self.plot)
                 print(self.plot_color)
                 print(self.plot_channel)
-                print(len(self.plot))
-                print(len(self.plot_color))
-                print(len(self.plot_channel))
-                # if self.A1_radio.isChecked():
-                #     plot = 0
-                #     plot_color = 0
-                #     plot_channel = 'A1'
-
-                # if self.A2_radio.isChecked():
-                #     plot = 1
-                #     plot_color = 1
-                #     plot_channel = 'A2'
-                # if self.A3_radio.isChecked():
-                #     plot = 2
-                #     plot_color = 2
-                #     plot_channel = 'A3'
-                # if self.A4_radio.isChecked():
-                #     plot = 3
-                #     plot_color = 3
-                #     plot_channel = 'A4'
-                # if self.A5_radio.isChecked():
-                #     plot = 4
-                #     plot_color = 4
-                #     plot_channel = 'A5'
-                # if self.A6_radio.isChecked():
-                #     plot = 5
-                #     plot_color = 5
-                #     plot_channel = 'A6'
-                # if self.A7_radio.isChecked():
-                #     plot = 6
-                #     plot_color = 6
-                #     plot_channel = 'A7'
-                # if self.A8_radio.isChecked():
-                #     plot = 7
-                #     plot_color = 7
-                #     plot_channel = 'A8'
-                # if self.B1_radio.isChecked():
-                #     plot = 8
-                #     plot_color = 8
-                #     plot_channel = 'B1'
-                # if self.B2_radio.isChecked():
-                #     plot = 9
-                #     plot_color = 9
-                #     plot_channel = 'B2'
-                # if self.B3_radio.isChecked():
-                #     plot = 10
-                #     plot_color = 10
-                #     plot_channel = 'B3'
-                # if self.B4_radio.isChecked():
-                #     plot = 11
-                #     plot_color = 11
-                #     plot_channel = 'B4'
-                # if self.B5_radio.isChecked():
-                #     plot = 12
-                #     plot_color = 12
-                #     plot_channel = 'B5'
-                # if self.B6_radio.isChecked():
-                #     plot = 13
-                #     plot_color = 13
-                #     plot_channel = 'B6'
-                # if self.B7_radio.isChecked():
-                #     plot = 14
-                #     plot_color = 14
-                #     plot_channel = 'B7'
-                # if self.B8_radio.isChecked():
-                #     plot = 15
-                #     plot_color = 15
-                #     plot_channel = 'B8'
                 self.slider_func_plot(self.plot,self.plot_color,self.plot_channel)
+
+
     def clear_radio(self):
         if self.Clear_radio.isChecked():
             self.MplWidget.canvas.axes.clear()
             self.MplWidget.canvas.draw()
     def slider_func_plot(self,plot,plot_color,plot_channel):
         self.MplWidget.canvas.axes.clear()
-        for i in range (0,len(self.plot),1):
-            self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[i],color =colorTab_More4[i],label= plot_channel[i])
-        self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
-        self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)
-        self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=7)
-        # self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'o',color = "green", label="Threshold") 
-        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
-        self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=7)
-        self.MplWidget.canvas.draw()
+        if self.main_radio.isChecked():
+            for i in range (0,len(self.plot),1):
+                self.MplWidget.canvas.axes.plot(self.time_array, self.big_array[self.plot[i]],color =colorTab_More4[plot_color[i]],label= plot_channel[i])
+            self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
+            self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)
+            self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10)
+            self.MplWidget.canvas.axes.plot(self.time_array,self.nor_plot,'o',color = "green", label="Threshold") 
+            self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
+            self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
+            self.MplWidget.canvas.draw()
+
+        if self.origin_radio.isChecked():
+            for i in range (0,len(self.plot),1):
+                self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw[str("well_")+str(self.plot[i]+1)],color =colorTab_More4[plot_color[i]],label= plot_channel[i])
+            self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index))
+            self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)
+            self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10)
+            self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)
+            self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
+            self.MplWidget.canvas.draw()
 
 if __name__ == '__main__':
     app = QApplication([])
