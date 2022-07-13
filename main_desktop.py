@@ -29,6 +29,7 @@ class MatplotlibWidget(QMainWindow):
     def connect_signals(self):
         self.slider_begin.valueChanged.connect(self.sl_begin)
         self.slider_end.valueChanged.connect(self.sl_begin)
+        self.slider_threshold.valueChanged.connect(self.sl_begin)
         self.actionOpen.triggered.connect(self.browsefile)
         self.actionSave.triggered.connect(self.save_file)
         self.actionExit.triggered.connect(qApp.quit)
@@ -52,7 +53,6 @@ class MatplotlibWidget(QMainWindow):
         self.B7_checkBox.clicked.connect(self.slider_func)
         self.B8_checkBox.clicked.connect(self.slider_func)
         self.origin_radio.clicked.connect(self.slider_func)
-        self.btn_resetfile.clicked.connect(self.reset_file)
         self.nor_radio.clicked.connect(self.nor_data)
         self.main_radio.clicked.connect(self.main_data)
 
@@ -73,10 +73,10 @@ class MatplotlibWidget(QMainWindow):
             #Csv data has "accumulated time" column
             if 'accumulated time' in self.df_raw.columns:
                 self.df_raw = self.df_raw.drop(labels=["time"], axis="columns")
-                self.df_raw.rename(columns={'A1':'well_2', 'A2':'well_3', 'A3':'well_4',
-                                            'A4':'well_5', 'A5':'well_6', 'A6':'well_7', 'A7':'well_8',
-                                            'A8':'well_9', 'B1':'well_10', 'B2':'well_11', 'B3':'well_12',
-                                            'B4':'well_13','B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
+                self.df_raw.rename(columns={'A1':'well_2', 'A2':'well_3', 'A3':'well_4','A4':'well_5',
+                                            'A5':'well_6', 'A6':'well_7', 'A7':'well_8','A8':'well_9',
+                                            'B1':'well_10', 'B2':'well_11', 'B3':'well_12','B4':'well_13',
+                                            'B5':'well_14', 'B6':'well_15', 'B7':'well_16'},inplace = True)
                 self.df_raw.rename(columns={'accumulated time':'well_1','index':'time'},inplace = True)
                 self.df_raw = self.df_raw.drop(labels=["B8"], axis="columns")
             #Csv data has not "accumulated time" column
@@ -114,7 +114,7 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_14'],color =colorTab_More4[13],label="B6")
         self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_15'],color =colorTab_More4[14],label="B7")
         self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw['well_16'],color =colorTab_More4[15],label="B8")
-        self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index))
+        self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10) 
         self.MplWidget.canvas.axes.legend(loc='upper left',shadow=True, ncol=4, fontsize=10)
@@ -122,7 +122,6 @@ class MatplotlibWidget(QMainWindow):
         self.MplWidget.canvas.draw()
             
     def calculate(self):
-        self.big_well = []
         self.big_data = []
         self.big_array = []
         self.df_normalization = self.df_raw.copy()
@@ -250,7 +249,7 @@ class MatplotlibWidget(QMainWindow):
         threshold_value = []
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
-            threshold_value.append(int(self.Input_std.text()) * StdDev[i] + Avg[i])
+            threshold_value.append(int(self.ns_threshold.value()) * StdDev[i] + Avg[i])
         print(threshold_value)
         return threshold_value
 
@@ -325,7 +324,7 @@ class MatplotlibWidget(QMainWindow):
                                                 "B3": [self.Ct_value[10]], "B4": [self.Ct_value[11]],
                                                 "B5": [self.Ct_value[12]], "B6": [self.Ct_value[13]],
                                                 "B7": [self.Ct_value[14]], "B8": [self.Ct_value[15]]}
-                    , index=["CT_Value"])
+                                                ,index=["CT_Value"])
                 #Save data and path
                 self.save_excel.to_csv('./result/Display_result/CT_Value' + now_output_time + "all_well.csv", encoding="utf_8_sig")
                 self.move_finish.T.to_csv('./result/Display_result/CT_Value_'+ now_output_time + '_MA_data.csv', encoding="utf_8_sig")
@@ -360,16 +359,20 @@ class MatplotlibWidget(QMainWindow):
     def rollingMean(self):
         # value = self.ns_baseline_begin.value()
         # return value
-        # self.Start_time.setText(f"{self.ns_baseline_begin.value()}")
         self.ns_baseline_begin.display(self.slider_begin.value())
         self.ns_baseline_end.display(self.slider_end.value())
+        self.ns_threshold.display(self.slider_threshold.value())
     def sl_begin(self):
         if self.Input_file.text() == "":
             self.slider_begin.valueChanged.connect(self.rollingMean)
             self.slider_end.valueChanged.connect(self.rollingMean)
+            self.slider_threshold.valueChanged.connect(self.rollingMean)
         else:
+            self.slider_begin.setMaximum(len(self.df_raw.index)/2)
+            self.slider_end.setMaximum(len(self.df_raw.index)/2)
             self.ns_baseline_begin.display(self.slider_begin.value())
             self.ns_baseline_end.display(self.slider_end.value())
+            self.ns_threshold.display(self.slider_threshold.value())
             self.calculate()
         # self.slider_begin.valueChanged.connect(self.rollingMean)
         # self.slider_end.valueChanged.connect(self.rollingMean)
@@ -532,7 +535,7 @@ class MatplotlibWidget(QMainWindow):
         if self.origin_radio.isChecked():
             for i in range (0,len(self.plot),1):
                 self.MplWidget.canvas.axes.plot(self.origin_time, self.df_raw[str("well_")+str(self.plot[i]+1)],color =colorTab_More4[plot_color[i]],label= plot_channel[i])
-            self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index))
+            self.MplWidget.canvas.axes.set_xlim(0,len(self.df_raw.index)/2)
             self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)
             self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10)
             self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=4, fontsize=10)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1369</width>
-    <height>816</height>
+    <width>1365</width>
+    <height>807</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -156,8 +156,8 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>178</width>
+          <y>-199</y>
+          <width>174</width>
           <height>671</height>
          </rect>
         </property>
@@ -615,29 +615,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QSlider" name="slider_end">
-         <property name="minimum">
-          <number>0</number>
-         </property>
-         <property name="maximum">
-          <number>15</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="baseline_end">
-         <property name="text">
-          <string>Baseline End:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <widget class="QSlider" name="slider_begin">
          <property name="minimum">
@@ -651,6 +628,26 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Threshold: N  * Std</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="baseline_end">
+         <property name="text">
+          <string>Baseline End(min):</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="2">
         <widget class="QLCDNumber" name="ns_baseline_end">
          <property name="segmentStyle">
@@ -658,55 +655,26 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
-        <widget class="QPushButton" name="btn_resetfile">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(255, 255, 0);
-color: rgb(206, 206, 0);</string>
-         </property>
+       <item row="1" column="0">
+        <widget class="QLabel" name="baseline_begin">
          <property name="text">
-          <string>Reset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="Input_std">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>10</string>
+          <string>Baseline Begin(min):</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_Threshold_2">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
+       <item row="2" column="1">
+        <widget class="QSlider" name="slider_end">
+         <property name="minimum">
+          <number>0</number>
          </property>
-         <property name="text">
-          <string>Threshold: N  * Std</string>
+         <property name="maximum">
+          <number>15</number>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -734,26 +702,6 @@ color: rgb(206, 206, 0);</string>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Threshold</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="baseline_begin">
-         <property name="text">
-          <string>Baseline Begin:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -1270,7 +1218,7 @@ color: rgb(206, 206, 0);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1369</width>
+     <width>1365</width>
      <height>25</height>
     </rect>
    </property>
