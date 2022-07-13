@@ -1,4 +1,4 @@
-from tkinter import NONE
+# -*- coding: UTF-8 -*-
 from PyQt5.QtWidgets import*
 # from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QApplication, QLabel
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -231,10 +231,6 @@ class MatplotlibWidget(QMainWindow):
         for i in range(0, 16):
             df_current_well = self.df_normalization[f'well_{i + 1}']
             StdDev.append(df_current_well[int(self.ns_baseline_begin.value()) * 2 + 1:int(self.ns_baseline_end.value()) * 2 + 1].std())
-            # StdDev.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].std())
-            
-            
-            # Avg.append(df_current_well[int(self.Start_time.text()) * 2 + 1:int(self.End_time.text()) * 2 + 1].mean())
             Avg.append(df_current_well[int(self.ns_baseline_begin.value()) * 2 + 1:int(self.ns_baseline_end.value()) * 2 + 1].mean())
         return StdDev, Avg
 
@@ -367,15 +363,16 @@ class MatplotlibWidget(QMainWindow):
         # self.Start_time.setText(f"{self.ns_baseline_begin.value()}")
         self.ns_baseline_begin.display(self.slider_begin.value())
         self.ns_baseline_end.display(self.slider_end.value())
-        print(type(self.ns_baseline_begin))
     def sl_begin(self):
-        # if self.All_checkBox.isChecked():
-        #     # self.slider_begin.valueChanged.connect(self.rollingMean)
-        #     slider = self.rollingMean()
-        #     self.ns_baseline_begin.display(slider)
-        #     print(slider)
-        self.slider_begin.valueChanged.connect(self.rollingMean)
-        self.slider_end.valueChanged.connect(self.rollingMean)
+        if self.Input_file.text() == "":
+            self.slider_begin.valueChanged.connect(self.rollingMean)
+            self.slider_end.valueChanged.connect(self.rollingMean)
+        else:
+            self.ns_baseline_begin.display(self.slider_begin.value())
+            self.ns_baseline_end.display(self.slider_end.value())
+            self.calculate()
+        # self.slider_begin.valueChanged.connect(self.rollingMean)
+        # self.slider_end.valueChanged.connect(self.rollingMean)
     # Display Normalize all chart
     def update_graph(self):
         self.MplWidget.canvas.axes.clear()
