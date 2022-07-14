@@ -156,8 +156,8 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-199</y>
-          <width>174</width>
+          <y>0</y>
+          <width>178</width>
           <height>671</height>
          </rect>
         </property>
@@ -698,7 +698,7 @@
           <number>0</number>
          </property>
          <property name="maximum">
-          <number>15</number>
+          <number>30</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -1219,7 +1219,7 @@
      <x>0</x>
      <y>0</y>
      <width>1365</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

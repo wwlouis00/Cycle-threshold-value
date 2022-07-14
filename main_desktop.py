@@ -152,7 +152,10 @@ class MatplotlibWidget(QMainWindow):
         for i in range(0,16,1):      
             self.nor_array.append(self.df_normalization[f'well{i+1}'].mean())
         self.nor_mean = np.mean(self.nor_array)
+        # self.nor_mean_2= int(self.ns_threshold.value()) /self.nor_mean
 
+        # print(self.nor_mean_2)
+        # print(self.nor_mean)
         for i in range(1, 17, 1):
             self.big_data.append(self.df_normalization["well"+str(i)])
             # self.big_data.append(self.df_normalization["well"+str(i)].rolling(window=5).mean())
@@ -246,12 +249,12 @@ class MatplotlibWidget(QMainWindow):
         print("-"*150)
 
     def get_ct_threshold(self):
-        threshold_value = []
+        self.threshold_value = []
         StdDev, Avg = self.get_StdDev_and_Avg()
         for i in range(0, 16):
-            threshold_value.append(int(self.ns_threshold.value()) * StdDev[i] + Avg[i])
-        print(threshold_value)
-        return threshold_value
+            self.threshold_value.append(int(self.ns_threshold.value()) * StdDev[i] + Avg[i])
+        print(self.threshold_value)
+        return self.threshold_value
 
     def get_ct_value(self, threshold_value):
         Ct_value = []
@@ -298,7 +301,7 @@ class MatplotlibWidget(QMainWindow):
                     # if there is no Ct_value availible
                     elif j == len(df_current_well) - 1:
                         Ct_value.append("N/A")
-                        print("Ct value is not available")
+                        # print("Ct value is not available")
         return Ct_value
     def reset_file(self):
         if self.Input_file.text() == "" or self.Input_std.text() == "":
@@ -402,7 +405,7 @@ class MatplotlibWidget(QMainWindow):
         #self.MplWidget.canvas.set_scales(20,0.1)
         self.MplWidget.canvas.axes.set_xlabel("Time (min)", fontsize=10)  # Inserta el título del eje X
         self.MplWidget.canvas.axes.set_ylabel("Normalized fluorescent intensity", fontsize=10) 
-        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=5, fontsize=7)
+        self.MplWidget.canvas.axes.legend(loc='upper center',shadow=True, ncol=5, fontsize=10)
         self.MplWidget.canvas.axes.set_title('Amplification curve', fontsize=10)
 
         self.MplWidget.canvas.draw()
