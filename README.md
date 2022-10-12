@@ -9,7 +9,7 @@
   - CT_Display_Cali
   - CT_Display_General
 ## data資料
-  ###計算資料
+###計算資料
 - cali_factor.csv(Cali)
 - YYYY_MM_DD_HH_mm_ss_manualRP4_cut.csv(Dev)
 
