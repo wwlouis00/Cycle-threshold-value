@@ -1,34 +1,20 @@
-# CT_Value
----
-## 計算CT值曲線以及
-## MA技術指標
-- 移動平均線(Moving Average, MA)
+# Cycle Threshold Value 介紹
 
-## UI資料夾
-### 介面設計
-  - CT_Display_Cali
-  - CT_Display_General
-## data資料
-### 計算資料
-- cali_factor.csv(Cali)
-- YYYY_MM_DD_HH_mm_ss_manualRP4_cut.csv(Dev)
+Cycle Threshold Value（CT值）是一個常用的檢測指標，主要用於檢測和定量分析核酸（例如 DNA 或 RNA）的存在和濃度。CT值是一個反映樣本中目標核酸的數量的相對指標，用於評估檢測結果的強度和信號。
 
-## result資料夾
-- 測試完儲存的資料位置
-## 相關資料
+## CT值的含義
 
+CT值是實時聚合酶鏈反應（Real-Time Polymerase Chain Reaction，PCR）或定量聚合酶鏈反應（Quantitative Polymerase Chain Reaction，qPCR）中的一個關鍵參數。在PCR過程中，通過監測樣本中的融合曲線或信號增加曲線，可以獲得一個CT值，該值表示在PCR過程中達到特定信號閾值的循環數量。
 
-|        標題         |           連結            |
-|:-----------------:|:-----------------------:|
-|      CT值是什麼?      |    [:link:][CT值是什麼?]    |
+CT值越低，表示目標核酸在樣本中的起始數量越高。因此，較低的CT值通常與更高的目標核酸濃度相關。相反，較高的CT值表示目標核酸在樣本中的起始數量較低。
 
+## CT值的應用
 
-[CT值是什麼?]: https://tw.news.yahoo.com/ct%E5%80%BC%E6%98%AF%E4%BB%80%E9%BA%BC-ct%E5%80%BC%E6%98%AF%E8%B6%8A%E4%BD%8E%E8%B6%8A%E5%A5%BD%E5%97%8E-cycle-threshold-value-102152444.html
+CT值在分子生物學和臨床檢測中被廣泛應用，包括以下方面：
 
-[//]: # ([HackMD-it]: https://hackmd.io/c/tutorials/%2Fs%2Fhackmd-it)
+- 病毒檢測：CT值可用於檢測病毒感染，如COVID-19檢測中的SARS-CoV-2核酸檢測。
+- 基因表達分析：CT值可用於定量分析基因表達水平，評估不同樣本中目標基因的相對表達量。
+- 病理檢測：CT值可用於檢測臨床樣本中的病理性變化，如檢測癌細胞的存在與否。
+- 環境監測：CT值可用於監測環境樣本中的微生物或污染物，評估其存在和濃度。
 
-[//]: # ([Book-mode]: https://hackmd.io/c/tutorials/%2Fs%2Fhow-to-create-book)
-
-[//]: # ([Slide-mode]: https://hackmd.io/c/tutorials/%2Fs%2Fhow-to-create-slide-deck)
-
-[//]: # ([Share-Publish]: https://hackmd.io/c/tutorials/%2Fs%2Fhow-to-publish-note)
+CT值的解讀需要考慮不同實驗和檢測系統的特點，並與正常和對照組進行比較。專業的分子生物學實驗室和臨床檢測中心通常根據標準操作程序和參考值來解讀CT值。
